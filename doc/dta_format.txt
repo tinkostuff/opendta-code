@@ -19,7 +19,7 @@
 #---------------------------------------------------------------------------
 
 Aufbau der DTA-Dateien:
- - die ersten 8 Byte sind ein Kopf
+ - die ersten 8 Byte sind ein Header
  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
  - jeder Datensatz ist 168 Byte lang
  - die Byte-Order ist little-endian
@@ -43,54 +43,47 @@ Aufbau eines Datensatzes
        bit 10: AV   = Abtauventil (Kreislaufumkehr)
        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
-       weitere Ausgaenge: 
-           FUP1 = Fussbodenheizungsumwaelzpumpe 1
-           ZW3  = Zusaetzlicher Waermeerzeuger 3
-           SLP  = Solarladepumpe
-           SUP  = Schwimmbadumwaelzpumpe
-           FUP2 = Mischkreispumpe 2 / Kuehlsignal 2
-           MA2  = Mischer 2 auf
-           MZ2  = Mischer 2 zu
-           FUP3 = Mischkreispumpe 3 / Kuehlsignal 3
-           MA3  = Mischer 3 auf
-           MZ3  = Mischer 3 zu
- -   [44:45] StatusE = Status der Eingaenge
-       bit 3:  EVU Sperre
-       weitere Eingaenge: 
-           ?    = Abtau/Soledruck/Durchfluss
-           BWT  = Brauchwasserthermostat
-           HD   = Hochdruckpressostat
-           MOT  = Motorschutz
-           ND   = Niederdruckpressostat
-           PEX  = Fremdstromanode
-           SWT  = Schwimmbadthermostat
+ -   [44:45] StatusE = Status der Eingaenge (die Bits sind invertiert zur Funktion)
+       bit 0:  HD_  = Hochdruckpressostat
+       bit 1:  ND_  = Niederdruckpressostat
+       bit 2:  MOT_ = Motorschutz
+       bit 3:  ASD_ = Abtau/Soledruck/Durchfluss
+       bit 4:  EVU_ = EVU Sperre
+ -   [52:53] TFB1    = Temperatur Fussbodenheizung 1
  -   [54:55] TBW     = Temperatur Brauch-Warm-Wasser
  -   [56:57] TA      = Aussentemperatur
+ -   [58:59] TRL     = Temperatur Heizung Ruecklauf extern
  -   [60:61] TRL     = Temperatur Heizung Ruecklauf
  -   [62:63] TVL     = Temperatur Heizung Vorlauf
  -   [64:65] THG     = Temperatur Heissgas
  -   [66:67] TWQaus  = Temperatur Waermequelle Austritt
  -   [70:71] TWQein  = Temperatur Waermequelle Eintritt
  -   [80:81] TRLsoll = Solltemperatur Heizung Ruecklauf
- - [158:159] VStrom  = Volumenstrom Heizkreis
+ -   [82:83] TRLsoll_highbytes = zwei Extra-Byte fuer TRLsoll (werden nicht ausgelesen)
+ -   [84:85] TMK1soll= Solltemperatur Mischer Kreis 1
+ -   [86:87] TMK1soll_highbytes = zwei Extra-Byte fuer TMK1soll (werden nicht ausgelesen)
+ - [128:129] ComfortPlatine: Indikator, ob und welche Erweiterung eingebaut ist
+ - [132:133] StatusA_CP = Status der Ausgaenge der ComfortPlatine
+       bit 6:  AI1DIV = Spannungsteiler an AI1: wann AI1DIV dann AI1 = AI1/2
+       bit 7:  SUP = Schwimmbadumwaelzpumpe
+       bit 8:  FUP2 = Mischkreispumpe 2 / Kuehlsignal 2
+       bit 9:  MA2 = Mischer 2 auf
+      bit 10:  MZ2 = Mischer 2 zu
+      bit 11:  MA3 = Mischer 3 auf
+      bit 11:  MZ3 = Mischer 3 zu
+      bit 12:  FUP3 = Mischkreispumpe 3 / Kuehlsignal 3
+      bit 14:  ZW3 = Zusaetzlicher Waermeerzeuger 3
+      bit 15:  SLP = Solarladepumpe
+ - [136:137] AO1 = ComfortPlatine: Analoger Ausgang 1
+ - [138:139] AO2 = ComfortPlatine: Analoger Ausgang 2
+ - [140:141] StatusE_CP = Status der Eingaenge der ComfortPlatine
+       bit 4:  SWT_ = Schwimmbadthermostat
+ - [158:159] AI1 = ComfortPlatine: Analoger Eingang 1
  
 Umrechnung der Werte:
-  Fuer die oben genannten Temperaturen sind in den Datensaetzen natuerliche
-  Zahlen gespeichert. Diese muessen noch in die eigentlichen
-  Temperaturwerte umgerechnet werden. Dies wir hier mit folgender
-  Formel gemacht:
-     Temp = m * Wert + n
-
-Umrechnungskoeffizienten:
-         Name:   m            n
-		    TRL: -0.097831,   75.878625
-		    TVL: -0.097831,   75.878625
-		    TBW: -0.112586,   81.871851
-		    THG: -0.117154,  114.742661
-		 TWQein: -0.081970,   41.812834
-		 TWQaus: -0.081970,   41.812834
-		TRLsoll:  0.1,         0.0
-		 VStrom:  7.129857, -708.482020
-		     TA: -0.078391,   40.814425
-
+ Fuer die oben genannten Werte sind in den Datensaetzen natuerliche
+ Zahlen gespeichert. Diese muessen noch in die eigentlichen
+ Temperatur- und Spannungswerte umgerechnet werden. Dies erfolgt entweder
+ ueber eine lineare Berechnung (TRLsoll, TMK1soll, AO1, AO2 und AI1) oder
+ mit Hilfe einer Wertetabelle (restliche Temperaturen).
 

@@ -28,8 +28,17 @@ import sys
 import os.path
 import csv
 import datetime
+import locale
 
 import dta
+
+#---------------------------------------------------------------------------
+# globale Definitionen
+#---------------------------------------------------------------------------
+GERMAN_CSV = True
+
+if GERMAN_CSV:
+	locale.setlocale(locale.LC_ALL, '')
 
 #---------------------------------------------------------------------------
 # Argument pruefen
@@ -63,7 +72,10 @@ for fileName in files:
 	if rawOutput: csvName = fileName + ".raw.csv"
 
 	csvFile = open( csvName, 'wb')
-	csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_NONNUMERIC)
+	if GERMAN_CSV:
+		csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_MINIMAL, delimiter=';')
+	else:
+		csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_NONNUMERIC)
 
 	# DTA-Datei oeffnen
 	dtaFile = dta.dta(fileName)
@@ -87,6 +99,11 @@ for fileName in files:
 			row.extend(ds[1:])
 		else:
 			row = dtaFile.decodeDataset(ds)
+			if GERMAN_CSV:
+				# Dezimal-Separator aendern
+				for i in range(len(row)):
+					if type(row[i]) == float: row[i] = locale.format('%.2f',row[i])
+
 		csvWriter.writerow(row)
 
 	# Ausgabedatei schliessen

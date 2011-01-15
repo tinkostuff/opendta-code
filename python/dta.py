@@ -126,9 +126,6 @@ class dta(object):
 	#---------------------------------------------------------------------------
 	def decodeDataset(self, dataset=None, returnDict=False):
 		"""Datensatz decodieren:
-		   - Datum/Zeit umrechnen
-			- Status der Ein- und Ausgaenge aufloesen
-			- Temperaturen ausrechnen
 			Rueckgabe: 
 			   returnDict==False: Liste mit allen Werten (wenn moeglich decodiert)
 				returnDict==True:  Dict mit allen decodierten Werten
@@ -140,8 +137,10 @@ class dta(object):
 		else: result = []
 
 		for i in xrange(len(ds)):
-			fieldName = None
-			if dtaDsFieldNames.has_key(i): fieldName = dtaDsFieldNames[i]
+			if dtaDsFields.has_key(i): 
+				(fieldName, convert, data) = dtaDsFields[i]
+			else:
+				(fieldName, convert, data) = (None, None, None)
 
 			#
 			# unbekanntes Feld
@@ -152,19 +151,18 @@ class dta(object):
 			#
 			# Datum
 			#
-			elif fieldName == "Datum":
+			elif convert == "Datum":
 				if returnDict: 
-					result['Datum'] = datetime.datetime.fromtimestamp(ds[i])
+					result[fieldName] = datetime.datetime.fromtimestamp(ds[i])
 				else: 
 					result.append(datetime.datetime.fromtimestamp(ds[i]))
 
 			#
-			# StatusA
+			# Felder mit bits (Status der Ein- und Ausgaenge)
 			#
-			elif fieldName in ["StatusA", "StatusE"]:
+			elif convert == "Bits":
 				if returnDict:
-					stateFields = dtaDsStateOutputs
-					if fieldName == "StatusE": stateFields = dtaDsStateInputs
+					stateFields = data
 					for j in xrange(16):
 						if stateFields.has_key(j):
 							result[stateFields[j]] = (ds[i]>>j) & 1
@@ -174,11 +172,38 @@ class dta(object):
 						result.append( (ds[i]>>j) & 1)
 
 			#
-			# Temperaturen
+			# lineare Umrechnung
 			#
-			elif fieldName in dtaDsTempCoeffs.keys():
-				(m,n) = dtaDsTempCoeffs[fieldName]
-				value = ds[i] * m + n
+			elif convert == "Linear":
+				(m,n,precision) = data
+				value = round( ds[i] * m + n, precision)
+				if returnDict: result[fieldName] = value
+				else: result.append(value)
+
+			#
+			# Werte-Tabelle
+			#
+			elif convert == "LookUp":
+				x = ds[i]
+
+				# Position in Tabelle finden
+				idx1 = (x - data['Offset'])/data['Delta']
+				if idx1 > (len(data['Data']) - 2):
+					idx1 = len(data['Data']) -2
+				idx2 = idx1 + 1
+
+				# Gerade fuer lineare Approximation ermitteln
+				x1 = idx1 * data['Delta'] + data['Offset']
+				x2 = idx2 * data['Delta'] + data['Offset']
+				y1 = data['Data'][idx1]
+				y2 = data['Data'][idx2]
+
+				m = float( (y2-y1)/(x2-x1) )
+				n = float( y1 - m*x1)
+
+				# Wert ausrechnen und runden
+				value = round( m*x + n, 1)
+
 				if returnDict: result[fieldName] = value
 				else: result.append(value)
 
@@ -191,13 +216,12 @@ class dta(object):
 		"""Liste der Feldnamen es Datensatzes zurueckgeben"""
 		result = []
 		for i in xrange(dtaDatasetFieldCount):
-			if dtaDsFieldNames.has_key(i):
-				fieldName = dtaDsFieldNames[i]
+			if dtaDsFields.has_key(i):
+				(fieldName,convert,data) = dtaDsFields[i]
 
 				# Namen der Zustaende mit ausgeben
-				if decoded and fieldName in ["StatusE", "StatusA"]:
-					bitNames = dtaDsStateOutputs
-					if fieldName == "StatusE": bitNames = dtaDsStateInputs
+				if decoded and convert == "Bits":
+					bitNames = data
 					for j in xrange(16):
 						if bitNames.has_key(j): 
 							result.append( "%s:%s" % (fieldName,bitNames[j]))
