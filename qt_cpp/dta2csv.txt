@@ -1,0 +1,9 @@
+dta2csv
+- Konvertierung von DTA-Dateien in das CSV-Format
+- Ausgabe-Datei = <DTA-Datei>.csv
+- es koennen mehrere Dateien gleichzeitig konvertiert werden
+- Kommandozeile: dta2csv.exe <Liste-mit-DTA-Dateien>
+- Windows: DTA-Dateien markieren und per Drag&Drop auf dta2csv.exe ziehen
+
+Copyright (C) 2011  opendta@gmx.de, http://opendta.sf.net/
+GNU General Public License Version 3
