@@ -20,7 +20,7 @@
 * $Id$
 *---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------
-* Dta-Dateien in CSV-Format umwandeln
+* DTA-Dateien in CSV-Format umwandeln
 * Befehl: dta2csv <Liste-mit-DTA-Dateien>
 *---------------------------------------------------------------------------*/
 
@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
       cout << QObject::tr("  Copyright (C) 2011  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
       cout << QObject::tr("  ").toStdString() << revision.toStdString() << endl;
       cout << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
+      cout << QObject::tr("  powered by Qt framework").toStdString() << endl;
       return 0;
    }
 
