@@ -149,8 +149,8 @@ typedef struct
 // Struktur mit Informationen zu einem Feld
 typedef struct {
    QString prettyName; // schoener Name
-   QString category;   // Kategorie des Feldes
    QString toolTip;    // erweiterte Beschreibung
+   QString category;   // Kategorie des Feldes
    bool analog;        // analoges oder digitales Feld
    qreal scale;        // Skalierung des Feldes beim Darstellen
    qreal offset;       // Verschiebungs des Feldes beim Darstellen
