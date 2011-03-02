@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
    // Standardsitzung laden
    loadDefaultSession = true;
 
-   this->setWindowTitle(tr("DtaGui - Version $Rev$"));
+   this->setWindowTitle(tr("DtaGui - %1").arg(VERSION_STRING));
 }
 
 /*---------------------------------------------------------------------------
@@ -189,7 +189,7 @@ void MainWindow::on_actionUeber_triggered()
                        tr(
       "<h3>&Uuml;ber DtaGui</h3>"
       "<p>Author: opendta@gmx.de, <a href=\"http://opendta.sf.net\">http://opendta.sf.net</a></p>"
-      "<p>Version: <b>$Rev$</b> $Date$</p>"
+      "<p>Version: <b>%1</p>"
       ""
       "<h4>Beschreibung</h4>"
       "<p>Mit DtaGui k&ouml;nnen DTA-Dateien visualisiert und statistisch "
@@ -212,8 +212,8 @@ void MainWindow::on_actionUeber_triggered()
       "diesem Programm erhalten haben. Falls nicht, siehe "
       "<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.</p>"
       ""
-      "<p>Copyright (C) 2011 opendta@gmx.de<p>"
-   ));
+      "<p>Copyright (C) 2011 opendta@gmx.de<p>").arg(VERSION_STRING)
+   );
 }
 void MainWindow::on_actionUeberQt_triggered()
 {

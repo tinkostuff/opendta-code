@@ -29,6 +29,8 @@
 
 #include "dtafile/dtafile.h"
 
+#define VERSION_STRING "$Rev$"
+
 namespace Ui {
     class MainWindow;
 }
