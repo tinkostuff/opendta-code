@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/exit.png</file>
+        <file>images/open.png</file>
+        <file>images/new.png</file>
+        <file>images/add.png</file>
+        <file>images/remove.png</file>
+        <file>images/colorselect.png</file>
+        <file>images/linewidth.png</file>
+        <file>images/remove-all.png</file>
+        <file>images/qt-logo.png</file>
+        <file>images/waveform.png</file>
+        <file>images/save.png</file>
+        <file>images/print.png</file>
+    </qresource>
+    <qresource prefix="/sessions">
+        <file>default.session</file>
+    </qresource>
+    <qresource prefix="/help">
+        <file>doc/hilfe.html</file>
+    </qresource>
+</RCC>

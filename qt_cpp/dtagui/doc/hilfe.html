@@ -1,0 +1,152 @@
+<html>
+<head>
+	<style type="text/css">
+		p{ font-family: ,sans-serif; font-size: medium;}
+		li{ font-family: ,sans-serif; font-size: medium;}
+		td{ font-family: ,sans-serif; font-size: medium; padding-left: 7px; padding-right: 7px;}
+		th{ font-family: ,sans-serif; font-size: medium; font-weight: bold; padding-left: 7px; padding-right: 7px;}
+		h1{ font-family: ,sans-serif; font-size: xx-large; margin-top: 20px; margin-bottom: 5px;}
+		h2{ font-family: ,sans-serif; font-size: x-large; margin-top: 20px; margin-bottom: 5px;}
+		h3{ font-family: ,sans-serif; font-size: large; margin-top: 20px; margin-bottom: 5px;}
+	</style>
+</head>
+<body>
+	<h1>DtaGui</h1>
+	<h2>Inhalt</h2>
+	<ul>
+		<li><a href="#einleitung">Einleitung</a></li>
+		<li><a href="#allgemeines">Allgemeines</a></li>
+		<ul>
+			<li><a href="#dtadateien">DTA-Dateien</a></li>
+		</ul>
+		<li><a href="#diagramme">Diagramme</a></li>
+		<ul>
+			<li><a href="#hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</a></li>
+			<li><a href="#kurven">Kurven</a></li>
+			<li><a href="#zoomen">Zoomen</a></li>
+			<li><a href="#scrollen">Scrollen</a></li>
+			<li><a href="#achseneinteilung">Achseneinteilung</a></li>
+			<li><a href="#sitzungen">Sitzungen</a></li>
+		</ul>
+		<li><a href="#statistik">Statistik</a></li>
+		<li><a href="#sonstiges">Sonstiges</a></li>
+		<ul>
+			<li><a href="#author">Author</a></li>
+			<li><a href="#lizenz">Lizenz</a></li>
+		</ul>
+	</ul>
+	<h2><a name="einleitung">Einleitung</h2>
+	<p>Mit DtaGui können DTA-Dateien visualisiert und statistisch analysiert werden.</p>
+	<p>DTA-Dateien werden von der W&auml;rmepumpensteuerung <i>Luxtronik 2</i> der Firma
+	   <i>AlphaInnotec (C)</i> erzeugt. Sie enhalten den Betriebszustand (Temperaturen, 
+		Eingangs- und Ausgangssignale) der W&auml;rmepumpe der letzten 48h.</p>
+	<p>Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?</p>
+
+	<h2><a name="allgemeines">Allgemeines</h2>
+	<h3><a name="dtadateien">DTA-Dateien</h3>
+	<ul>
+		<li>Es k&ouml;nnen mehrere DTA-Dateien gleichzeitig ge&ouml;ffnet werden. Die
+		Reihenfolge spielt dabei keine Rolle. Es k&ouml;nnen auch nachtr&auml;glich 
+		noch DTA-Datei ge&ouml;ffnet werden. Sind Daten f&uuml;r bestimmte Zeitpunkte
+		mehrfach in vorhanden (&Uuml;berlappung der DTA-Dateien), so wird der zuletzt
+		geladene Datenpunkt verwendet.</li>
+		<li>DTA-Dateien k&ouml;nnen per Drag&amp;Drop in das Programm gezogen werden.</li>
+		<li>Mit <i>Datei / Neu</i> werden alle geladenen Daten aus dem Speicher entfernt.</li>
+	</ul>
+
+	<h2><a name="diagramme">Diagramme</h2>
+	<h3><a name="hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</h3>
+	<ul>
+		<li>ein Diagramm hinzuf&uuml;gen: <i>Diagramme / Hinzuf&uuml;gen</i></li>
+		<li>alle Diagramme l&ouml;schen: <i>Diagramme / Alle l&ouml;schen</i></li>
+		<li>ein Diagramm l&ouml;schen: rechte Maustaste auf das Diagramm und <i>Diagramm l&ouml;schen</i></li>
+	</ul>
+	<h3><a name="kurven">Kurven</h3>
+	<ul>
+		<li>Kurven einem Diagramm hinzuf&uuml;gen:
+		<ul>
+			<li>ein oder mehrere Signale in der Signal-Liste ausw&auml;hlen</li>
+			<li>per Drag&amp;Drop Signale in das Diagramm ziehen</li>
+		</ul>
+		</li>
+		<li>eine Kurve l&ouml;schen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / L&ouml;schen</i></li>
+		<li>Farbe einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Farbe...</i></li>
+		<li>Linienst&auml;rke einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Linienst&auml;rke...</i></li>
+	</ul>
+	<h3><a name="zoomen">Zoomen</h3>
+	<table cellpadding="2" cellspacing="0" border="1">
+		<tr bgcolor="#FFFFFF"><td align=left>rechte Maustaste + ziehen</td><td align=left>Fenster</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Shift + Rechtsclick</td><td align=left>Fensterzoom eine Stufe r&uuml;ckg&auml;ngig machen</td></tr>
+		<tr bgcolor="#FFFFFF"><td align=left>Strg + Rechtsclick</td><td align=left>Fensterzoom alle Stufen r&uuml;ckg&auml;ngig machen</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Strg + Mausrad</td><td align=left>x- und y-Achse</td></tr>
+		<tr bgcolor="#FFFFFF"><td align=left>Strg + Shift + Mausrad</td><td align=left>nur x-Achse</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Strg + Alt + Mausrad</td><td align=left>nur y-Achse</td></tr>
+		<tr bgcolor="#FFFFFF"><td align=left>Strg + Meta + Mausrad</td><td align=left>nur y-Achse</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>x-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+		<tr bgcolor="#FFFFFF"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x- und y-Achse</td><td align=left>x- und y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+	</table>
+	<h3><a name="scrollen">Scrollen</h3>
+	<table cellpadding="2" cellspacing="0" border="1">
+		<tr bgcolor="#FFFFFF"><td align=left>Strg + linke Maustaste + ziehen</td><td align=left>x- und y-Achse</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Mausrad vertikal</td><td align=left>y-Achse</td></tr>
+		<tr bgcolor="#FFFFFF"><td align=left>Mausrad horizontal</td><td align=left>x-Achse</td></tr>
+		<tr bgcolor="#E5E5E5"><td align=left>Shift + Mausrad vertikal</td><td align=left>x-Achse</td></tr>
+	</table>
+	<h3><a name="achseneinteilung">Achseneinteilung</h3>
+	<ul>
+		<li>Die Einteilung der x-Achse kann nicht ver&auml;ndert werden.</li>
+		<li>Die Anzahl der Haupt- und Unter-Teilungen der y-Achse kann im Popup-Men&uuml;
+		des Diagramms eingestellt werden (rechte Maustauste auf das Diagramm, <i>y-Achse</i>).</li>
+	</ul>
+	<h3><a name="sitzungen">Sitzungen</h3>
+	<ul>
+		<li>Als <i>Sitzung</i> wird eine Zusammenstellung von Diagrammen und den darin enthaltenen Kurven bezeichnet.</li>
+		<li>Bei dem ersten &Ouml;ffnen einer DTA-Datei wird eine Standard-Sitzung geladen:
+		<ul>
+			<li>wenn die Datei <i>default.session</i> im aktuellen Verzeichnis existiert, wird diese geladen</li>
+			<li>existiert die Datei nicht, wird eine intern abgelegte Standard-Sitzung geladen</li> 
+		</ul>
+		</li>
+		<li>Sitzung speichern: <i>Diagramme / Sitzung speichern...</i></li>
+		<li>Sitzung laden: <i>Diagramme / Sitzung &ouml;ffnen...</i></li>
+		<li>In einer Siztung werden gespeichert:
+		<ul>
+			<li>die Anzahl der Diagramme</li>
+			<li>die Kurven in den Diagrammen</li>
+			<li>Farbe und Linienst&auml;rke der Kurven</li>
+			<li>Anzahl der Achsenteilungen der y-Achse f&uuml;r jedes Diagramm</li>
+		</ul>
+		</li>
+	</ul>
+
+	<h2><a name="statistik">Statistik</h2>
+	<ul>
+		<li>Es wird zwischen <i>analogen</i> (Temperaturen, Spreizung, Durchfluss, Leistung) und <i>digitalen Signalen</i> (Ein- und Ausg&auml;nge) unterschieden.</li>
+		<li>Signale, deren Wert sich nicht &auml;ndert, werden als <i>statische Signale</i> aufgef&uuml;hrt.</li>
+	</ul>
+
+	<h2><a name="sonstiges">Sonstiges</h2>
+	<h3><a name="author">Author</h3>
+	<p>Author: opendta@gmx.de, 
+	<!-- hier keine Referenz, da QTextBrowser das nicht versteht
+	<a href="http://opendta.sf.net">http://opendta.sf.net</a> -->
+	http://opendta.sf.net</p>
+	<h3><a name="lizenz">Lizenz</h3>
+	<p>Dieses Programm ist freie Software. Sie k&ouml;nnen es unter den Bedingungen 
+	der GNU General Public License, wie von der Free Software Foundation 
+	ver&ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&auml;&szlig;
+	Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&auml;teren Version.</p>
+	<p>Die Ver&ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+	Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die 
+	implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN 
+	ZWECK. Details finden Sie in der GNU General Public License.</p>
+	<p>Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem
+	Programm erhalten haben. Falls nicht, siehe
+	<!-- hier keine Referenzen, da QTextBrowser das nicht versteht
+	<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>-->
+	http://www.gnu.org/licenses/.</p>
+
+	<p>Copyright (C) 2011 opendta@gmx.de</a>
+</body>
+</html>
