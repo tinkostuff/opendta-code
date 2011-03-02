@@ -34,6 +34,8 @@ using namespace std;
 #include <QStringList>
 #include <QDateTime>
 
+#define VERSION_STRING "$Rev$"
+
 #include "dtafile/dtafile.h"
 
 int main(int argc, char *argv[])
@@ -45,10 +47,9 @@ int main(int argc, char *argv[])
    // usage
    if(argc==1)
    {
-      const QString revision = "$Rev$ $Date$";
       cout << QObject::tr("dta2csv <Liste-von-DTA-Dateien>").toStdString() << endl;
       cout << QObject::tr("  Copyright (C) 2011  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
-      cout << QObject::tr("  ").toStdString() << revision.toStdString() << endl;
+      cout << QObject::tr("  Version: %1").arg(VERSION_STRING).toStdString() << endl;
       cout << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
       cout << QObject::tr("  powered by Qt framework").toStdString() << endl;
       return 0;
