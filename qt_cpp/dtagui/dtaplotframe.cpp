@@ -819,7 +819,7 @@ void DtaPlotFrame::loadSession(QString fileName)
    this->clear();
 
    // Anzahl der Diagramme
-   qint32 diagrams = ini->value("global/diagrams", -1).toInt();
+   qint32 diagrams = ini->value("global/diagrams", 0).toInt();
    if(diagrams==0)
    {
       QMessageBox::warning(

@@ -65,9 +65,10 @@ bool DtaFile::open()
    // Groesse der Datei ueberpruefen
    qint16 dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA_DATASET_LENGTH;
    if( dsCount != DTA_DATASET_COUNT) {
-      qWarning() << QString(tr("FEHLER: Anzahl der Datensaetze (%1) weicht vom erwarteten Wert (%2) ab!"))
+      qWarning() << QString(tr("FEHLER %3: Anzahl der Datensaetze (%1) weicht vom erwarteten Wert (%2) ab!"))
                         .arg(dsCount)
-                        .arg(DTA_DATASET_COUNT);
+                        .arg(DTA_DATASET_COUNT)
+                        .arg(m_fileName);
       return false;
    }
 

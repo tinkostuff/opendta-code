@@ -49,6 +49,10 @@ private:
     DtaDataMap data; // alle Daten
     bool loadDefaultSession; // sollen die Standard-Diagramme geladen werden
 
+    // Pfad zur zuletzt geoeffneten Datei
+    QString lastOpenPathDTA;
+    QString lastOpenPathSession;
+
     void readDtaFiles(QStringList files); // DTA-Dateien lesen
 
     // Dateien per Drag&Dop in der Anwendung laden

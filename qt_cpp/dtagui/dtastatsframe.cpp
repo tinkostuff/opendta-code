@@ -72,6 +72,7 @@ public:
          if(first)
          {
             missingSum = 0;
+            missingList.clear();
             analogFields.clear();
             digitalFields.clear();
             staticAnalogFields.clear();

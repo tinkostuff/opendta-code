@@ -48,12 +48,16 @@ MainWindow::MainWindow(QWidget *parent) :
    // Daten-Array bekannt machen
    ui->framePlots->setData(&data);
    ui->frameStats->setData(&data);
+   ui->frameCompStarts->setData(&data);
 
    // Dops akzeptieren: DTA- und Sitzungsdateien
    setAcceptDrops(true);
 
    // Standardsitzung laden
    loadDefaultSession = true;
+
+   lastOpenPathDTA = ".";
+   lastOpenPathSession = ".";
 
    this->setWindowTitle(tr("DtaGui - %1").arg(VERSION_STRING));
 }
@@ -93,7 +97,12 @@ void MainWindow::readDtaFiles(QStringList files)
          dta->readDatasets(&data);
       }
       delete dta;
-   }
+   } // for files
+
+   // letzten Pfad merken
+   QFileInfo fi(files.last());
+   lastOpenPathDTA = fi.absolutePath();
+
    setCursor(Qt::ArrowCursor);
 
    if(data.isEmpty())
@@ -121,6 +130,7 @@ void MainWindow::readDtaFiles(QStringList files)
       ui->framePlots->update();
    }
    ui->frameStats->dataUpdated();
+   ui->frameCompStarts->dataUpdated();
 }
 
 /*---------------------------------------------------------------------------
@@ -259,7 +269,7 @@ void MainWindow::on_actionSitzungSpeichern_triggered()
 {
    QString fileName = QFileDialog::getSaveFileName( this,
                                                     tr("Sitzung speichern"),
-                                                    tr("."),
+                                                    lastOpenPathSession,
                                                     tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
    if( fileName != "")
       ui->framePlots->saveSession(fileName);
@@ -269,12 +279,16 @@ void MainWindow::on_actionSitzungOeffnen_triggered()
 {
    QString fileName = QFileDialog::getOpenFileName( this,
                                                     tr("Sitzung \344ffnen"),
-                                                    tr("."),
+                                                    lastOpenPathSession,
                                                     tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
    if( fileName != "")
    {
       ui->framePlots->loadSession(fileName);
       loadDefaultSession = false;
+
+      // letzten Pfad merken
+      QFileInfo fi(fileName);
+      lastOpenPathSession = fi.absolutePath();
    }
 }
 
@@ -306,7 +320,7 @@ void MainWindow::on_actionOeffnen_triggered()
    QStringList files = QFileDialog::getOpenFileNames(
          this,
          tr("Eine oder mehrere Dateien ausw\344hlen"),
-         ".",
+         lastOpenPathDTA,
          tr("DTA-Dateien (*.dta);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDtaFiles(files);
 }
@@ -321,6 +335,7 @@ void MainWindow::on_actionNeu_triggered()
    statusBar()->showMessage( tr("Datens\344tze: 0"));
    ui->framePlots->update();
    ui->frameStats->dataUpdated();
+   ui->frameCompStarts->dataUpdated();
 }
 
 /*---------------------------------------------------------------------------
