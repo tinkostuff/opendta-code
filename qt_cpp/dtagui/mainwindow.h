@@ -43,15 +43,21 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+   void dataChanged();
+
 private:
     Ui::MainWindow *ui; // GUI
     QDialog *helpDialog;
     DtaDataMap data; // alle Daten
-    bool loadDefaultSession; // sollen die Standard-Diagramme geladen werden
 
     // Pfad zur zuletzt geoeffneten Datei
     QString lastOpenPathDTA;
-    QString lastOpenPathSession;
+
+    // Zaehler fuer die einzelnen Tab-Arten
+    quint16 tabDiagramCount;
+    quint16 tabStatisticsCount;
+    quint16 tabCompStartsCount;
 
     void readDtaFiles(QStringList files); // DTA-Dateien lesen
 
@@ -61,17 +67,15 @@ private:
 
 private slots:
     void on_actionHilfe_triggered();
-    void on_actionStatistikDrucken_triggered();
-    void on_actionDrucken_triggered();
-    void on_actionSitzungOeffnen_triggered();
-    void on_actionSitzungSpeichern_triggered();
     void on_actionUeberQwt_triggered();
     void on_actionUeberQt_triggered();
     void on_actionOeffnen_triggered();
-    void on_actionDiagAlleLoeschen_triggered();
-    void on_actionDiagHinzufuegen_triggered();
     void on_actionUeber_triggered();
-    void on_actionNeu_triggered();
+    void on_actionZuruecksetzen_triggered();
+    void on_actionNeuDiagramm_triggered();
+    void on_tabWidget_tabCloseRequested(int index);
+    void on_actionNeuStatistik_triggered();
+    void on_actionNeuKompStarts_triggered();
 };
 
 #endif // MAINWINDOW_H

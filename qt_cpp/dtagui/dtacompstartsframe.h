@@ -29,6 +29,7 @@
 QT_FORWARD_DECLARE_CLASS(QTextEdit)
 QT_FORWARD_DECLARE_CLASS(QTableWidget)
 QT_FORWARD_DECLARE_CLASS(QComboBox)
+QT_FORWARD_DECLARE_CLASS(QDateTimeEdit)
 class DtaCompStartsThread;
 class DtaStatsRun;
 
@@ -36,10 +37,8 @@ class DtaCompStartsFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DtaCompStartsFrame(QWidget *parent = 0);
+    explicit DtaCompStartsFrame(DtaDataMap *data, QWidget *parent = 0);
     ~DtaCompStartsFrame();
-
-    void setData(DtaDataMap *data); // Zeiger auf Daten setzen
 
 signals:
 
@@ -50,16 +49,21 @@ public slots:
     void threadFinished(); // Thread beendet
     void threadTerminated(); // thread abgebrochen
     void updateRunTable(int index); // Tabelle aktualisieren
+    void print(); // Ergebnisse ausdrucken
+    void setCompleteTimeRange();
 
 private:
     // GUI
     QTextEdit *textEdit;
     QTableWidget *table;
     QComboBox *cbModus;
+    QDateTimeEdit *dteStart;
+    QDateTimeEdit *dteEnd;
 
     DtaCompStartsThread *thread; // Thread zur Berechnung
     DtaDataMap *data; // Daten
 
+    void updateTimeRangeEdit(); // Zeitspanne der Eingabefelder aktualisieren
 };
 
 #endif // DTACOMPSTARTSFRAME_H

@@ -33,6 +33,7 @@
 #include "dtafile/dtafile.h"
 
 QT_FORWARD_DECLARE_CLASS(QTextEdit)
+QT_FORWARD_DECLARE_CLASS(QDateTimeEdit)
 
 class DtaStatsThread;
 
@@ -40,10 +41,8 @@ class DtaStatsFrame : public QFrame
 {
    Q_OBJECT
 public:
-   explicit DtaStatsFrame(QWidget *parent = 0);
+   explicit DtaStatsFrame(DtaDataMap *data, QWidget *parent = 0);
    ~DtaStatsFrame();
-   void setData(DtaDataMap *data);
-   void print(QPrinter *printer); // Ergebnisse ausdrucken
 
 signals:
 
@@ -53,11 +52,17 @@ public slots:
 private slots:
    void threadFinished();  // Thread wurde normal beendet
    void threadTerminated(); // Thread wurde abgebrochen
+   void print(); // Ergebnisse ausdrucken
+   void setCompleteTimeRange();
 
 private:
    QTextEdit *textEdit;
+   QDateTimeEdit *dteStart;
+   QDateTimeEdit *dteEnd;
    DtaStatsThread *thread; // Thread
    DtaDataMap *data; // Zeiger auf die Daten
+
+   void updateTimeRangeEdit(); // Zeitspanne der Eingabefelder aktualisieren
 };
 
 #endif // DTASTATSFRAME_H

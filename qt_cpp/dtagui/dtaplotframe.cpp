@@ -150,7 +150,8 @@ protected:
                popupMenu->addAction(act);
 
                // Zoom Menue
-               QMenu *zMenu = popupMenu->addMenu("&Zoom");
+               QMenu *zMenu = popupMenu->addMenu(tr("&Zoom"));
+               zMenu->setIcon(QIcon(":/images/images/zoom-fit.png"));
                act = new QAction( tr("Volle X-Achse"), plot);
                connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitX()));
                zMenu->addAction(act);
@@ -226,38 +227,105 @@ private:
 * DtaPlotFrame
 *  - UI erstellen
 *---------------------------------------------------------------------------*/
-DtaPlotFrame::DtaPlotFrame(QWidget *parent) :
+DtaPlotFrame::DtaPlotFrame(DtaDataMap *data, QWidget *parent) :
     QFrame(parent)
 {
-   inScaleSync = false;
+   this->data = data;
 
-   // Hauptlayout
-   QHBoxLayout *mainLayout = new QHBoxLayout();
-   this->setLayout(mainLayout);
+   inScaleSync = false;
+   lastOpenPathSession = ".";
+   loadDefaultSession = true;
+
+   // Scroll Area um alles drum herum
+   QVBoxLayout *layoutMain = new QVBoxLayout(this);
+   layoutMain->setSpacing(6);
+   layoutMain->setContentsMargins(5, 5, 5, 5);
+   layoutMain->setObjectName(QString::fromUtf8("verticalLayout_3"));
+   QScrollArea *scrollArea = new QScrollArea(this);
+   scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+   scrollArea->setFrameShape(QFrame::NoFrame);
+   scrollArea->setWidgetResizable(true);
+   QFrame *frameMain = new QFrame();
+   frameMain->setObjectName(QString::fromUtf8("framePlots"));
+   frameMain->setFrameShape(QFrame::NoFrame);
+   frameMain->setFrameShadow(QFrame::Plain);
+   scrollArea->setWidget(frameMain);
+   layoutMain->addWidget(scrollArea);
+
+   // Layout des Frames
+   QHBoxLayout *layoutFrame = new QHBoxLayout(frameMain);
 
    // Baumstruktur fuer Signale
    signalTree = new QTreeWidget();
    signalTree->setDragEnabled(true);
    signalTree->setDragDropMode(QAbstractItemView::DragOnly);
    signalTree->setAlternatingRowColors(true);
-   signalTree->setSelectionMode(QAbstractItemView::MultiSelection);
+   signalTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
    signalTree->setUniformRowHeights(true);
    signalTree->setHeaderHidden(true);
 
+   // Buttons
+   QPushButton *btnAdd = new QPushButton(tr("Diagramm hinzuf\374gen"));
+   btnAdd->setIcon(QIcon(":/images/images/add.png"));
+   connect( btnAdd, SIGNAL(clicked()), this, SLOT(addPlot()));
+
+   QPushButton *btnDelAll = new QPushButton(tr("Alle Diagramm l\366schen"));
+   btnDelAll->setIcon(QIcon(":/images/images/remove-all.png"));
+   connect( btnDelAll, SIGNAL(clicked()), this, SLOT(clear()));
+
+   QPushButton *btnSessionOpen = new QPushButton(tr("Sitzung \366ffnen..."));
+   btnSessionOpen->setIcon(QIcon(":/images/images/open.png"));
+   connect( btnSessionOpen, SIGNAL(clicked()), this, SLOT(loadSession()));
+
+   QPushButton *btnSessionSave = new QPushButton(tr("Sitzung speichern..."));
+   btnSessionSave->setIcon(QIcon(":/images/images/save.png"));
+   connect( btnSessionSave, SIGNAL(clicked()), this, SLOT(saveSession()));
+
+   QPushButton *btnPrint = new QPushButton(tr("Alle Diagramme drucken..."));
+   btnPrint->setIcon(QIcon(":/images/images/print.png"));
+   connect( btnPrint, SIGNAL(clicked()), this, SLOT(printAll()));
+
    // Gruppe fuer den Baum
-   QGroupBox *gb= new QGroupBox();
-   gb->setTitle(tr("Signale"));
-   gb->setMaximumWidth(250);
-   QHBoxLayout *gbLayout = new QHBoxLayout();
+   QGroupBox *gbButtonsTree = new QGroupBox();
+   gbButtonsTree->setTitle("");
+   gbButtonsTree->setMaximumWidth(250);
+   QVBoxLayout *gbLayout = new QVBoxLayout();
+   gbLayout->setSpacing(5);
+
+   gbLayout->addWidget(btnAdd);
+   gbLayout->addWidget(btnDelAll);
+
+   QFrame *frameLines;
+   frameLines = new QFrame();
+   frameLines->setFrameShape(QFrame::HLine);
+   frameLines->setFrameShadow(QFrame::Sunken);
+   gbLayout->addWidget(frameLines);
+
+   gbLayout->addWidget(btnSessionOpen);
+   gbLayout->addWidget(btnSessionSave);
+
+   frameLines = new QFrame();
+   frameLines->setFrameShape(QFrame::HLine);
+   frameLines->setFrameShadow(QFrame::Sunken);
+   gbLayout->addWidget(frameLines);
+
+   gbLayout->addWidget(btnPrint);
+
+   frameLines = new QFrame();
+   frameLines->setFrameShape(QFrame::HLine);
+   frameLines->setFrameShadow(QFrame::Sunken);
+   gbLayout->addWidget(frameLines);
+
+   gbLayout->addWidget(new QLabel(tr("Signale:")));
    gbLayout->addWidget(signalTree);
-   gb->setLayout(gbLayout);
-   mainLayout->addWidget(gb);
+   gbButtonsTree->setLayout(gbLayout);
+   layoutFrame->addWidget(gbButtonsTree);
 
    // Splitter fuer Plots
    plotSplitter = new QSplitter();
    plotSplitter->setOrientation(Qt::Vertical);
    plotSplitter->setAcceptDrops(true);
-   mainLayout->addWidget(plotSplitter,100);
+   layoutFrame->addWidget(plotSplitter,10000);
 
    // Baum mit Signalnamen fuellen
    insertFieldsToTree();
@@ -322,14 +390,6 @@ void DtaPlotFrame::insertFieldsToTree()
 }
 
 /*---------------------------------------------------------------------------
-* Daten-Array zuweisen
-*---------------------------------------------------------------------------*/
-void DtaPlotFrame::setData(DtaDataMap *data)
-{
-   this->data = data;
-}
-
-/*---------------------------------------------------------------------------
 * Diagramm hinzufuegen/entfernen
 *---------------------------------------------------------------------------*/
 DtaPlot* DtaPlotFrame::addPlot()
@@ -356,6 +416,7 @@ void DtaPlotFrame::clear()
    for( int i=plotList.size()-1; i>=0; i--)
       delete plotList.at(i);
    plotList.clear();
+   loadDefaultSession = true;
 }
 
 // entfernen
@@ -467,30 +528,42 @@ void DtaPlotFrame::setCurveLineWidth()
 /*---------------------------------------------------------------------------
 * Daten aller Kurven neu laden und Diagramme neu zeichnen
 *---------------------------------------------------------------------------*/
-void DtaPlotFrame::update()
+void DtaPlotFrame::dataUpdated()
 {
-   // Daten der Kurven aktualisieren
-   for( int i=0; i<plotList.size(); i++)
+   if(loadDefaultSession && (data->size() > 0))
    {
-      DtaPlot *plot = plotList.at(i);
-      plot->setAllowReplot(false);
-
-      // welche Kurven sind auf dem Diagramm
-      QStringList fields = plot->curveNames();
-
-      // jede Kurve aktualisieren
-      for( int j=0; j<fields.size(); j++)
-      {
-         QString field = fields.at(j);
-         QPolygonF curveData = extractCurveData(field);
-         plot->updateCurveData( field, &curveData);
-      }
-
-      plot->fit(DtaPlot::xyDirection);
-
-      plot->setAllowReplot(true);
-      plot->replot();
+      // Default Diagramme bauen
+      if( QFile::exists("default.session"))
+         this->loadSession("default.session");
+      else
+         this->loadSession(":/sessions/default.session");
+      loadDefaultSession = false;
    }
+   else
+   {
+      // Daten der Kurven aktualisieren
+      for( int i=0; i<plotList.size(); i++)
+      {
+         DtaPlot *plot = plotList.at(i);
+         plot->setAllowReplot(false);
+
+         // welche Kurven sind auf dem Diagramm
+         QStringList fields = plot->curveNames();
+
+         // jede Kurve aktualisieren
+         for( int j=0; j<fields.size(); j++)
+         {
+            QString field = fields.at(j);
+            QPolygonF curveData = extractCurveData(field);
+            plot->updateCurveData( field, &curveData);
+         }
+
+         plot->fit(DtaPlot::xyDirection);
+
+         plot->setAllowReplot(true);
+         plot->replot();
+      } // for
+   } // if/else
 }
 
 /*---------------------------------------------------------------------------
@@ -736,81 +809,109 @@ void DtaPlotFrame::printPlot()
    }
 }
 
-void DtaPlotFrame::printAll(QPaintDevice *paintDev)
+void DtaPlotFrame::printAll()
 {
    if(plotList.size()==0) return;
 
-   QRect rect;
-   QPainter *painter = new QPainter(paintDev);
-
-   // Kopfzeile drucken
-   QFontMetrics fm(painter->font());
-   quint32 textHeight= fm.height() + 5;
-   rect = QRect(0, 0, paintDev->width(), fm.height());
-   painter->drawText( rect, "DtaGui - http://opendta.sourceforge.net/ - opendta@gmx.de");
-
-   QwtPlotPrintFilter filter;
-   // Hintergrund nicht mit drucken
-   filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
-
-   // Groesse der Plots ermitteln
-   quint32 totalHeight = 0;
-   QList<quint32> plotHeights;
-   for( int i=0; i<plotList.size(); i++)
+   QPrinter *printer = new QPrinter;
+   QPrintDialog printDialog(printer, this);
+   if (printDialog.exec() == QDialog::Accepted)
    {
-      totalHeight += plotList.at(i)->height();
-      plotHeights << plotList.at(i)->height();
+      QRect rect;
+      QPainter *painter = new QPainter(printer);
+
+      // Kopfzeile drucken
+      QFontMetrics fm(painter->font());
+      quint32 textHeight= fm.height() + 5;
+      rect = QRect(0, 0, printer->width(), fm.height());
+      painter->drawText( rect, "DtaGui - http://opendta.sourceforge.net/ - opendta@gmx.de");
+
+      QwtPlotPrintFilter filter;
+      // Hintergrund nicht mit drucken
+      filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
+
+      // Groesse der Plots ermitteln
+      quint32 totalHeight = 0;
+      QList<quint32> plotHeights;
+      for( int i=0; i<plotList.size(); i++)
+      {
+         totalHeight += plotList.at(i)->height();
+         plotHeights << plotList.at(i)->height();
+      }
+
+      // Groesse der Seite
+      quint32 pageHeight = printer->height() - textHeight;
+
+      // alle Diagramme drucken (von oben nach unten)
+      quint32 pos = textHeight;
+      for( int i=plotList.size()-1; i>=0; i--)
+      {
+         quint32 height = qFloor( qreal(plotHeights.at(i))/qreal(totalHeight)*qreal(pageHeight));
+         rect = QRect(0, pos, printer->width(), height);
+         plotList.at(i)->print( painter, rect, filter);
+         pos += height + 1;
+      }
+
+      delete painter;
    }
-
-   // Groesse der Seite
-   quint32 pageHeight = paintDev->height() - textHeight;
-
-   // alle Diagramme drucken (von oben nach unten)
-   quint32 pos = textHeight;
-   for( int i=plotList.size()-1; i>=0; i--)
-   {
-      quint32 height = qFloor( qreal(plotHeights.at(i))/qreal(totalHeight)*qreal(pageHeight));
-      rect = QRect(0, pos, paintDev->width(), height);
-      plotList.at(i)->print( painter, rect, filter);
-      pos += height + 1;
-   }
-
-   delete painter;
 }
 
 /*---------------------------------------------------------------------------
 * Siztung (Diagramme mit Signalen) speichern/laden
 *---------------------------------------------------------------------------*/
-void DtaPlotFrame::saveSession(QString fileName)
+void DtaPlotFrame::saveSession()
 {
-   QSettings *ini = new QSettings(fileName, QSettings::IniFormat, this);
-   ini->clear();
-   ini->setValue( "global/diagrams", plotList.size());
-
-   for( int i=0; i<plotList.size(); i++)
+   QString fileName = QFileDialog::getSaveFileName( this,
+                                                    tr("Sitzung speichern"),
+                                                    lastOpenPathSession,
+                                                    tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
+   if( fileName != "")
    {
-      DtaPlot *plot = plotList.at(i);
-      QStringList curves = plot->curveNames();
-      ini->setValue( QString("diagram%1/curves").arg(i), curves.size());
-      ini->setValue( QString("diagram%1/leftMaxMajorTicks").arg(i), plot->axisMaxMajor(QwtPlot::yLeft));
-      ini->setValue( QString("diagram%1/leftMaxMinorTicks").arg(i), plot->axisMaxMinor(QwtPlot::yLeft));
 
-      for( int j=0; j<curves.size(); j++)
+      QSettings *ini = new QSettings(fileName, QSettings::IniFormat, this);
+      ini->clear();
+      ini->setValue( "global/diagrams", plotList.size());
+
+      for( int i=0; i<plotList.size(); i++)
       {
-         ini->setValue( QString("diagram%1/curve%2/name").arg(i).arg(j),
-                        curves.at(j));
-         ini->setValue( QString("diagram%1/curve%2/color").arg(i).arg(j),
-                        plot->curvePen(curves.at(j)).color());
-         ini->setValue( QString("diagram%1/curve%2/linewidth").arg(i).arg(j),
-                        plot->curvePen(curves.at(j)).width());
-         ini->setValue( QString("diagram%1/curve%2/visible").arg(i).arg(j),
-                        plot->isCurveVisible(curves.at(j)));
-      }
-   }
+         DtaPlot *plot = plotList.at(i);
+         QStringList curves = plot->curveNames();
+         ini->setValue( QString("diagram%1/curves").arg(i), curves.size());
+         ini->setValue( QString("diagram%1/leftMaxMajorTicks").arg(i), plot->axisMaxMajor(QwtPlot::yLeft));
+         ini->setValue( QString("diagram%1/leftMaxMinorTicks").arg(i), plot->axisMaxMinor(QwtPlot::yLeft));
 
-   delete ini;
+         for( int j=0; j<curves.size(); j++)
+         {
+            ini->setValue( QString("diagram%1/curve%2/name").arg(i).arg(j),
+                           curves.at(j));
+            ini->setValue( QString("diagram%1/curve%2/color").arg(i).arg(j),
+                           plot->curvePen(curves.at(j)).color());
+            ini->setValue( QString("diagram%1/curve%2/linewidth").arg(i).arg(j),
+                           plot->curvePen(curves.at(j)).width());
+            ini->setValue( QString("diagram%1/curve%2/visible").arg(i).arg(j),
+                           plot->isCurveVisible(curves.at(j)));
+         }
+      }
+
+      delete ini;
+
+      // letzten Pfad merken
+      QFileInfo fi(fileName);
+      lastOpenPathSession = fi.absolutePath();
+   }
 }
 
+// nach Dateinamen fragen
+void DtaPlotFrame::loadSession()
+{
+   QString fileName = QFileDialog::getOpenFileName( this,
+                                                    tr("Sitzung \344ffnen"),
+                                                    lastOpenPathSession,
+                                                    tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
+   if( fileName != "") this->loadSession(fileName);
+}
+
+// Sitzung oeffnen
 void DtaPlotFrame::loadSession(QString fileName)
 {
    QSettings *ini = new QSettings(fileName, QSettings::IniFormat, this);
@@ -874,4 +975,11 @@ void DtaPlotFrame::loadSession(QString fileName)
 
    // alle Diagramm neu zeichnen
    replotAll();
+
+   // die Standard-Sitzung nicht mehr laden
+   loadDefaultSession = false;
+
+   // letzten Pfad merken
+   QFileInfo fi(fileName);
+   lastOpenPathSession = fi.absolutePath();
 }

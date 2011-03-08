@@ -32,6 +32,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "dtagui/dtaplotframe.h"
+#include "dtagui/dtastatsframe.h"
+#include "dtagui/dtacompstartsframe.h"
+
 /*---------------------------------------------------------------------------
 * Constructor
 *---------------------------------------------------------------------------*/
@@ -45,19 +49,20 @@ MainWindow::MainWindow(QWidget *parent) :
    // Fenster maximieren
    setWindowState(windowState() ^ Qt::WindowMaximized);
 
-   // Daten-Array bekannt machen
-   ui->framePlots->setData(&data);
-   ui->frameStats->setData(&data);
-   ui->frameCompStarts->setData(&data);
+   // Zaehler initialsieren
+   tabDiagramCount = 1;
+   tabStatisticsCount = 1;
+   tabCompStartsCount = 1;
+
+   // initiale Tabs anlegen
+   this->on_actionNeuKompStarts_triggered();
+   this->on_actionNeuStatistik_triggered();
+   this->on_actionNeuDiagramm_triggered();
 
    // Dops akzeptieren: DTA- und Sitzungsdateien
    setAcceptDrops(true);
 
-   // Standardsitzung laden
-   loadDefaultSession = true;
-
    lastOpenPathDTA = ".";
-   lastOpenPathSession = ".";
 
    this->setWindowTitle(tr("DtaGui - %1").arg(VERSION_STRING));
 }
@@ -116,21 +121,7 @@ void MainWindow::readDtaFiles(QStringList files)
            .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm")));
    }
 
-   if(loadDefaultSession)
-   {
-      // Default Diagramme bauen
-      if( QFile::exists("default.session"))
-         ui->framePlots->loadSession("default.session");
-      else
-         ui->framePlots->loadSession(":/sessions/default.session");
-      loadDefaultSession = false;
-   }
-   else
-   {
-      ui->framePlots->update();
-   }
-   ui->frameStats->dataUpdated();
-   ui->frameCompStarts->dataUpdated();
+   emit dataChanged();
 }
 
 /*---------------------------------------------------------------------------
@@ -163,16 +154,7 @@ void MainWindow::dropEvent(QDropEvent *event)
          {
             if( fName.endsWith(".dta",Qt::CaseInsensitive))
                dtaFiles << fName;
-            else if( fName.endsWith(".session", Qt::CaseInsensitive))
-               sessionFile = fName;
          }
-      }
-
-      // Sitzungsdatei laden
-      if(sessionFile!="")
-      {
-         ui->framePlots->loadSession(sessionFile);
-         loadDefaultSession = false;
       }
 
       // DTA-Dateien laden
@@ -249,70 +231,6 @@ void MainWindow::on_actionUeberQwt_triggered()
 }
 
 /*---------------------------------------------------------------------------
-* Diagramme hinzufuegen und loeschen
-*---------------------------------------------------------------------------*/
-void MainWindow::on_actionDiagHinzufuegen_triggered()
-{
-   ui->framePlots->addPlot();
-   loadDefaultSession = false;
-}
-void MainWindow::on_actionDiagAlleLoeschen_triggered()
-{
-   ui->framePlots->clear();
-   loadDefaultSession = true;
-}
-
-/*---------------------------------------------------------------------------
-* Sitzungen laden und speichern
-*---------------------------------------------------------------------------*/
-void MainWindow::on_actionSitzungSpeichern_triggered()
-{
-   QString fileName = QFileDialog::getSaveFileName( this,
-                                                    tr("Sitzung speichern"),
-                                                    lastOpenPathSession,
-                                                    tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
-   if( fileName != "")
-      ui->framePlots->saveSession(fileName);
-}
-
-void MainWindow::on_actionSitzungOeffnen_triggered()
-{
-   QString fileName = QFileDialog::getOpenFileName( this,
-                                                    tr("Sitzung \344ffnen"),
-                                                    lastOpenPathSession,
-                                                    tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
-   if( fileName != "")
-   {
-      ui->framePlots->loadSession(fileName);
-      loadDefaultSession = false;
-
-      // letzten Pfad merken
-      QFileInfo fi(fileName);
-      lastOpenPathSession = fi.absolutePath();
-   }
-}
-
-/*---------------------------------------------------------------------------
-* Drucken
-*---------------------------------------------------------------------------*/
-void MainWindow::on_actionDrucken_triggered()
-{
-   QPrinter *printer = new QPrinter;
-   QPrintDialog printDialog(printer, this);
-   if (printDialog.exec() == QDialog::Accepted) {
-      ui->framePlots->printAll(printer);
-   }
-}
-void MainWindow::on_actionStatistikDrucken_triggered()
-{
-   QPrinter *printer = new QPrinter;
-   QPrintDialog printDialog(printer, this);
-   if (printDialog.exec() == QDialog::Accepted) {
-      ui->frameStats->print(printer);
-   }
-}
-
-/*---------------------------------------------------------------------------
 * Dialog zum Oeffnen von DTA-Dateien
 *---------------------------------------------------------------------------*/
 void MainWindow::on_actionOeffnen_triggered()
@@ -328,14 +246,12 @@ void MainWindow::on_actionOeffnen_triggered()
 /*---------------------------------------------------------------------------
 * Datenarray leeren
 *---------------------------------------------------------------------------*/
-void MainWindow::on_actionNeu_triggered()
+void MainWindow::on_actionZuruecksetzen_triggered()
 {
    // reset Daten
    this->data.clear();
    statusBar()->showMessage( tr("Datens\344tze: 0"));
-   ui->framePlots->update();
-   ui->frameStats->dataUpdated();
-   ui->frameCompStarts->dataUpdated();
+   emit dataChanged();
 }
 
 /*---------------------------------------------------------------------------
@@ -381,4 +297,46 @@ void MainWindow::on_actionHilfe_triggered()
    helpDialog->show();
    helpDialog->raise();
    helpDialog->activateWindow();
+}
+
+/*---------------------------------------------------------------------------
+* Tab schliessen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+   delete ui->tabWidget->widget(index);
+   //ui->tabWidget->removeTab(index);
+}
+
+/*---------------------------------------------------------------------------
+* neues Diagramm einfuegen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionNeuDiagramm_triggered()
+{
+   DtaPlotFrame *f = new DtaPlotFrame(&data, ui->tabWidget);
+   connect( this, SIGNAL(dataChanged()), f, SLOT(dataUpdated()));
+   int idx = ui->tabWidget->addTab( f, QIcon(), tr("Diagramm %1").arg(tabDiagramCount++));
+   ui->tabWidget->setCurrentIndex(idx);
+}
+
+/*---------------------------------------------------------------------------
+* neue Statistikseite einfuegen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionNeuStatistik_triggered()
+{
+   DtaStatsFrame *f = new DtaStatsFrame(&data,ui->tabWidget);
+   connect( this, SIGNAL(dataChanged()), f, SLOT(dataUpdated()));
+   int idx = ui->tabWidget->addTab( f, QIcon(), tr("Statistik %1").arg(tabStatisticsCount++));
+   ui->tabWidget->setCurrentIndex(idx);
+}
+
+/*---------------------------------------------------------------------------
+* neue Kompressor-Starts-Seite einfuegen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionNeuKompStarts_triggered()
+{
+   DtaCompStartsFrame *f = new DtaCompStartsFrame(&data,ui->tabWidget);
+   connect( this, SIGNAL(dataChanged()), f, SLOT(dataUpdated()));
+   int idx = ui->tabWidget->addTab( f, QIcon(), tr("Verdichter Starts %1").arg(tabCompStartsCount++));
+   ui->tabWidget->setCurrentIndex(idx);
 }

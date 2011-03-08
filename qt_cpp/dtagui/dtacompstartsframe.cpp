@@ -450,15 +450,71 @@ private:
 /*---------------------------------------------------------------------------
 * DtaCompStatsFrame - Daten darstellen
 *---------------------------------------------------------------------------*/
-DtaCompStartsFrame::DtaCompStartsFrame(QWidget *parent) :
+DtaCompStartsFrame::DtaCompStartsFrame(DtaDataMap *data, QWidget *parent) :
     QFrame(parent)
 {
-   this->data = NULL;
+   this->data = data;
    this->thread = NULL;
 
    //
-   // GUI bauen
+   // GUI
    //
+
+   // Hauptlayout
+   QVBoxLayout *layoutMain = new QVBoxLayout(this);
+
+   // GroupBox mit Schaltern
+   QGroupBox *gbButtons = new QGroupBox();
+   QHBoxLayout *layoutGbButtons = new QHBoxLayout(gbButtons);
+   layoutGbButtons->setSpacing(5);
+
+   // Schalter
+   QPushButton *btnPrint = new QPushButton( QIcon(":/images/images/print.png"), tr("&Drucken..."));
+   connect( btnPrint, SIGNAL(clicked()), this, SLOT(print()));
+   layoutGbButtons->addWidget(btnPrint);
+
+   QPushButton *btnRefresh = new QPushButton( QIcon(":/images/images/refresh.png"), tr("&Aktualisieren"));
+   connect( btnRefresh, SIGNAL(clicked()), this, SLOT(dataUpdated()));
+   layoutGbButtons->addWidget(btnRefresh);
+
+   // Separator
+   QFrame *frameLine;
+   frameLine = new QFrame();
+   frameLine->setFrameShape(QFrame::VLine);
+   frameLine->setFrameShadow(QFrame::Sunken);
+   layoutGbButtons->addWidget(frameLine);
+
+   // Zeitspanne festlegen
+   layoutGbButtons->addWidget(new QLabel(tr("<b>Zeitspanne:</b>")));
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+
+   layoutGbButtons->addWidget(new QLabel(tr("Begin:")));
+   dteStart = new QDateTimeEdit(dtStart);
+   dteStart->setDateTimeRange( dtStart, dtEnd);
+   dteStart->setCalendarPopup(true);
+   dteStart->setDisplayFormat(tr("yyyy-MM-dd hh:mm:ss"));
+   layoutGbButtons->addWidget(dteStart);
+
+   layoutGbButtons->addWidget(new QLabel(tr("Ende:")));
+   dteEnd = new QDateTimeEdit(dtEnd);
+   dteEnd->setDateTimeRange( dtStart, dtEnd);
+   dteEnd->setCalendarPopup(true);
+   dteEnd->setDisplayFormat(tr("yyyy-MM-dd hh:mm:ss"));
+   layoutGbButtons->addWidget(dteEnd);
+
+   QPushButton *btnZoomFit = new QPushButton( QIcon(":/images/images/zoom-fit.png"), tr("gesamter Bereich"));
+   connect( btnZoomFit, SIGNAL(clicked()), this, SLOT(setCompleteTimeRange()));
+   layoutGbButtons->addWidget(btnZoomFit);
+
+   this->updateTimeRangeEdit();
+
+   // Spacer
+   QSpacerItem *spacer = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+   layoutGbButtons->addItem(spacer);
+
+   layoutMain->addWidget(gbButtons);
+
    QLabel *label = new QLabel(tr("Modus:"), this);
    cbModus = new QComboBox(this);
    cbModus->setMinimumWidth(200);
@@ -495,10 +551,8 @@ DtaCompStartsFrame::DtaCompStartsFrame(QWidget *parent) :
    textEdit = new QTextEdit(this);
    textEdit->setReadOnly(true);
 
-   QVBoxLayout *layout3 = new QVBoxLayout();
-   layout3->addWidget(textEdit);
-   layout3->addWidget(groupBox);
-   this->setLayout(layout3);
+   layoutMain->addWidget(textEdit);
+   layoutMain->addWidget(groupBox);
 
    // Signale verbinden
    connect( cbModus, SIGNAL(currentIndexChanged(int)), this, SLOT(updateRunTable(int)));
@@ -518,14 +572,6 @@ DtaCompStartsFrame::~DtaCompStartsFrame()
 }
 
 /*---------------------------------------------------------------------------
-* Zeiger auf Daten setzen
-*---------------------------------------------------------------------------*/
-void DtaCompStartsFrame::setData(DtaDataMap *data)
-{
-   this->data = data;
-}
-
-/*---------------------------------------------------------------------------
 * Daten wurden aktualisiert
 *---------------------------------------------------------------------------*/
 void DtaCompStartsFrame::dataUpdated()
@@ -536,6 +582,9 @@ void DtaCompStartsFrame::dataUpdated()
    this->table->setRowCount(0);
    this->table->setColumnCount(0);
    textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
+
+   // Zeitspanne der Eingabefelder aktualisieren
+   this->updateTimeRangeEdit();
 
    // Thread starten
    this->thread = new DtaCompStartsThread();
@@ -796,4 +845,70 @@ void DtaCompStartsFrame::updateRunTable(int index)
          table->setRowHidden(i, !(mode == rowMode));
       }
    }
+}
+
+/*---------------------------------------------------------------------------
+* Eingabefelder fuer Zeitspanne aktualisieren
+*---------------------------------------------------------------------------*/
+void DtaCompStartsFrame::updateTimeRangeEdit()
+{
+   // sollen wir die Werte an den neuen Datenbereich anpassen
+   bool setMinMax = true;
+   if( dteStart->dateTime() != dteStart->minimumDateTime()) setMinMax = false;
+   if( dteEnd->dateTime() != dteEnd->maximumDateTime()) setMinMax = false;
+
+   // Start und Ende der Daten ermitteln
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+   if( (data!=NULL) && !data->isEmpty())
+   {
+      DtaDataMap::const_iterator iStart = data->constBegin();
+      DtaDataMap::const_iterator iEnd = data->constEnd();
+      iEnd--;
+      dtStart.setTime_t(iStart.key());
+      dtEnd.setTime_t(iEnd.key());
+   }
+
+   // Zeitbereich setzen
+   dteStart->setDateTimeRange( dtStart, dtEnd);
+   dteEnd->setDateTimeRange( dtStart, dtEnd);
+
+   // Werte veraendern?
+   if(setMinMax)
+   {
+      dteStart->setDateTime(dtStart);
+      dteEnd->setDateTime(dtEnd);
+   }
+
+}
+
+/*---------------------------------------------------------------------------
+* Werte auf komplette Zeitspanne setzen
+*---------------------------------------------------------------------------*/
+void DtaCompStartsFrame::setCompleteTimeRange()
+{
+   // Start und Ende der Daten ermitteln
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+   if( (data!=NULL) && !data->isEmpty())
+   {
+      DtaDataMap::const_iterator iStart = data->constBegin();
+      DtaDataMap::const_iterator iEnd = data->constEnd();
+      iEnd--;
+      dtStart.setTime_t(iStart.key());
+      dtEnd.setTime_t(iEnd.key());
+   }
+   dteStart->setDateTime(dtStart);
+   dteEnd->setDateTime(dtEnd);
+}
+
+/*---------------------------------------------------------------------------
+* Drucken
+*---------------------------------------------------------------------------*/
+void DtaCompStartsFrame::print()
+{
+   QPrinter *printer = new QPrinter;
+   QPrintDialog printDialog(printer, this);
+   if (printDialog.exec() == QDialog::Accepted)
+      textEdit->print(printer);
 }

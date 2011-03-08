@@ -40,22 +40,22 @@ class DtaPlotFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DtaPlotFrame(QWidget *parent = 0);
-    void setData(DtaDataMap *data);
+    explicit DtaPlotFrame(DtaDataMap *data, QWidget *parent = 0);
 
-    DtaPlot* addPlot(); // Diagramm hinzufuegen
-    void clear(); // alle Diagramme loeschen
-    void update(); // Daten wurden aktualisiert
-    void saveSession(QString fileName); // Siztung speichern
-    void loadSession(QString fileName); // Sitzung laden
-    void printAll(QPaintDevice *paintDev); // alle Diagramme drucken
+   // Kurve zu Diagramm hinzufuegen
+   void addCurveToPlot( DtaPlot *plot, QString field);
+   void addCurveToPlot( int index, QString field);
 
-    // Kurve zu Diagramm hinzufuegen
-    void addCurveToPlot( DtaPlot *plot, QString field);
-    void addCurveToPlot( int index, QString field);
-signals:
+public slots:
+    void dataUpdated(); // Daten wurden aktualisiert
 
 private slots:
+    DtaPlot* addPlot(); // Diagramm hinzufuegen
+    void clear(); // alle Diagramme loeschen
+    void saveSession(); // Siztung speichern
+    void loadSession(); // Sitzung laden
+    void printAll(); // alle Diagramme drucken
+
     void scaleDivChanged(); // Skalierung muess geaendert werden
     void removeCurveFromPlot(); // Kurve entfernen
     void setCurveColor(); // Farbe der Kurve setzen
@@ -80,10 +80,14 @@ private:
     DtaDataMap *data; // Zeiger auf Daten
     bool inScaleSync; // true wenn Diagramme synchronisiert werden
 
+    QString lastOpenPathSession;
+    bool loadDefaultSession; // sollen die Standard-Diagramme geladen werden
+
     void insertFieldsToTree(); // Baum mit Signalen fuellen
     QPolygonF extractCurveData(QString field); // Daten einer Kurve extrahieren
     void alignPlots(); // Diagramme ausrichten
     void replotAll(); // alle Diagramme neu zeichen
+    void loadSession(QString fileName); // Sitzung laden
 };
 
 #endif // DTAPLOTFRAME_H

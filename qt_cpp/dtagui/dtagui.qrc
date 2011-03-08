@@ -12,6 +12,11 @@
         <file>images/waveform.png</file>
         <file>images/save.png</file>
         <file>images/print.png</file>
+        <file>images/trash.png</file>
+        <file>images/statistics.png</file>
+        <file>images/refresh.png</file>
+        <file>images/zoom-fit.png</file>
+        <file>images/race-flag.png</file>
     </qresource>
     <qresource prefix="/sessions">
         <file>default.session</file>

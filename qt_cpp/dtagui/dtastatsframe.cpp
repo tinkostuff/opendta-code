@@ -42,19 +42,19 @@ class DtaStatsThread : public QThread
 {
 public:
    // Constructor
-   DtaStatsThread() {this->data=NULL;}
+   DtaStatsThread() { this->data=NULL; this->tsStart = 0; this->tsEnd = 0;}
    // Zeiger auf Daten uebergeben
    void setData(DtaDataMap *data) {this->data=data;}
+   // Zeitspanne setzen
+   void setDateTimeRange( quint32 start, quint32 end) { this->tsStart=start; this->tsEnd=end;}
    // Berechnungen
    void run()
    {
       if(data==NULL || data->size()==0) return;
 
-      // Anfang und Ende
-      dataStart = data->keys().first();
-      dataEnd = data->keys().last();
-      datasets = data->size();
-
+      dataStart = 0;
+      dataEnd = 0;
+      datasets = 0;
       quint32 lastTS = 0;
       bool first = true;
 
@@ -68,6 +68,14 @@ public:
          quint32 ts = iterator.key();
          DtaFieldValues dat = iterator.value();
 
+         // Zeitspanne testen
+         if( (tsStart!=0) && (ts < tsStart)) continue;
+         if( (tsEnd!=0) && (ts > tsEnd)) break;
+
+         // Ende der Statistik merken
+         dataEnd = ts;
+         datasets++;
+
          // Initialisierung
          if(first)
          {
@@ -77,6 +85,7 @@ public:
             digitalFields.clear();
             staticAnalogFields.clear();
             staticDigitalFields.clear();
+            dataStart = ts;
 
             // digitales oder analoges Feld
             for( int i=0; i<dat.size(); i++)
@@ -91,7 +100,7 @@ public:
                   analogFields << k;
                   anaMinValues[k] = v;
                   anaMaxValues[k] = v;
-                  anaSumValues[k] = 0.0;
+                  anaSumValues[k] = v;
                   anaAvgValues[k] = 0.0;
                   anaMedianValues[k] = 0.0;
                   anaStdValues[k] = 0.0;
@@ -274,6 +283,15 @@ public:
             anaStdValues[field] = qSqrt( anaStdValues[field] / qreal(datasets-1));
          }
       } // if datasets > 1
+      else
+      {
+         // Standardabweichung kann nicht berechnet werden
+         for( int i=0; i<analogFields.size(); i++)
+         {
+            QString field = analogFields.at(i);
+            anaStdValues[field] = 0.0;
+         }
+      }
 
       // Felder sortieren
       analogFields.sort();
@@ -311,6 +329,8 @@ public:
 
 private:
    DtaDataMap *data;
+   quint32 tsStart;
+   quint32 tsEnd;
 
    // analog
    QHash<QString,qreal> anaSumValues;
@@ -331,18 +351,75 @@ private:
 * DtaStatsFrame
 *  - Darstellung der Ergebnisse
 *---------------------------------------------------------------------------*/
-DtaStatsFrame::DtaStatsFrame(QWidget *parent) :
+DtaStatsFrame::DtaStatsFrame(DtaDataMap *data, QWidget *parent) :
     QFrame(parent)
 {
-   this->data = NULL;
+   this->data = data;
    this->thread = NULL;
 
+   //
+   // GUI
+   //
+
+   // Hauptlayout
+   QVBoxLayout *layoutMain = new QVBoxLayout(this);
+
+   // GroupBox mit Schaltern
+   QGroupBox *gbButtons = new QGroupBox();
+   QHBoxLayout *layoutGbButtons = new QHBoxLayout(gbButtons);
+   layoutGbButtons->setSpacing(5);
+
+   // Schalter
+   QPushButton *btnPrint = new QPushButton( QIcon(":/images/images/print.png"), tr("&Drucken..."));
+   connect( btnPrint, SIGNAL(clicked()), this, SLOT(print()));
+   layoutGbButtons->addWidget(btnPrint);
+
+   QPushButton *btnRefresh = new QPushButton( QIcon(":/images/images/refresh.png"), tr("&Aktualisieren"));
+   connect( btnRefresh, SIGNAL(clicked()), this, SLOT(dataUpdated()));
+   layoutGbButtons->addWidget(btnRefresh);
+
+   // Separator
+   QFrame *frameLine;
+   frameLine = new QFrame();
+   frameLine->setFrameShape(QFrame::VLine);
+   frameLine->setFrameShadow(QFrame::Sunken);
+   layoutGbButtons->addWidget(frameLine);
+
+   // Zeitspanne festlegen
+   layoutGbButtons->addWidget(new QLabel(tr("<b>Zeitspanne:</b>")));
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+
+   layoutGbButtons->addWidget(new QLabel(tr("Begin:")));
+   dteStart = new QDateTimeEdit(dtStart);
+   dteStart->setDateTimeRange( dtStart, dtEnd);
+   dteStart->setCalendarPopup(true);
+   dteStart->setDisplayFormat(tr("yyyy-MM-dd hh:mm:ss"));
+   layoutGbButtons->addWidget(dteStart);
+
+   layoutGbButtons->addWidget(new QLabel(tr("Ende:")));
+   dteEnd = new QDateTimeEdit(dtEnd);
+   dteEnd->setDateTimeRange( dtStart, dtEnd);
+   dteEnd->setCalendarPopup(true);
+   dteEnd->setDisplayFormat(tr("yyyy-MM-dd hh:mm:ss"));
+   layoutGbButtons->addWidget(dteEnd);
+
+   QPushButton *btnZoomFit = new QPushButton( QIcon(":/images/images/zoom-fit.png"), tr("gesamter Bereich"));
+   connect( btnZoomFit, SIGNAL(clicked()), this, SLOT(setCompleteTimeRange()));
+   layoutGbButtons->addWidget(btnZoomFit);
+
+   this->updateTimeRangeEdit();
+
+   // Spacer
+   QSpacerItem *spacer = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+   layoutGbButtons->addItem(spacer);
+
+   layoutMain->addWidget(gbButtons);
+
+   // textEdit
    textEdit = new QTextEdit(this);
    textEdit->setReadOnly(true);
-
-   QVBoxLayout *layout = new QVBoxLayout(this);
-   layout->addWidget(textEdit);
-   this->setLayout(layout);
+   layoutMain->addWidget(textEdit);
 }
 
 // destrctor
@@ -355,12 +432,6 @@ DtaStatsFrame::~DtaStatsFrame()
    }
 }
 
-// Zeiger auf die Daten setzen
-void DtaStatsFrame::setData(DtaDataMap *data)
-{
-   this->data = data;
-}
-
 /*---------------------------------------------------------------------------
 * Daten wurden aktualisiert : Thread erstellen und starten
 *---------------------------------------------------------------------------*/
@@ -369,11 +440,18 @@ void DtaStatsFrame::dataUpdated()
    textEdit->clear();
    textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
 
+   // Zeitspanne der Eingabefelder aktualisieren
+   this->updateTimeRangeEdit();
+
+   // Thread starten
    this->thread = new DtaStatsThread();
    this->thread->setData(data);
+   this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
+                                   dteEnd->dateTime().toTime_t());
    connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
    connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
    this->thread->start();
+
 }
 
 /*---------------------------------------------------------------------------
@@ -425,15 +503,16 @@ void DtaStatsFrame::threadFinished()
                         .arg(thread->datasets);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Start"))
-                        .arg(QDateTime::fromTime_t(thread->dataStart).toString("yyyy-MM-dd hh:mm"));
+                        .arg(QDateTime::fromTime_t(thread->dataStart).toString("yyyy-MM-dd hh:mm:ss"));
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Ende"))
-                        .arg(QDateTime::fromTime_t(thread->dataEnd).toString("yyyy-MM-dd hh:mm"));
-   qint32 delta = thread->dataEnd - thread->dataStart + 120;
-   QString s = QString(tr("%1 Tage %2 Stunden %3 Minuten"))
+                        .arg(QDateTime::fromTime_t(thread->dataEnd).toString("yyyy-MM-dd hh:mm:ss"));
+   qint32 delta = thread->dataEnd - thread->dataStart;
+   QString s = QString(tr("%1 Tage %2 Stunden %3 Minuten %4 Sekunden"))
                         .arg(delta/86400)
                         .arg((delta%86400)/3600)
-                        .arg((delta%3600)/60);
+                        .arg((delta%3600)/60)
+                        .arg(delta%60);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Zeitraum"))
                         .arg(s);
@@ -566,7 +645,65 @@ void DtaStatsFrame::threadFinished()
 /*---------------------------------------------------------------------------
 * Drucken
 *---------------------------------------------------------------------------*/
-void DtaStatsFrame::print(QPrinter *printer)
+void DtaStatsFrame::print()
 {
-   textEdit->print(printer);
+   QPrinter *printer = new QPrinter;
+   QPrintDialog printDialog(printer, this);
+   if (printDialog.exec() == QDialog::Accepted)
+      textEdit->print(printer);
+}
+
+/*---------------------------------------------------------------------------
+* Eingabefelder fuer Zeitspanne aktualisieren
+*---------------------------------------------------------------------------*/
+void DtaStatsFrame::updateTimeRangeEdit()
+{
+   // sollen wir die Werte an den neuen Datenbereich anpassen
+   bool setMinMax = true;
+   if( dteStart->dateTime() != dteStart->minimumDateTime()) setMinMax = false;
+   if( dteEnd->dateTime() != dteEnd->maximumDateTime()) setMinMax = false;
+
+   // Start und Ende der Daten ermitteln
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+   if( (data!=NULL) && !data->isEmpty())
+   {
+      DtaDataMap::const_iterator iStart = data->constBegin();
+      DtaDataMap::const_iterator iEnd = data->constEnd();
+      iEnd--;
+      dtStart.setTime_t(iStart.key());
+      dtEnd.setTime_t(iEnd.key());
+   }
+
+   // Zeitbereich setzen
+   dteStart->setDateTimeRange( dtStart, dtEnd);
+   dteEnd->setDateTimeRange( dtStart, dtEnd);
+
+   // Werte veraendern?
+   if(setMinMax)
+   {
+      dteStart->setDateTime(dtStart);
+      dteEnd->setDateTime(dtEnd);
+   }
+
+}
+
+/*---------------------------------------------------------------------------
+* Werte auf komplette Zeitspanne setzen
+*---------------------------------------------------------------------------*/
+void DtaStatsFrame::setCompleteTimeRange()
+{
+   // Start und Ende der Daten ermitteln
+   QDateTime dtStart = QDateTime::fromTime_t(0);
+   QDateTime dtEnd = QDateTime::fromTime_t(0);
+   if( (data!=NULL) && !data->isEmpty())
+   {
+      DtaDataMap::const_iterator iStart = data->constBegin();
+      DtaDataMap::const_iterator iEnd = data->constEnd();
+      iEnd--;
+      dtStart.setTime_t(iStart.key());
+      dtEnd.setTime_t(iEnd.key());
+   }
+   dteStart->setDateTime(dtStart);
+   dteEnd->setDateTime(dtEnd);
 }
