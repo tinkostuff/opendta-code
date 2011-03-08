@@ -59,8 +59,8 @@ public:
       bool first = true;
 
       // durch alle Datensaetze gehen
-      DtaDataMap::iterator iteratorEnd = data->upperBound(tsEnd);
-      DtaDataMap::iterator iterator = data->lowerBound(tsStart);
+      DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
+      DtaDataMap::const_iterator iterator = data->lowerBound(tsStart);
       do
       {
          quint32 ts = iterator.key();
@@ -265,12 +265,10 @@ public:
       // zweiter Druchlauf durch die Daten noetig
       if(datasets > 1)
       {
-         DtaDataMapIterator iterator(*data);
-         while(iterator.hasNext())
+         DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
+         DtaDataMap::const_iterator iterator = data->lowerBound(tsStart);
+         do
          {
-            // naechsten Datensatz lesen
-            iterator.next();
-
             DtaFieldValues dat = iterator.value();
             for( int i=0; i<analogFields.size(); i++)
             {
@@ -278,7 +276,9 @@ public:
                qreal value = DtaFile::fieldValueReal(dat,field);
                anaStdValues[field] += qPow(value - anaAvgValues[field],2);
             }
-         }
+            // naechster Datensatz
+            iterator++;
+         } while( iterator != iteratorEnd);
          for( int i=0; i<analogFields.size(); i++)
          {
             QString field = analogFields.at(i);

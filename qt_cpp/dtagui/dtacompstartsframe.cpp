@@ -152,8 +152,8 @@ public:
       modeList << tr("HZ+BW");
       modeList << tr("von EVU unterbrochen");
 
-      DtaDataMap::iterator iteratorEnd = data->upperBound(tsEnd);
-      DtaDataMap::iterator iterator = data->lowerBound(tsStart);
+      DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
+      DtaDataMap::const_iterator iterator = data->lowerBound(tsStart);
       do
       {
          quint32 ts = iterator.key();
