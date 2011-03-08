@@ -59,12 +59,10 @@ public:
       bool first = true;
 
       // durch alle Datensaetze gehen
-      DtaDataMapIterator iterator(*data);
-      while(iterator.hasNext())
+      DtaDataMap::iterator iteratorEnd = data->upperBound(tsEnd);
+      DtaDataMap::iterator iterator = data->lowerBound(tsStart);
+      do
       {
-         // naechsten Datensatz lesen
-         iterator.next();
-
          quint32 ts = iterator.key();
          DtaFieldValues dat = iterator.value();
 
@@ -178,7 +176,11 @@ public:
          // letzten Zeitstempel merken
          lastTS = ts;
          first = false;
-      } // while *data
+
+         // naechster Datensatz
+         ++iterator;
+
+      } while( iterator != iteratorEnd);
 
       // Nachbearbeitung analoge Signale
       for( int i=0; i<analogFields.size(); i++)

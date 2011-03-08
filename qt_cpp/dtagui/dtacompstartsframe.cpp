@@ -152,12 +152,10 @@ public:
       modeList << tr("HZ+BW");
       modeList << tr("von EVU unterbrochen");
 
-      DtaDataMapIterator iterator(*data);
-      while(iterator.hasNext())
+      DtaDataMap::iterator iteratorEnd = data->upperBound(tsEnd);
+      DtaDataMap::iterator iterator = data->lowerBound(tsStart);
+      do
       {
-         // naechsten Datensatz lesen
-         iterator.next();
-
          quint32 ts = iterator.key();
          DtaFieldValues dat = iterator.value();
 
@@ -324,7 +322,10 @@ public:
          // letzten Zeitstempel merken
          lastTS = ts;
          first = false;
-      } // while *data
+
+         // naechster Datensatz
+         iterator++;
+      } while( iterator != iteratorEnd);
 
       //
       // Statistik der Laeufe
