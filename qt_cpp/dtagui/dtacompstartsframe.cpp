@@ -127,15 +127,19 @@ class DtaCompStartsThread : public QThread
 {
 public:
    DtaCompStartsThread() {this->data=NULL;}
+   // Zeiger auf Daten uebergeben
    void setData(DtaDataMap *data) {this->data=data;}
+   // Zeitspanne setzen
+   void setDateTimeRange( quint32 start, quint32 end) { this->tsStart=start; this->tsEnd=end;}
+   // Daten analysieren
    void run()
    {
       if(data==NULL || data->size()==0) return;
 
       // Anfang und Ende
-      dataStart = data->keys().first();
-      dataEnd = data->keys().last();
-      datasets = data->size();
+      dataStart = 0;
+      dataEnd = 0;
+      datasets = 0;
 
       quint32 lastTS = 0;
       bool first = true;
@@ -157,6 +161,14 @@ public:
          quint32 ts = iterator.key();
          DtaFieldValues dat = iterator.value();
 
+         // Zeitspanne testen
+         if( (tsStart!=0) && (ts < tsStart)) continue;
+         if( (tsEnd!=0) && (ts > tsEnd)) break;
+
+         // Ende der Statistik merken
+         dataEnd = ts;
+         datasets++;
+
          qint32 vd1 = DtaFile::fieldValueInt( dat, "VD1");
          qint32 evu = DtaFile::fieldValueInt( dat, "EVU_");
 
@@ -165,6 +177,7 @@ public:
          {
             firstRun.insert( 0, true);
             firstRun.insert( 1, true);
+            dataStart = ts;
 
             stateVD1 = stateOff;
             if( vd1 == 1) stateVD1 = stateInvalid;
@@ -429,6 +442,8 @@ public:
 
 private:
    DtaDataMap *data;
+   quint32 tsStart;
+   quint32 tsEnd;
 
    enum states {stateOn, stateOff, stateInvalid};
    states stateVD1;
@@ -589,6 +604,8 @@ void DtaCompStartsFrame::dataUpdated()
    // Thread starten
    this->thread = new DtaCompStartsThread();
    this->thread->setData(data);
+   this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
+                                   dteEnd->dateTime().toTime_t());
    connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
    connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
    this->thread->start();
@@ -645,15 +662,16 @@ void DtaCompStartsFrame::threadFinished()
                         .arg(thread->datasets);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Start"))
-                        .arg(QDateTime::fromTime_t(thread->dataStart).toString("yyyy-MM-dd hh:mm"));
+                        .arg(QDateTime::fromTime_t(thread->dataStart).toString("yyyy-MM-dd hh:mm:ss"));
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Ende"))
-                        .arg(QDateTime::fromTime_t(thread->dataEnd).toString("yyyy-MM-dd hh:mm"));
-   qint32 delta = thread->dataEnd - thread->dataStart + 120;
-   QString s = QString(tr("%1 Tage %2 Stunden %3 Minuten"))
+                        .arg(QDateTime::fromTime_t(thread->dataEnd).toString("yyyy-MM-dd hh:mm:ss"));
+   qint32 delta = thread->dataEnd - thread->dataStart;
+   QString s = QString(tr("%1 Tage %2 Stunden %3 Minuten %4 Sekunden"))
                         .arg(delta/86400)
                         .arg((delta%86400)/3600)
-                        .arg((delta%3600)/60);
+                        .arg((delta%3600)/60)
+                        .arg(delta%60);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Zeitraum"))
                         .arg(s);
