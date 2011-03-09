@@ -96,6 +96,10 @@
 *  ueber eine lineare Berechnung (TRLsoll, TMK1soll, AO1, AO2 und AI1) oder
 *  mit Hilfe einer Wertetabelle (restliche Temperaturen).
 *
+* invertierte Bit-Werte:
+*  Feldnamen, die mit eine "_" enden (alle Eingaenge) beinhalten invertierte
+*  Werte.
+*
 * Felder, die mit dieser Klasse berechnet werden:
 *  - DF: Druchfluss Heizkreis aus AI1
 *      Durchflussmesser: Grundfos VFS 5-100
@@ -206,6 +210,7 @@ private:
     static inline qreal calcLinearData( const quint16 &value, const qreal &m, const qreal &n, const qint8 &precision);
     static qreal calcLUTData( const quint16 &value, const DtaLUTInfo &info);
     static inline qreal calcBitData( const quint16 &value, const quint8 &pos);
+    static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
 
     // Feldnamen
     static const QString m_fieldNamesArray[DTA_DS_FIELD_COUNT];

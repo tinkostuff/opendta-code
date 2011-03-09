@@ -105,7 +105,7 @@ void DtaFile::readDatasets(DtaDataMap *data)
       m_dtaStream.readRawData( buffer, 4);                                                            // [4  :7  ]
       m_dtaStream >> value; for( int j=0; j<=12; j++) { values[pos]=calcBitData(value,j); pos++; }    // [8  :9  ] - Status Ausgaenge
       m_dtaStream.readRawData( buffer, 34);                                                           // [10 :43 ]
-      m_dtaStream >> value; for( int j=0; j<=4; j++) { values[pos]=calcBitData(value,j); pos++; }     // [44 :45 ] - Status Eingaenge
+      m_dtaStream >> value; for( int j=0; j<=4; j++) { values[pos]=calcBitDataInv(value,j); pos++; }  // [44 :45 ] - Status Eingaenge
       m_dtaStream.readRawData( buffer, 6);                                                            // [46 :51 ]
       m_dtaStream >> value; values[pos] = calcLUTData( value, LUT[0]); pos++;                         // [52 :53 ] - TFB1
       m_dtaStream >> value; values[pos] = calcLUTData( value, LUT[0]); pos++;                         // [54 :55 ] - TBW
@@ -126,7 +126,7 @@ void DtaFile::readDatasets(DtaDataMap *data)
       m_dtaStream.readRawData( buffer, 2);                                                            // [134:135]
       m_dtaStream >> value; values[pos] = calcLinearData( value, 0.002619, 0.0, 100); pos++;          // [136:137] - AO1
       m_dtaStream >> value; values[pos] = calcLinearData( value, 0.002619, 0.0, 100); pos++;          // [138:139] - AO2
-      m_dtaStream >> value; values[pos] = calcBitData(value, 4); pos++;                               // [140:141] - Status Eingaenge ComfortPlatine
+      m_dtaStream >> value; values[pos] = calcBitDataInv(value, 4); pos++;                            // [140:141] - Status Eingaenge ComfortPlatine
       m_dtaStream.readRawData( buffer, 16);                                                           // [142:157]
       m_dtaStream >> value; values[pos] = calcLinearData( value, 0.003631, 0.0, 100); pos++;          // [158:159] - AI1
       m_dtaStream.readRawData( buffer, 8);                                                            // [160:167]
@@ -200,6 +200,13 @@ qreal DtaFile::calcLUTData(const quint16 &value, const DtaLUTInfo &info)
 qreal DtaFile::calcBitData(const quint16 &value, const quint8 &pos)
 {
    return qreal((value >> pos) & 1);
+}
+qreal DtaFile::calcBitDataInv(const quint16 &value, const quint8 &pos)
+{
+   if( ((value >> pos) & 1) == 1)
+      return 1.0;
+   else
+      return 0.0;
 }
 
 /*---------------------------------------------------------------------------
@@ -288,11 +295,11 @@ const QString DtaFile::m_fieldNamesArray[DTA_DS_FIELD_COUNT] = {
    "ZW1",  // Zusaetzlicher Waermeerzeuger 1
 
    // Status Eingaenge
-   "HD_",  // Hochdruckpressostat
-   "ND_",  // Niederdruckpressostat
-   "MOT_", // Motorschutz
-   "ASD_", // Abtau/Soledruck/Durchfluss
-   "EVU_", // EVU Sperre
+   "HD",  // Hochdruckpressostat
+   "ND",  // Niederdruckpressostat
+   "MOT", // Motorschutz
+   "ASD", // Abtau/Soledruck/Durchfluss
+   "EVU", // EVU Sperre
 
    // Temperaturen
    "TFB1",     // TFB1
@@ -323,7 +330,7 @@ const QString DtaFile::m_fieldNamesArray[DTA_DS_FIELD_COUNT] = {
    "AO2",    // AO2
 
    // Status Eingaenge ComfortPlatine
-   "SWT_",  // Schwimmbadthermostat
+   "SWT",  // Schwimmbadthermostat
 
    "AI1",   // AI1
 
@@ -573,7 +580,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 
 // Eingaenge
    {
-      tr("HD_"),
+      tr("HD"),
       tr("Hochdruckpressostat"),
       tr("Eing\344nge"),
       false,
@@ -584,7 +591,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 #endif
    },  // HD_
    {
-      tr("ND_"),
+      tr("ND"),
       tr("Niederdruckpressostat"),
       tr("Eing\344nge"),
       false,
@@ -595,7 +602,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 #endif
    },  // ND_
    {
-      tr("MOT_"),
+      tr("MOT"),
       tr("Motorschutz"),
       tr("Eing\344nge"),
       false,
@@ -606,7 +613,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 #endif
    },  // MOT_
    {
-      tr("ADS_"),
+      tr("ADS"),
       tr("Abtau/Soledruck/Durchfluss"),
       tr("Eing\344nge"),
       false,
@@ -617,7 +624,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 #endif
    },  // ASD_
    {
-      tr("EVU_"),
+      tr("EVU"),
       tr("EVU Sperre"),
       tr("Eing\344nge"),
       false,
@@ -889,7 +896,7 @@ const DtaFieldInfo DtaFile::m_fieldInfoArray[DTA_DS_FIELD_COUNT] = {
 
 // Eingaenge ComfortPlatine
    {
-      tr("SWT_"),
+      tr("SWT"),
       tr("Schwimmbadthermostat"),
       tr("Eing\344nge ComfortPlatine"),
       false,
