@@ -341,10 +341,6 @@ void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog)
    // digitale Kurven als Stufen zeichnen
    if(!analog) curve->setStyle(QwtPlotCurve::Steps);
 
-   // Invertierte Signale behandeln
-   if(name.endsWith('_'))
-      curve->setCurveAttribute(QwtPlotCurve::Inverted);
-
    // gibt es diese Kruve bereits -> abhaengen
    if( curves.contains(name)) curves[name]->detach();
 
