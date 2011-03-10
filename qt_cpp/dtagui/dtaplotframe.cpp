@@ -915,6 +915,7 @@ void DtaPlotFrame::loadSession()
 void DtaPlotFrame::loadSession(QString fileName)
 {
    QSettings *ini = new QSettings(fileName, QSettings::IniFormat, this);
+   QStringList curveNames = DtaFile::fieldNames();
 
    // alle Diagramme loeschen
    this->clear();
@@ -945,20 +946,23 @@ void DtaPlotFrame::loadSession(QString fileName)
       {
          // Name der Kurve
          QString curve = ini->value(QString("diagram%1/curve%2/name").arg(i).arg(j)).toString();
-         this->addCurveToPlot( i, curve);
+         if(curveNames.contains(curve))
+         {
+            this->addCurveToPlot( i, curve);
 
-         // Farbe und Linienstaerke
-         qint32 width = ini->value(QString("diagram%1/curve%2/linewidth").arg(i).arg(j),1).toInt();
-         QColor color = ini->value(QString("diagram%1/curve%2/color").arg(i).arg(j),Qt::red).value<QColor>();
-         QPen pen;
-         pen.setColor(color);
-         pen.setWidth(width);
-         plot->setCurvePen( curve, pen);
+            // Farbe und Linienstaerke
+            qint32 width = ini->value(QString("diagram%1/curve%2/linewidth").arg(i).arg(j),1).toInt();
+            QColor color = ini->value(QString("diagram%1/curve%2/color").arg(i).arg(j),Qt::red).value<QColor>();
+            QPen pen;
+            pen.setColor(color);
+            pen.setWidth(width);
+            plot->setCurvePen( curve, pen);
 
-         // sichtbar oder nicht
-         bool visible = ini->value(QString("diagram%1/curve%2/visible").arg(i).arg(j),true).toBool();
-         plot->showCurve( curve, visible);
-      }
+            // sichtbar oder nicht
+            bool visible = ini->value(QString("diagram%1/curve%2/visible").arg(i).arg(j),true).toBool();
+            plot->showCurve( curve, visible);
+         }
+      } // for
 
       // Achseneinteilung - erst jetzt laden, weil sie beim Einfuegen der
       // Kurven wieder veraendert werden

@@ -8,7 +8,8 @@ HEADERS += \
     dtaplot/datetimescaleengine.h \
     dtaplot/dtaplot.h \
     dtagui/dtastatsframe.h \
-    dtagui/dtacompstartsframe.h
+    dtagui/dtacompstartsframe.h \
+    statistics/dtafieldstatistics.h
 
 SOURCES += \
     dtagui/mainwindow.cpp \
@@ -18,7 +19,8 @@ SOURCES += \
     dtaplot/datetimescaleengine.cpp \
     dtaplot/dtaplot.cpp \
     dtagui/dtastatsframe.cpp \
-    dtagui/dtacompstartsframe.cpp
+    dtagui/dtacompstartsframe.cpp \
+    statistics/dtafieldstatistics.cpp
 
 FORMS += \
     dtagui/mainwindow.ui

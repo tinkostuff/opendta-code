@@ -33,6 +33,7 @@
 #include <QtDebug>
 
 #include "dtastatsframe.h"
+#include "statistics/dtafieldstatistics.h"
 
 /*---------------------------------------------------------------------------
 * DtaStatsThread
@@ -42,7 +43,15 @@ class DtaStatsThread : public QThread
 {
 public:
    // Constructor
-   DtaStatsThread() { this->data=NULL; this->tsStart = 0; this->tsEnd = 0;}
+   DtaStatsThread(QObject *parent=0) : QThread(parent) { data=NULL; tsStart = 0; tsEnd = 0; stats=new DtaFieldStatistics();}
+   DtaStatsThread(DtaDataMap *data, quint32 tsStart, quint32 tsEnd, QObject *parent=0) : QThread(parent)
+   {
+      this->data=data;
+      this->tsStart = tsStart;
+      this->tsEnd = tsEnd;
+      stats = new DtaFieldStatistics();
+   }
+   ~DtaStatsThread() { if(stats!=NULL) delete stats;}
    // Zeiger auf Daten uebergeben
    void setData(DtaDataMap *data) {this->data=data;}
    // Zeitspanne setzen
@@ -52,300 +61,17 @@ public:
    {
       if(data==NULL || data->size()==0) return;
 
-      dataStart = 0;
-      dataEnd = 0;
-      datasets = 0;
-      quint32 lastTS = 0;
-      bool first = true;
-
-      // durch alle Datensaetze gehen
+      // Iteratoren erstellen
       DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
-      DtaDataMap::const_iterator iterator = data->lowerBound(tsStart);
-      do
-      {
-         quint32 ts = iterator.key();
-         DtaFieldValues dat = iterator.value();
-
-         // Zeitspanne testen
-         if( (tsStart!=0) && (ts < tsStart)) continue;
-         if( (tsEnd!=0) && (ts > tsEnd)) break;
-
-         // Ende der Statistik merken
-         dataEnd = ts;
-         datasets++;
-
-         // Initialisierung
-         if(first)
-         {
-            missingSum = 0;
-            missingList.clear();
-            analogFields.clear();
-            digitalFields.clear();
-            staticAnalogFields.clear();
-            staticDigitalFields.clear();
-            dataStart = ts;
-
-            // digitales oder analoges Feld
-            for( int i=0; i<dat.size(); i++)
-            {
-               QString k = DtaFile::fieldName(i);
-               qreal v = dat[i];
-               const DtaFieldInfo *info = DtaFile::fieldInfo(i);
-
-               if(info->analog)
-               {
-                  // analoge Felder: min, max, Durchschnitt, Median, Standardabweichung
-                  analogFields << k;
-                  anaMinValues[k] = v;
-                  anaMaxValues[k] = v;
-                  anaSumValues[k] = v;
-                  anaAvgValues[k] = 0.0;
-                  anaMedianValues[k] = 0.0;
-                  anaStdValues[k] = 0.0;
-                  analogValues[k].clear();
-                  analogValues[k] << v;
-               }
-               else
-               {
-                  // digitale Felder: Anzahl von Impulsen, Zeit (in)aktive, Durschnittliche Laufzeit
-                  digitalFields << k;
-                  digActivityValues[k] = 0;
-                  digFirstActivity[k] = true;
-                  digLastValues[k] = qRound(v);
-                  digRuntimeValues[k] = 0;
-                  digTotalRuntimeValues[k] = 0;
-                  digPulseLists.insert(k, QList<QList<qint32> >());
-                  digPulseLists[k].append(QList<qint32>());
-                  digPulseLists[k].append(QList<qint32>());
-               }
-            }
-         }
-         else // !first
-         {
-            // Luecken suchen
-            bool missingFound = false;
-            if(ts-lastTS > 62) // 62 Sekunden fuer ein bisschen Spielraum
-            {
-               missingList << ts;
-               missingSum += ts - lastTS - 60;
-               missingFound = true;
-            }
-
-            // analoge Signale bearbeiten
-            for( int i=0; i<analogFields.size(); i++)
-            {
-               QString field = analogFields.at(i);
-               qreal value = DtaFile::fieldValueReal(dat,field);
-               if( value < anaMinValues[field]) anaMinValues[field]=value;
-               if( value > anaMaxValues[field]) anaMaxValues[field]=value;
-               anaSumValues[field] += value;
-               analogValues[field] << value;
-            }
-
-            // digitale Signale bearbeiten
-            for( int i=0; i<digitalFields.size(); i++)
-            {
-               QString field = digitalFields.at(i);
-               qint32 value = DtaFile::fieldValueInt(dat,field);
-               if(!missingFound)
-               {
-                  qint32 last = digLastValues[field];
-                  digRuntimeValues[field] += ts - lastTS;
-                  if( (last==0) && (value==1))
-                     digActivityValues[field] += 1;
-                  if(last != value)
-                  {
-                     if(!digFirstActivity[field])
-                     {
-                        digPulseLists[field][last] << digRuntimeValues[field];
-                        digTotalRuntimeValues[field] += digRuntimeValues[field];
-                     }
-                     digRuntimeValues[field] = 0;
-                     digFirstActivity[field] = false;
-                  }
-               }
-               else
-               {
-                  digRuntimeValues[field] = 0;
-                  digFirstActivity[field] = true;
-               }
-               digLastValues[field] = value;
-            }
-         } // !first
-
-         // letzten Zeitstempel merken
-         lastTS = ts;
-         first = false;
-
-         // naechster Datensatz
-         ++iterator;
-
-      } while( iterator != iteratorEnd);
-
-      // Nachbearbeitung analoge Signale
-      for( int i=0; i<analogFields.size(); i++)
-      {
-         QString field = analogFields.at(i);
-         if( anaMinValues[field] == anaMaxValues[field])
-         {
-            staticAnalogFields << field;
-            continue;
-         }
-
-         // Durchschnitt
-         anaAvgValues[field] = anaSumValues[field]/qreal(datasets);
-         // Median
-         qSort(analogValues[field]);
-         quint32 n = analogValues[field].size();
-         if( n == 0)
-            anaMedianValues[field] = 0.0;
-         else if( n%2 == 1)
-            anaMedianValues[field] = analogValues[field].at(n/2);
-         else
-            anaMedianValues[field] = (analogValues[field].at(n/2-1) + analogValues[field].at(n/2))/2.0;
-      }
-
-      // Nachbearbeitung digitalen Signale
-      for( int i=0; i<digitalFields.size(); i++)
-      {
-         QString field = digitalFields.at(i);
-         if( digActivityValues[field] == 0)
-         {
-            staticDigitalFields << field;
-            continue;
-         }
-
-         digMinValues.insert(field, QList<qint32>());
-         digMaxValues.insert(field, QList<qint32>());
-         digSumValues.insert(field, QList<qint32>());
-         digAvgValues.insert(field, QList<qreal>());
-
-         for( int lh=0; lh<=1; lh++)
-         {
-            QList<qint32> pulseList = digPulseLists[field][lh];
-            if(pulseList.size()==0) pulseList.append(0);
-
-            // min, max und Summe
-            for( int j=0; j<pulseList.size(); j++)
-            {
-               qint32 value = pulseList.at(j);
-               if(j==0)
-               {
-
-                  digMinValues[field] << value;
-                  digMaxValues[field] << value;
-                  digSumValues[field] << value;
-                  digAvgValues[field] << 0.0;
-               }
-               else
-               {
-                  if( value < digMinValues[field][lh]) digMinValues[field][lh] = value;
-                  if( value > digMaxValues[field][lh]) digMaxValues[field][lh] = value;
-                  digSumValues[field][lh] += value;
-               }
-            } // Eintraege in pulseList
-
-            // Durchschnitt
-            digAvgValues[field][lh] = qreal(digSumValues[field][lh]) / qreal(pulseList.size());
-         }
-
-         digOnValues[field]  = 100.0 * qreal(digSumValues[field][1]) / qreal(digTotalRuntimeValues[field]);
-         digOffValues[field] = 100.0 * qreal(digSumValues[field][0]) / qreal(digTotalRuntimeValues[field]);
-
-      }
-
-      // statische Signal aus Liste entfernen
-      for( int i=0; i<staticAnalogFields.size(); i++)
-         analogFields.removeOne(staticAnalogFields.at(i));
-      for( int i=0; i<staticDigitalFields.size(); i++)
-         digitalFields.removeOne(staticDigitalFields.at(i));
-
-
-      // Standardabweichung
-      // zweiter Druchlauf durch die Daten noetig
-      if(datasets > 1)
-      {
-         DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
-         DtaDataMap::const_iterator iterator = data->lowerBound(tsStart);
-         do
-         {
-            DtaFieldValues dat = iterator.value();
-            for( int i=0; i<analogFields.size(); i++)
-            {
-               QString field = analogFields.at(i);
-               qreal value = DtaFile::fieldValueReal(dat,field);
-               anaStdValues[field] += qPow(value - anaAvgValues[field],2);
-            }
-            // naechster Datensatz
-            iterator++;
-         } while( iterator != iteratorEnd);
-         for( int i=0; i<analogFields.size(); i++)
-         {
-            QString field = analogFields.at(i);
-            anaStdValues[field] = qSqrt( anaStdValues[field] / qreal(datasets-1));
-         }
-      } // if datasets > 1
-      else
-      {
-         // Standardabweichung kann nicht berechnet werden
-         for( int i=0; i<analogFields.size(); i++)
-         {
-            QString field = analogFields.at(i);
-            anaStdValues[field] = 0.0;
-         }
-      }
-
-      // Felder sortieren
-      analogFields.sort();
-      staticAnalogFields.sort();
-      digitalFields.sort();
-      staticDigitalFields.sort();
+      DtaDataMap::const_iterator iteratorStart = data->lowerBound(tsStart);
+      stats->calcStatistics( iteratorStart, iteratorEnd);
    }
 
-   QStringList analogFields;
-   QStringList digitalFields;
-   QStringList staticAnalogFields;
-   QStringList staticDigitalFields;
-   quint32 dataStart;
-   quint32 dataEnd;
-   quint32 datasets;
-   QList<quint32> missingList;
-   quint32 missingSum;
-
-   // fuer analoge Felder
-   QHash<QString,qreal> anaMinValues;
-   QHash<QString,qreal> anaMaxValues;
-   QHash<QString,qreal> anaAvgValues;
-   QHash<QString,qreal> anaMedianValues;
-   QHash<QString,qreal> anaStdValues;
-
-   // fuer digitale Felder
-   QHash<QString,qint32> digActivityValues;
-   QHash<QString,bool> digFirstActivity;
-   QHash<QString,qint32> digLastValues;
-   QHash<QString,QList<qint32> > digMinValues;
-   QHash<QString,QList<qint32> > digMaxValues;
-   QHash<QString,QList<qreal> > digAvgValues;
-   QHash<QString,qreal> digOnValues;
-   QHash<QString,qreal> digOffValues;
-
+   DtaFieldStatistics *stats;
 private:
    DtaDataMap *data;
    quint32 tsStart;
    quint32 tsEnd;
-
-   // analog
-   QHash<QString,qreal> anaSumValues;
-   QHash<QString,QList<qreal> > analogValues;
-
-   // digital
-   QHash<QString,QList<qint32> > digSumValues;
-   QHash<QString,QList< QList<qint32> > > digPulseLists;
-   QHash<QString,qint32> digRuntimeValues;
-   QHash<QString,qint32> digTotalRuntimeValues;
-
-   // Verdichter-Starts
-   QList<qreal> runTASum;
 };
 
 
@@ -482,6 +208,8 @@ void DtaStatsFrame::threadFinished()
       return;
    }
 
+   DtaFieldStatistics *stats = thread->stats;
+
    // HTML ammeln und in einem Stueck in TextEdit einfuegen
    QStringList html;
 
@@ -502,14 +230,14 @@ void DtaStatsFrame::threadFinished()
    html << "<table cellpadding=\"2\" cellspacing=\"1\" border=\"0\">";
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Datens\344tze"))
-                        .arg(thread->datasets);
+                        .arg(stats->datasets());
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Start"))
-                        .arg(QDateTime::fromTime_t(thread->dataStart).toString("yyyy-MM-dd hh:mm:ss"));
+                        .arg(QDateTime::fromTime_t(stats->timeStart()).toString("yyyy-MM-dd hh:mm:ss"));
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Ende"))
-                        .arg(QDateTime::fromTime_t(thread->dataEnd).toString("yyyy-MM-dd hh:mm:ss"));
-   qint32 delta = thread->dataEnd - thread->dataStart;
+                        .arg(QDateTime::fromTime_t(stats->timeEnd()).toString("yyyy-MM-dd hh:mm:ss"));
+   quint32 delta = stats->timeRange();
    QString s = QString(tr("%1 Tage %2 Stunden %3 Minuten %4 Sekunden"))
                         .arg(delta/86400)
                         .arg((delta%86400)/3600)
@@ -520,11 +248,11 @@ void DtaStatsFrame::threadFinished()
                         .arg(s);
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Anzahl Aufzeichnungsl\374cken"))
-                        .arg(thread->missingList.size());
+                        .arg(stats->missingCount());
    s = QString(tr("%1 Tage %2 Stunden %3 Minuten"))
-                        .arg(thread->missingSum/86400)
-                        .arg((thread->missingSum%86400)/3600)
-                        .arg((thread->missingSum%3600)/60);
+                        .arg(stats->missingSum()/86400)
+                        .arg((stats->missingSum()%86400)/3600)
+                        .arg((stats->missingSum()%3600)/60);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Summe Aufzeichnungsl\374cken"))
                         .arg(s);
@@ -540,30 +268,19 @@ void DtaStatsFrame::threadFinished()
                       .arg(tr("Mittelwert"))
                       .arg(tr("Median"))
                       .arg(tr("Standardabweichung"));
-   for( int i=0; i<thread->analogFields.size(); i++)
+   for( int i=0; i<stats->analogFields().size(); i++)
    {
-      QString field = thread->analogFields.at(i);
-
-      QString fieldPretty = field;
-      if( field[0] == 'A')
-         fieldPretty += " [V]";
-      else if( field[0] == 'T')
-         fieldPretty += " [\260C]";
-      else if( field == "DF")
-         fieldPretty += " [l/min]";
-      else if( field == "Qh")
-         fieldPretty += " [kW]";
-      else if( field.startsWith("Sp"))
-         fieldPretty += " [K]";
+      QString field = stats->analogFields().at(i);
+      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%7\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td></tr>")
-            .arg(fieldPretty)
-            .arg(thread->anaMinValues[field],0,'f',1,' ')
-            .arg(thread->anaMaxValues[field],0,'f',1,' ')
-            .arg(thread->anaAvgValues[field],0,'f',1,' ')
-            .arg(thread->anaMedianValues[field],0,'f',1,' ')
-            .arg(thread->anaStdValues[field],0,'f',1,' ')
+            .arg(info->prettyName)
+            .arg(stats->analogMin(field),0,'f',1,' ')
+            .arg(stats->analogMax(field),0,'f',1,' ')
+            .arg(stats->analogAvg(field),0,'f',1,' ')
+            .arg(stats->analogMedian(field),0,'f',1,' ')
+            .arg(stats->analogStdev(field),0,'f',1,' ')
             .arg(lineColor);
    }
    html << "</table>";
@@ -582,22 +299,23 @@ void DtaStatsFrame::threadFinished()
                       .arg(tr("Mittelwert Aus"))
                       .arg(tr("Minimum Aus"))
                       .arg(tr("Maximum Aus"));
-   for( int i=0; i<thread->digitalFields.size(); i++)
+   for( int i=0; i<stats->digitalFields().size(); i++)
    {
-      QString field = thread->digitalFields.at(i);
+      QString field = stats->digitalFields().at(i);
+      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%11\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td><td align=center>%7</td><td align=center>%8</td><td align=center>%9</td><td align=center>%10</td></tr>")
-            .arg(field)
-            .arg(thread->digActivityValues[field],6)
-            .arg(QString(tr("%1&nbsp;%")  ).arg(thread->digOnValues[field],5,'f',1,' '))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digAvgValues[field][1]/60.0,6,'f',0,' '))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digMinValues[field][1]/60,7))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digMaxValues[field][1]/60,7))
-            .arg(QString(tr("%1&nbsp;%")  ).arg(thread->digOffValues[field],5,'f',1,' '))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digAvgValues[field][0]/60,6,'f',0,' '))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digMinValues[field][0]/60,7))
-            .arg(QString(tr("%1&nbsp;min")).arg(thread->digMaxValues[field][0]/60,7))
-            .arg(lineColor);
+              .arg(info->prettyName)
+              .arg(stats->digitalActOn(field),6)
+              .arg(QString(tr("%1&nbsp;%")  ).arg(qreal(stats->digitalTimeOn(field))/(stats->digitalTimeOn(field)+stats->digitalTimeOff(field))*100.0,5,'f',1,' '))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalAvgOn(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMinOn(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMaxOn(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1&nbsp;%")  ).arg(qreal(stats->digitalTimeOff(field))/(stats->digitalTimeOn(field)+stats->digitalTimeOff(field))*100.0,5,'f',1,' '))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalAvgOff(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMinOff(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMaxOff(field)/60.0,0,'f',0))
+              .arg(lineColor);
    }
    html << "</table>";
 
@@ -607,29 +325,25 @@ void DtaStatsFrame::threadFinished()
    html << QString("<tr><th align=left>%1</th><th align=center>%2</th></tr>")
                       .arg(tr("Signalname"))
                       .arg(tr("Wert"));
-   for( int i=0; i<thread->staticAnalogFields.size(); i++)
+   for( int i=0; i<stats->analogStaticFields().size(); i++)
    {
-      QString field = thread->staticAnalogFields.at(i);
-
-      QString fieldPretty = field;
-      if( field[0] == 'A')
-         fieldPretty += " [V]";
-      else if( field[0] == 'T')
-         fieldPretty += " [\260C]";
+      QString field = stats->analogStaticFields().at(i);
+      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
-            .arg(fieldPretty)
-            .arg(thread->anaMinValues[field])
+            .arg(info->prettyName)
+            .arg(stats->analogMin(field))
             .arg(lineColor);
    }
-   for( int i=0; i<thread->staticDigitalFields.size(); i++)
+   for( int i=0; i<stats->digitalStaticFields().size(); i++)
    {
-      QString field = thread->staticDigitalFields.at(i);
-      QString lineColor = (i+thread->staticAnalogFields.size())%2 ? "#FFFFFF" : "#E5E5E5";
+      QString field = stats->digitalStaticFields().at(i);
+      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+      QString lineColor = (i+stats->analogStaticFields().size())%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
-            .arg(field)
-            .arg(thread->digLastValues[field])
+            .arg(info->prettyName)
+            .arg(stats->digitalLastValue(field))
             .arg(lineColor);
    }
    html << "</table>";
