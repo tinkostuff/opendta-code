@@ -3,8 +3,13 @@ DtaGui
 
 Versions-Geschicht:
 
-Rev XXX: initiale Veroeffentlichung
+Rev 0.04: initiale Veroeffentlichung
   - Darstellung der Signale in Diagrammen
   - statistische Auswertung der Signale
 
+Rev 0.05: 
+  - Analyse der Kompressor-Starts
+  - mehrere Diagramm-, Statistik- und Kompressor-Starts-Seiten koennen
+    gleichzeitig geoeffnet werden
+  - Eingrenzung der statistische Analyse auf einen bestimmten Zeitbreich
 
