@@ -285,6 +285,11 @@ DtaPlotFrame::DtaPlotFrame(DtaDataMap *data, QWidget *parent) :
    btnPrint->setIcon(QIcon(":/images/images/print.png"));
    connect( btnPrint, SIGNAL(clicked()), this, SLOT(printAll()));
 
+   cbSymbols = new QCheckBox(tr("Datenpunkte anzeigen"));
+   cbSymbols->setTristate(false);
+   cbSymbols->setChecked(false);
+   connect( cbSymbols, SIGNAL(stateChanged(int)), this, SLOT(setSymbols(int)));
+
    // Gruppe fuer den Baum
    QGroupBox *gbButtonsTree = new QGroupBox();
    gbButtonsTree->setTitle("");
@@ -310,6 +315,13 @@ DtaPlotFrame::DtaPlotFrame(DtaDataMap *data, QWidget *parent) :
    gbLayout->addWidget(frameLines);
 
    gbLayout->addWidget(btnPrint);
+
+   frameLines = new QFrame();
+   frameLines->setFrameShape(QFrame::HLine);
+   frameLines->setFrameShadow(QFrame::Sunken);
+   gbLayout->addWidget(frameLines);
+
+   gbLayout->addWidget(cbSymbols);
 
    frameLines = new QFrame();
    frameLines->setFrameShape(QFrame::HLine);
@@ -452,7 +464,7 @@ void DtaPlotFrame::addCurveToPlot(DtaPlot *plot, QString field)
    QPolygonF curveData = extractCurveData(field);
 
    // Kurve zum Plot hinzufuegen
-   plot->addCurve( field, &curveData, info->color, info->analog);
+   plot->addCurve( field, &curveData, info->color, info->analog, cbSymbols->checkState()==2);
 }
 void DtaPlotFrame::addCurveToPlot(int index, QString field)
 {
@@ -524,6 +536,12 @@ void DtaPlotFrame::setCurveLineWidth()
    }
 }
 
+// Datenpunkte ein-/aus-blenden
+void DtaPlotFrame::setSymbols(int checkState)
+{
+   for( int i=0; i<plotList.size(); ++i)
+      plotList.at(i)->setSymbols(checkState==2);
+}
 
 /*---------------------------------------------------------------------------
 * Daten aller Kurven neu laden und Diagramme neu zeichnen

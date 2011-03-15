@@ -35,6 +35,7 @@
 QT_FORWARD_DECLARE_CLASS(QPolygonF)
 QT_FORWARD_DECLARE_CLASS(QSplitter)
 QT_FORWARD_DECLARE_CLASS(QTreeWidget)
+QT_FORWARD_DECLARE_CLASS(QCheckBox)
 
 class DtaPlotFrame : public QFrame
 {
@@ -62,6 +63,7 @@ private slots:
     void setCurveLineWidth(); // Linienstaerke der Kurve setzen
     void removePlot(); // einzelnes Diagramm entfernen
     void printPlot(); // Diagramm drucken
+    void setSymbols(int checkState); // Datenpunkte ein-/aus-blenden
 
     // Zoom fit
     void plotZoomFitX();
@@ -76,6 +78,7 @@ private:
     // UI
     QSplitter *plotSplitter; // Splitter zwischen den Diagrammen
     QTreeWidget *signalTree; // Baum fuer die Signale
+    QCheckBox *cbSymbols;    // CheckBox zum Anzeigen der Datenpunkte
     QList<DtaPlot*> plotList; // Liste mit Diagrammen
     DtaDataMap *data; // Zeiger auf Daten
     bool inScaleSync; // true wenn Diagramme synchronisiert werden

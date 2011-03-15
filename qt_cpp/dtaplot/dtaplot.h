@@ -57,7 +57,7 @@ public:
 
    // Kurven
    //  analoge/digitale Kurven unterscheiden sich in der Achseneinteilung
-   void addCurve(QString name, QPolygonF *data, QColor color, bool analog=false);
+   void addCurve(QString name, QPolygonF *data, QColor color, bool analog=false, bool symbols=false);
    void removeCurve(QString name);
    QStringList curveNames();  // Namen aller Kurven
    bool isCurveVisible(QString name); // Kurve sichtbar
@@ -66,6 +66,9 @@ public:
    // Farbe und Linienstaerke
    void setCurvePen(QString name, QPen pen);
    QPen curvePen(QString name);
+
+   // Datenpunkte anzeigen
+   void setSymbols(bool on);
 
    void fit(Directions dir); // zoom fit
 

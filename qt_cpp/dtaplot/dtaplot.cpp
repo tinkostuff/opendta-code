@@ -36,6 +36,7 @@
 #include <qwt_plot_zoomer.h>
 #include <qwt_plot_panner.h>
 #include <qwt_plot_curve.h>
+#include <qwt_symbol.h>
 
 #include "dtaplot.h"
 #include "datetimescaleengine.h"
@@ -331,12 +332,16 @@ void DtaPlot::fit(Directions dir)
 *  - Farbe
 *  - analog oder digitale Kruve (Groesse des Plots, Linien oder Stufen)
 *---------------------------------------------------------------------------*/
-void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog)
+void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog, bool symbols)
 {
    // Kurve erstellen
    QwtPlotCurve *curve = new QwtPlotCurve(name);
    curve->setData(*data);
    curve->setPen(QPen(color));
+   if(symbols)
+      curve->setSymbol(QwtSymbol(QwtSymbol::Triangle,QBrush(),QPen(color),QSize(5,5)));
+   else
+      curve->setSymbol(QwtSymbol());
 
    // digitale Kurven als Stufen zeichnen
    if(!analog) curve->setStyle(QwtPlotCurve::Steps);
@@ -417,6 +422,23 @@ void DtaPlot::setCurvePen(QString name, QPen pen)
    QwtPlotCurve *curve = curves[name];
    curve->setPen(pen);
    if(allowReplot) replot();
+}
+
+/*---------------------------------------------------------------------------
+* Symbole der Datenpunkte an und abschalten
+*---------------------------------------------------------------------------*/
+void DtaPlot::setSymbols(bool on)
+{
+   QList<QwtPlotCurve*> cs = curves.values();
+   for( int i=0; i<cs.size(); ++i)
+   {
+      QwtPlotCurve *c = cs.at(i);
+      if(on)
+         c->setSymbol(QwtSymbol(QwtSymbol::Triangle,QBrush(),c->pen(),QSize(5,5)));
+      else
+         c->setSymbol(QwtSymbol());
+   }
+   this->replot();
 }
 
 /*---------------------------------------------------------------------------
