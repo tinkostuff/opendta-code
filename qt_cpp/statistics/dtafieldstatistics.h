@@ -105,7 +105,7 @@ private:
    QStringList m_digitalFields;
    QStringList m_digitalStaticFields;
    enum digitalValueArrayFields {dLast, dActOn, dMinOn, dMaxOn, dAvgOn, dActOff, dMinOff, dMaxOff, dAvgOff, dOn, dOff};
-   QHash<QString, QVarLengthArray<qint32> > m_digitalValues;
+   QHash<QString, QVarLengthArray<quint32> > m_digitalValues;
 };
 
 #endif // DTAFIELDSTATISTICS_H

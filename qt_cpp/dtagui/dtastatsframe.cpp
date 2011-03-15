@@ -299,6 +299,15 @@ void DtaStatsFrame::threadFinished()
                       .arg(tr("Mittelwert Aus"))
                       .arg(tr("Minimum Aus"))
                       .arg(tr("Maximum Aus"));
+//         .arg(tr("Impulse<br>[]"))
+//         .arg(tr("Aktiv<br>[%]"))
+//         .arg(tr("Mittelwert Ein<br>[h:min]"))
+//         .arg(tr("Minimum Ein<br>[h:min]"))
+//         .arg(tr("Maximum Ein<br>[h:min]"))
+//         .arg(tr("Inaktiv<br>[%]"))
+//         .arg(tr("Mittelwert Aus<br>[h:min]"))
+//         .arg(tr("Minimum Aus<br>[h:min]"))
+//         .arg(tr("Maximum Aus<br>[h:min]"));
    for( int i=0; i<stats->digitalFields().size(); i++)
    {
       QString field = stats->digitalFields().at(i);
@@ -308,13 +317,13 @@ void DtaStatsFrame::threadFinished()
               .arg(info->prettyName)
               .arg(stats->digitalActOn(field),6)
               .arg(QString(tr("%1&nbsp;%")  ).arg(qreal(stats->digitalTimeOn(field))/(stats->digitalTimeOn(field)+stats->digitalTimeOff(field))*100.0,5,'f',1,' '))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalAvgOn(field)/60.0,0,'f',0))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMinOn(field)/60.0,0,'f',0))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMaxOn(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalAvgOn(field)/3600).arg(QString("%1").arg((stats->digitalAvgOn(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalMinOn(field)/3600).arg(QString("%1").arg((stats->digitalMinOn(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalMaxOn(field)/3600).arg(QString("%1").arg((stats->digitalMaxOn(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
               .arg(QString(tr("%1&nbsp;%")  ).arg(qreal(stats->digitalTimeOff(field))/(stats->digitalTimeOn(field)+stats->digitalTimeOff(field))*100.0,5,'f',1,' '))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalAvgOff(field)/60.0,0,'f',0))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMinOff(field)/60.0,0,'f',0))
-              .arg(QString(tr("%1&nbsp;min")).arg(stats->digitalMaxOff(field)/60.0,0,'f',0))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalAvgOff(field)/3600).arg(QString("%1").arg((stats->digitalAvgOff(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalMinOff(field)/3600).arg(QString("%1").arg((stats->digitalMinOff(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
+              .arg(QString(tr("%1:%2")).arg(stats->digitalMaxOff(field)/3600).arg(QString("%1").arg((stats->digitalMaxOff(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
               .arg(lineColor);
    }
    html << "</table>";

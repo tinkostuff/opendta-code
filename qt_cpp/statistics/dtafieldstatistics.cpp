@@ -49,6 +49,15 @@
 *---------------------------------------------------------------------------*/
 DtaFieldStatistics::DtaFieldStatistics( QObject *parent) : QObject(parent)
 {
+   m_analogFields.clear();
+   m_analogStaticFields.clear();
+   m_digitalFields.clear();
+   m_digitalStaticFields.clear();
+   m_dataStart = 0;
+   m_dataEnd = 0;
+   m_datasets = 0;
+   m_missingCount = 0;
+   m_missingSum = 0;
 }
 DtaFieldStatistics::DtaFieldStatistics( DtaDataMap::const_iterator iteratorStart,
                                         DtaDataMap::const_iterator iteratorEnd,
@@ -113,15 +122,15 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
             {
                // digitale Felder: Anzahl von Impulsen, Zeit (in)aktive, Durschnittliche Laufzeit
                m_digitalFields << field;
-               m_digitalValues.insert( field, QVarLengthArray<qint32>(dOff+1));
+               m_digitalValues.insert( field, QVarLengthArray<quint32>(dOff+1));
                m_digitalValues[field][dActOn] = 0;
                m_digitalValues[field][dActOff] = 0;
                m_digitalValues[field][dLast] = qRound(value);
-               m_digitalValues[field][dMinOn] = -1;
-               m_digitalValues[field][dMaxOn] = -1;
+               m_digitalValues[field][dMinOn] = 0;
+               m_digitalValues[field][dMaxOn] = 0;
                m_digitalValues[field][dAvgOn] = 0;
-               m_digitalValues[field][dMinOff] = -1;
-               m_digitalValues[field][dMaxOff] = -1;
+               m_digitalValues[field][dMinOff] = 0;
+               m_digitalValues[field][dMaxOff] = 0;
                m_digitalValues[field][dAvgOff] = 0;
                m_digitalValues[field][dOn] = 0;
                m_digitalValues[field][dOff] = 0;
@@ -165,8 +174,13 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
          {
             QString field = m_digitalFields.at(i);
             qint32 value = DtaFile::fieldValueInt(data,field);
-            if(!missingFound)
-            {
+
+            if(missingFound)
+               // Luecke entdeckt
+               digitalLastTransition[field] = 0;
+
+//            if(!missingFound)
+//            {
                qint32 last = m_digitalValues[field][dLast];
                if(value == 1)
                {
@@ -176,11 +190,11 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
                      m_digitalValues[field][dActOff]++;
                      if(digitalLastTransition[field] > 0)
                      {
-                        qint32 runtime = ts - digitalLastTransition[field];
-                        if( (m_digitalValues[field][dMinOff]==-1) ||
+                        quint32 runtime = ts - digitalLastTransition[field];
+                        if( (m_digitalValues[field][dMinOff]==0) ||
                             (runtime < m_digitalValues[field][dMinOff]))
                            m_digitalValues[field][dMinOff] = runtime;
-                        if( (m_digitalValues[field][dMaxOff]==-1) ||
+                        if( (m_digitalValues[field][dMaxOff]==0) ||
                             (runtime > m_digitalValues[field][dMaxOff]))
                            m_digitalValues[field][dMaxOff] = runtime;
                         m_digitalValues[field][dAvgOff] += runtime;
@@ -199,11 +213,11 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
                      m_digitalValues[field][dActOn]++;
                      if(digitalLastTransition[field] > 0)
                      {
-                        qint32 runtime = ts - digitalLastTransition[field];
-                        if( (m_digitalValues[field][dMinOn]==-1) ||
+                        quint32 runtime = ts - digitalLastTransition[field];
+                        if( (m_digitalValues[field][dMinOn]==0) ||
                             (runtime < m_digitalValues[field][dMinOn]))
                            m_digitalValues[field][dMinOn] = runtime;
-                        if( (m_digitalValues[field][dMaxOn]==-1) ||
+                        if( (m_digitalValues[field][dMaxOn]==0) ||
                             (runtime > m_digitalValues[field][dMaxOn]))
                            m_digitalValues[field][dMaxOn] = runtime;
                         m_digitalValues[field][dAvgOn] += runtime;
@@ -214,13 +228,7 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
                   // AUS-Phase haelt an
                   m_digitalValues[field][dOff] += ts - lastTS;
                } // if/else value==1/0
-
-            }
-            else
-            {
-               // Luecke entdeckt
-               digitalLastTransition[field] = 0;
-            } // if/else !missing
+//            } // if !missingFound
 
             // letzten Wert Speichern
             m_digitalValues[field][dLast] = value;
