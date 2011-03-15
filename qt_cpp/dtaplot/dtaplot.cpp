@@ -337,7 +337,7 @@ void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog,
    // Kurve erstellen
    QwtPlotCurve *curve = new QwtPlotCurve(name);
    curve->setData(*data);
-   curve->setRenderHint(QwtPlotItem::RenderAntialiased);
+   //curve->setRenderHint(QwtPlotItem::RenderAntialiased); // lange Rechnenzeit bei grossen Datenmengen
    curve->setPen(QPen(color));
    if(symbols)
       curve->setSymbol(QwtSymbol(QwtSymbol::XCross,QBrush(),QPen(color),QSize(5,5)));
