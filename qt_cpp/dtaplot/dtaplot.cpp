@@ -337,9 +337,10 @@ void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog,
    // Kurve erstellen
    QwtPlotCurve *curve = new QwtPlotCurve(name);
    curve->setData(*data);
+   curve->setRenderHint(QwtPlotItem::RenderAntialiased);
    curve->setPen(QPen(color));
    if(symbols)
-      curve->setSymbol(QwtSymbol(QwtSymbol::Triangle,QBrush(),QPen(color),QSize(5,5)));
+      curve->setSymbol(QwtSymbol(QwtSymbol::XCross,QBrush(),QPen(color),QSize(5,5)));
    else
       curve->setSymbol(QwtSymbol());
 
@@ -434,7 +435,7 @@ void DtaPlot::setSymbols(bool on)
    {
       QwtPlotCurve *c = cs.at(i);
       if(on)
-         c->setSymbol(QwtSymbol(QwtSymbol::Triangle,QBrush(),c->pen(),QSize(5,5)));
+         c->setSymbol(QwtSymbol(QwtSymbol::XCross,QBrush(),c->pen(),QSize(5,5)));
       else
          c->setSymbol(QwtSymbol());
    }
