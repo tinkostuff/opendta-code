@@ -116,30 +116,13 @@
 #include <QObject>
 #include <QFile>
 #include <QDataStream>
-#include <QMap>
-#include <QVarLengthArray>
 
-#ifdef QT_GUI_LIB
-#include <QColor>
-#endif
+#include "dtafile/datafile.h"
 
 #define DTA_HEADER_LENGTH 8     // bytes
 #define DTA_DATASET_LENGTH 168  // bytes
 #define DTA_DATASET_COUNT 2880  // count
 #define DTA_TIME_INTERVAL 60    // sec
-#define DTA_DS_FIELD_COUNT 47   // fields per dataset
-
-// Array zum Speichern der Werte eines Datensatzes
-typedef QVarLengthArray<qreal> DtaFieldValues;
-
-// Map zum Speichern mehrere Datensaetze
-//  Schluessel: Zeitstempel des Datensatzes
-//  Wert: Werte eines Datensatzes
-//  Map sortiert automatisch nach dem Schluessel
-typedef QMap<quint32,DtaFieldValues> DtaDataMap;
-
-// Iterator fuer die Map
-typedef QMapIterator<quint32,DtaFieldValues> DtaDataMapIterator;
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -150,58 +133,20 @@ typedef struct
    quint8 precision;  // Praezision der Datenpunkte
 } DtaLUTInfo;
 
-// Struktur mit Informationen zu einem Feld
-typedef struct {
-   QString prettyName; // schoener Name
-   QString toolTip;    // erweiterte Beschreibung
-   QString category;   // Kategorie des Feldes
-   bool analog;        // analoges oder digitales Feld
-   qreal scale;        // Skalierung des Feldes beim Darstellen
-   qreal offset;       // Verschiebungs des Feldes beim Darstellen
-#ifdef QT_GUI_LIB
-   QColor color;       // Standardfarbe
-#endif
-} DtaFieldInfo;
-// Hash mit Feldinformationen
-typedef QHash<QString,DtaFieldInfo> DtaFieldInfoHash;
-
-
 /*---------------------------------------------------------------------------
 * DtaFile
 *---------------------------------------------------------------------------*/
-class DtaFile : public QObject
+class DtaFile : public DataFile
 {
     Q_OBJECT
 public:
     explicit DtaFile(QString fileName, QObject *parent = 0);
     ~DtaFile();
 
-    bool open(); // DTA-Datei oeffnen
-    void readDatasets(DtaDataMap *data); // alle Datensaete lesen und in Map speichern
-
-    // Feldnamen
-    static QStringList fieldNames(); // Liste mit Feldnamen
-    static QString fieldName(const quint16 &index); // Feldname per Index
-    static quint16 fieldIndex(const QString &name); // Feldindex per Name
-    static const quint16 fieldCount = DTA_DS_FIELD_COUNT;
-
-    // Berechnung der Feldwerte aus Arraywert
-    static qreal fieldValueReal( const DtaFieldValues &values, const QString &name);
-    static qint32 fieldValueInt( const DtaFieldValues &values, const QString &name);
-
-    // Feldinformationen
-    static const DtaFieldInfo* const fieldInfo(const QString &name);
-    static const DtaFieldInfo* const fieldInfo(const quint16 &index);
-    static QStringList fieldCategories();
-    static const DtaFieldInfo* const defaultFieldInfo();
-
-    // initialisierung statischer Variablen
-    static QStringList initFieldList();
-    static QHash<QString,quint16> initFieldHash();
-    static DtaFieldInfoHash initFieldInfoHash();
+    virtual bool open(); // DTA-Datei oeffnen
+    virtual void readDatasets(DataMap *data); // alle Datensaete lesen und in Map speichern
 
 private:
-    QString m_fileName;
     QFile *m_dtaFile;
     QDataStream m_dtaStream;
 
@@ -211,16 +156,6 @@ private:
     static qreal calcLUTData( const quint16 &value, const DtaLUTInfo &info);
     static inline qreal calcBitData( const quint16 &value, const quint8 &pos);
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
-
-    // Feldnamen
-    static const QString m_fieldNamesArray[DTA_DS_FIELD_COUNT];
-    static const QHash<QString,quint16> m_fieldNamesHash;
-    static const QStringList m_fieldNamesList;
-
-    // Feldinformationen
-    static const DtaFieldInfo m_fieldInfoArray[DTA_DS_FIELD_COUNT];
-    static const DtaFieldInfo m_defaultFieldInfo;
-    static const DtaFieldInfoHash m_fieldInfoHash;
 };
 
 #endif // DTAFILE_H

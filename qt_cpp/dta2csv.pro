@@ -17,10 +17,12 @@ TEMPLATE = app
 
 SOURCES += \
     dta2csv/main.cpp \
-    dtafile/dtafile.cpp
+    dtafile/dtafile.cpp \
+    dtafile/datafile.cpp
 
 HEADERS += \
-    dtafile/dtafile.h
+    dtafile/dtafile.h \
+    dtafile/datafile.h
 
 OTHER_FILES += \
     dta2csv.txt

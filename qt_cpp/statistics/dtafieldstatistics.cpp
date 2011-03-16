@@ -59,8 +59,8 @@ DtaFieldStatistics::DtaFieldStatistics( QObject *parent) : QObject(parent)
    m_missingCount = 0;
    m_missingSum = 0;
 }
-DtaFieldStatistics::DtaFieldStatistics( DtaDataMap::const_iterator iteratorStart,
-                                        DtaDataMap::const_iterator iteratorEnd,
+DtaFieldStatistics::DtaFieldStatistics( DataMap::const_iterator iteratorStart,
+                                        DataMap::const_iterator iteratorEnd,
                                         QObject *parent) : QObject(parent)
 {
    this->calcStatistics(iteratorStart,iteratorEnd);
@@ -69,11 +69,11 @@ DtaFieldStatistics::DtaFieldStatistics( DtaDataMap::const_iterator iteratorStart
 /*---------------------------------------------------------------------------
 * Statistik berechnen
 *---------------------------------------------------------------------------*/
-void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStart,
-                                    DtaDataMap::const_iterator iteratorEnd)
+void DtaFieldStatistics::calcStatistics( DataMap::const_iterator iteratorStart,
+                                    DataMap::const_iterator iteratorEnd)
 {
    // locale Variablen
-   DtaDataMap::const_iterator iterator = iteratorStart;
+   DataMap::const_iterator iterator = iteratorStart;
    quint32 lastTS = 0;
    bool firstDataset = true; // erster Datansatz in Bearbeitung
    QHash<QString, QMap<qreal,quint32> > analogValueMap; // Liste mit Werten zur Ermittlung des Median und der Standardabweichung
@@ -84,7 +84,7 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
    do
    {
       quint32 ts = iterator.key();
-      DtaFieldValues data = iterator.value();
+      DataFieldValues data = iterator.value();
 
       if(firstDataset)
       {
@@ -102,9 +102,9 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
          // Feldliste durchlaufen und analog/digitale Felder suchen
          for( int i=0; i<data.size(); ++i)
          {
-            QString field = DtaFile::fieldName(i);
+            QString field = DataFile::fieldName(i);
             qreal value = data[i];
-            const DtaFieldInfo *info = DtaFile::fieldInfo(i);
+            const DataFieldInfo *info = DataFile::fieldInfo(i);
 
             if(info->analog)
             {
@@ -157,7 +157,7 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
          for( int i=0; i<m_analogFields.size(); i++)
          {
             QString field = m_analogFields.at(i);
-            qreal value = DtaFile::fieldValueReal(data,field);
+            qreal value = DataFile::fieldValueReal(data,field);
             if( value < m_analogValues[field][aMin])
                m_analogValues[field][aMin]=value;
             if( value > m_analogValues[field][aMax])
@@ -173,7 +173,7 @@ void DtaFieldStatistics::calcStatistics( DtaDataMap::const_iterator iteratorStar
          for( int i=0; i<m_digitalFields.size(); i++)
          {
             QString field = m_digitalFields.at(i);
-            qint32 value = DtaFile::fieldValueInt(data,field);
+            qint32 value = DataFile::fieldValueInt(data,field);
 
             if(missingFound)
                // Luecke entdeckt

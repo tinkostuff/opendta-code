@@ -37,7 +37,7 @@ class DtaCompStartsFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DtaCompStartsFrame(DtaDataMap *data, QWidget *parent = 0);
+    explicit DtaCompStartsFrame(DataMap *data, QWidget *parent = 0);
     ~DtaCompStartsFrame();
 
 signals:
@@ -61,7 +61,7 @@ private:
     QDateTimeEdit *dteEnd;
 
     DtaCompStartsThread *thread; // Thread zur Berechnung
-    DtaDataMap *data; // Daten
+    DataMap *data; // Daten
 
     void updateTimeRangeEdit(); // Zeitspanne der Eingabefelder aktualisieren
 };

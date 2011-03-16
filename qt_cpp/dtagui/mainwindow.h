@@ -49,7 +49,7 @@ signals:
 private:
     Ui::MainWindow *ui; // GUI
     QDialog *helpDialog;
-    DtaDataMap data; // alle Daten
+    DataMap data; // alle Daten
 
     // Pfad zur zuletzt geoeffneten Datei
     QString lastOpenPathDTA;

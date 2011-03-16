@@ -44,7 +44,7 @@ class DtaStatsThread : public QThread
 public:
    // Constructor
    DtaStatsThread(QObject *parent=0) : QThread(parent) { data=NULL; tsStart = 0; tsEnd = 0; stats=new DtaFieldStatistics();}
-   DtaStatsThread(DtaDataMap *data, quint32 tsStart, quint32 tsEnd, QObject *parent=0) : QThread(parent)
+   DtaStatsThread(DataMap *data, quint32 tsStart, quint32 tsEnd, QObject *parent=0) : QThread(parent)
    {
       this->data=data;
       this->tsStart = tsStart;
@@ -53,7 +53,7 @@ public:
    }
    ~DtaStatsThread() { if(stats!=NULL) delete stats;}
    // Zeiger auf Daten uebergeben
-   void setData(DtaDataMap *data) {this->data=data;}
+   void setData(DataMap *data) {this->data=data;}
    // Zeitspanne setzen
    void setDateTimeRange( quint32 start, quint32 end) { this->tsStart=start; this->tsEnd=end;}
    // Berechnungen
@@ -62,14 +62,14 @@ public:
       if(data==NULL || data->size()==0) return;
 
       // Iteratoren erstellen
-      DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
-      DtaDataMap::const_iterator iteratorStart = data->lowerBound(tsStart);
+      DataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
+      DataMap::const_iterator iteratorStart = data->lowerBound(tsStart);
       stats->calcStatistics( iteratorStart, iteratorEnd);
    }
 
    DtaFieldStatistics *stats;
 private:
-   DtaDataMap *data;
+   DataMap *data;
    quint32 tsStart;
    quint32 tsEnd;
 };
@@ -79,7 +79,7 @@ private:
 * DtaStatsFrame
 *  - Darstellung der Ergebnisse
 *---------------------------------------------------------------------------*/
-DtaStatsFrame::DtaStatsFrame(DtaDataMap *data, QWidget *parent) :
+DtaStatsFrame::DtaStatsFrame(DataMap *data, QWidget *parent) :
     QFrame(parent)
 {
    this->data = data;
@@ -271,7 +271,7 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->analogFields().size(); i++)
    {
       QString field = stats->analogFields().at(i);
-      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+      const DataFieldInfo *info = DataFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%7\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td></tr>")
@@ -311,7 +311,7 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->digitalFields().size(); i++)
    {
       QString field = stats->digitalFields().at(i);
-      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+      const DataFieldInfo *info = DataFile::fieldInfo(field);
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%11\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td><td align=center>%7</td><td align=center>%8</td><td align=center>%9</td><td align=center>%10</td></tr>")
               .arg(info->prettyName)
@@ -337,7 +337,7 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->analogStaticFields().size(); i++)
    {
       QString field = stats->analogStaticFields().at(i);
-      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+      const DataFieldInfo *info = DataFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
@@ -348,7 +348,7 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->digitalStaticFields().size(); i++)
    {
       QString field = stats->digitalStaticFields().at(i);
-      const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+      const DataFieldInfo *info = DataFile::fieldInfo(field);
       QString lineColor = (i+stats->analogStaticFields().size())%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
             .arg(info->prettyName)
@@ -393,8 +393,8 @@ void DtaStatsFrame::updateTimeRangeEdit()
    QDateTime dtEnd = QDateTime::fromTime_t(0);
    if( (data!=NULL) && !data->isEmpty())
    {
-      DtaDataMap::const_iterator iStart = data->constBegin();
-      DtaDataMap::const_iterator iEnd = data->constEnd();
+      DataMap::const_iterator iStart = data->constBegin();
+      DataMap::const_iterator iEnd = data->constEnd();
       iEnd--;
       dtStart.setTime_t(iStart.key());
       dtEnd.setTime_t(iEnd.key());
@@ -423,8 +423,8 @@ void DtaStatsFrame::setCompleteTimeRange()
    QDateTime dtEnd = QDateTime::fromTime_t(0);
    if( (data!=NULL) && !data->isEmpty())
    {
-      DtaDataMap::const_iterator iStart = data->constBegin();
-      DtaDataMap::const_iterator iEnd = data->constEnd();
+      DataMap::const_iterator iStart = data->constBegin();
+      DataMap::const_iterator iEnd = data->constEnd();
       iEnd--;
       dtStart.setTime_t(iStart.key());
       dtEnd.setTime_t(iEnd.key());

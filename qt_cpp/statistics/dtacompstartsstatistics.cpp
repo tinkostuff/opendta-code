@@ -136,8 +136,8 @@ DtaCompStartsStatistics::DtaCompStartsStatistics(QObject *parent) :
    m_missingSum = 0;
    m_runs.clear();
 }
-DtaCompStartsStatistics::DtaCompStartsStatistics( DtaDataMap::const_iterator iteratorStart,
-                                                  DtaDataMap::const_iterator iteratorEnd,
+DtaCompStartsStatistics::DtaCompStartsStatistics( DataMap::const_iterator iteratorStart,
+                                                  DataMap::const_iterator iteratorEnd,
                                                   QObject *parent) : QObject(parent)
 {
    this->calcStatistics(iteratorStart,iteratorEnd);
@@ -146,9 +146,9 @@ DtaCompStartsStatistics::DtaCompStartsStatistics( DtaDataMap::const_iterator ite
 /*---------------------------------------------------------------------------
 * Berechnung
 *---------------------------------------------------------------------------*/
-void DtaCompStartsStatistics::calcStatistics(DtaDataMap::const_iterator iteratorStart, DtaDataMap::const_iterator iteratorEnd)
+void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorStart, DataMap::const_iterator iteratorEnd)
 {
-   DtaDataMap::const_iterator iterator = iteratorStart;
+   DataMap::const_iterator iterator = iteratorStart;
    quint32 lastTS = 0;
    bool firstDataset = true; // erster Datansatz in Bearbeitung
 
@@ -179,11 +179,11 @@ void DtaCompStartsStatistics::calcStatistics(DtaDataMap::const_iterator iterator
    do
    {
       quint32 ts = iterator.key();
-      DtaFieldValues data = iterator.value();
+      DataFieldValues data = iterator.value();
 
-      qint32 vd1 = DtaFile::fieldValueInt( data, "VD1");
-      qint32 evu = DtaFile::fieldValueInt( data, "EVU");
-      qint32 bup = DtaFile::fieldValueInt( data, "BUP");
+      qint32 vd1 = DataFile::fieldValueInt( data, "VD1");
+      qint32 evu = DataFile::fieldValueInt( data, "EVU");
+      qint32 bup = DataFile::fieldValueInt( data, "BUP");
 
       // aktuellen Zustand ermitteln
       if(vd1==0) state = stateOff;
@@ -270,13 +270,13 @@ void DtaCompStartsStatistics::calcStatistics(DtaDataMap::const_iterator iterator
          else if( ((state==stateHz) || (state==stateBW)) && (state==lastState))
          {
             // Daten des Laufes speichern
-            cmprun.setTA(DtaFile::fieldValueReal(data,"TA"));
-            cmprun.setTRL(DtaFile::fieldValueReal(data,"TRL"));
-            cmprun.setTVL(DtaFile::fieldValueReal(data,"TVL"));
-            cmprun.setSpHz(DtaFile::fieldValueReal(data,"SpHz"));
-            cmprun.setTWQein(DtaFile::fieldValueReal(data,"TWQein"));
-            cmprun.setTWQaus(DtaFile::fieldValueReal(data,"TWQaus"));
-            cmprun.setSpWQ(DtaFile::fieldValueReal(data,"SpWQ"));
+            cmprun.setTA(DataFile::fieldValueReal(data,"TA"));
+            cmprun.setTRL(DataFile::fieldValueReal(data,"TRL"));
+            cmprun.setTVL(DataFile::fieldValueReal(data,"TVL"));
+            cmprun.setSpHz(DataFile::fieldValueReal(data,"SpHz"));
+            cmprun.setTWQein(DataFile::fieldValueReal(data,"TWQein"));
+            cmprun.setTWQaus(DataFile::fieldValueReal(data,"TWQaus"));
+            cmprun.setSpWQ(DataFile::fieldValueReal(data,"SpWQ"));
          }
 
          // Ende eines Laufes

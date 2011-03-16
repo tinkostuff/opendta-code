@@ -227,7 +227,7 @@ private:
 * DtaPlotFrame
 *  - UI erstellen
 *---------------------------------------------------------------------------*/
-DtaPlotFrame::DtaPlotFrame(DtaDataMap *data, QWidget *parent) :
+DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
     QFrame(parent)
 {
    this->data = data;
@@ -351,11 +351,11 @@ DtaPlotFrame::DtaPlotFrame(DtaDataMap *data, QWidget *parent) :
 *---------------------------------------------------------------------------*/
 void DtaPlotFrame::insertFieldsToTree()
 {
-   QStringList fields = DtaFile::fieldNames();
+   QStringList fields = DataFile::fieldNames();
    signalTree->clear();
 
    // Kategorien hinzufuegen
-   QStringList cats = DtaFile::fieldCategories();
+   QStringList cats = DataFile::fieldCategories();
    for( int i=0; i<cats.size(); i++)
    {
       QTreeWidgetItem *item = new QTreeWidgetItem(QTreeWidgetItem::Type);
@@ -367,7 +367,7 @@ void DtaPlotFrame::insertFieldsToTree()
    // Felder hinzufuegen
    for( int i=0; i<fields.size(); i++)
    {
-      const DtaFieldInfo *info = DtaFile::fieldInfo(i);
+      const DataFieldInfo *info = DataFile::fieldInfo(i);
 
       QTreeWidgetItem *item = new QTreeWidgetItem(QTreeWidgetItem::Type);
       item->setText(0, info->prettyName);
@@ -458,7 +458,7 @@ void DtaPlotFrame::replotAll()
 void DtaPlotFrame::addCurveToPlot(DtaPlot *plot, QString field)
 {
    // Feldinformationen
-   const DtaFieldInfo *info = DtaFile::fieldInfo(field);
+   const DataFieldInfo *info = DataFile::fieldInfo(field);
 
    // Daten extrahieren
    QPolygonF curveData = extractCurveData(field);
@@ -476,16 +476,16 @@ void DtaPlotFrame::addCurveToPlot(int index, QString field)
 QPolygonF DtaPlotFrame::extractCurveData(QString field)
 {
    // Feldinformationen
-   const DtaFieldInfo *info = DtaFile::fieldInfo(field);
-   quint16 index = DtaFile::fieldIndex(field);
+   const DataFieldInfo *info = DataFile::fieldInfo(field);
+   quint16 index = DataFile::fieldIndex(field);
 
    QPolygonF result;
-   DtaDataMapIterator i(*data);
-   while(i.hasNext())
+   DataMap::const_iterator i = data->constBegin();
+   do
    {
-      i.next();
       result << QPointF( i.key(), i.value()[index] * info->scale + info->offset);
-   }
+      i++;
+   } while( i != data->constEnd());
    return result;
 }
 
@@ -933,7 +933,7 @@ void DtaPlotFrame::loadSession()
 void DtaPlotFrame::loadSession(QString fileName)
 {
    QSettings *ini = new QSettings(fileName, QSettings::IniFormat, this);
-   QStringList curveNames = DtaFile::fieldNames();
+   QStringList curveNames = DataFile::fieldNames();
 
    // alle Diagramme loeschen
    this->clear();

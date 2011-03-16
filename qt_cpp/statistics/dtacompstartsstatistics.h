@@ -100,12 +100,12 @@ class DtaCompStartsStatistics : public QObject
     Q_OBJECT
 public:
     DtaCompStartsStatistics(QObject *parent = 0);
-    DtaCompStartsStatistics( DtaDataMap::const_iterator iteratorStart,
-                             DtaDataMap::const_iterator iteratorEnd,
+    DtaCompStartsStatistics( DataMap::const_iterator iteratorStart,
+                             DataMap::const_iterator iteratorEnd,
                              QObject *parent = 0);
 
-    void calcStatistics( DtaDataMap::const_iterator iteratorStart,
-                         DtaDataMap::const_iterator iteratorEnd);
+    void calcStatistics( DataMap::const_iterator iteratorStart,
+                         DataMap::const_iterator iteratorEnd);
 
     // Zeitspanne
     inline quint32 timeRange() const { return m_dataEnd - m_dataStart;}

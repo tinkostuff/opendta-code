@@ -41,7 +41,7 @@ class DtaStatsFrame : public QFrame
 {
    Q_OBJECT
 public:
-   explicit DtaStatsFrame(DtaDataMap *data, QWidget *parent = 0);
+   explicit DtaStatsFrame(DataMap *data, QWidget *parent = 0);
    ~DtaStatsFrame();
 
 signals:
@@ -60,7 +60,7 @@ private:
    QDateTimeEdit *dteStart;
    QDateTimeEdit *dteEnd;
    DtaStatsThread *thread; // Thread
-   DtaDataMap *data; // Zeiger auf die Daten
+   DataMap *data; // Zeiger auf die Daten
 
    void updateTimeRangeEdit(); // Zeitspanne der Eingabefelder aktualisieren
 };

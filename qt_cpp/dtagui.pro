@@ -10,7 +10,8 @@ HEADERS += \
     dtagui/dtastatsframe.h \
     dtagui/dtacompstartsframe.h \
     statistics/dtafieldstatistics.h \
-    statistics/dtacompstartsstatistics.h
+    statistics/dtacompstartsstatistics.h \
+    dtafile/datafile.h
 
 SOURCES += \
     dtagui/mainwindow.cpp \
@@ -22,7 +23,8 @@ SOURCES += \
     dtagui/dtastatsframe.cpp \
     dtagui/dtacompstartsframe.cpp \
     statistics/dtafieldstatistics.cpp \
-    statistics/dtacompstartsstatistics.cpp
+    statistics/dtacompstartsstatistics.cpp \
+    dtafile/datafile.cpp
 
 FORMS += \
     dtagui/mainwindow.ui

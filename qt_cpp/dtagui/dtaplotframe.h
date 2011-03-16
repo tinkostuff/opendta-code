@@ -41,7 +41,7 @@ class DtaPlotFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit DtaPlotFrame(DtaDataMap *data, QWidget *parent = 0);
+    explicit DtaPlotFrame(DataMap *data, QWidget *parent = 0);
 
    // Kurve zu Diagramm hinzufuegen
    void addCurveToPlot( DtaPlot *plot, QString field);
@@ -80,7 +80,7 @@ private:
     QTreeWidget *signalTree; // Baum fuer die Signale
     QCheckBox *cbSymbols;    // CheckBox zum Anzeigen der Datenpunkte
     QList<DtaPlot*> plotList; // Liste mit Diagrammen
-    DtaDataMap *data; // Zeiger auf Daten
+    DataMap *data; // Zeiger auf Daten
     bool inScaleSync; // true wenn Diagramme synchronisiert werden
 
     QString lastOpenPathSession;

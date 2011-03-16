@@ -38,12 +38,12 @@ class DtaFieldStatistics : public QObject
 public:
    // Constructor
    explicit DtaFieldStatistics( QObject *parent = 0);
-   explicit DtaFieldStatistics( DtaDataMap::const_iterator iteratorStart,
-                                DtaDataMap::const_iterator iteratorEnd,
+   explicit DtaFieldStatistics( DataMap::const_iterator iteratorStart,
+                                DataMap::const_iterator iteratorEnd,
                                 QObject *parent = 0);
 
-   void calcStatistics( DtaDataMap::const_iterator iteratorStart,
-                        DtaDataMap::const_iterator iteratorEnd);
+   void calcStatistics( DataMap::const_iterator iteratorStart,
+                        DataMap::const_iterator iteratorEnd);
 
    // Rueckgabe der Feldnamen
    inline const QStringList analogFields() { return m_analogFields;}

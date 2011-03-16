@@ -36,7 +36,7 @@ class DtaCompStartsThread : public QThread
 {
 public:
    DtaCompStartsThread() {data=NULL; tsStart = 0; tsEnd = 0; stats=new DtaCompStartsStatistics();}
-   DtaCompStartsThread(DtaDataMap *data, quint32 tsStart, quint32 tsEnd, QObject *parent=0) : QThread(parent)
+   DtaCompStartsThread(DataMap *data, quint32 tsStart, quint32 tsEnd, QObject *parent=0) : QThread(parent)
    {
       this->data=data;
       this->tsStart = tsStart;
@@ -45,7 +45,7 @@ public:
    }
    ~DtaCompStartsThread() { if(stats!=NULL) delete stats;}
    // Zeiger auf Daten uebergeben
-   void setData(DtaDataMap *data) {this->data=data;}
+   void setData(DataMap *data) {this->data=data;}
    // Zeitspanne setzen
    void setDateTimeRange( quint32 start, quint32 end) { this->tsStart=start; this->tsEnd=end;}
    // Daten analysieren
@@ -53,14 +53,14 @@ public:
    {
       if(data==NULL || data->size()==0) return;
 
-      DtaDataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
-      DtaDataMap::const_iterator iteratorStart = data->lowerBound(tsStart);
+      DataMap::const_iterator iteratorEnd = data->upperBound(tsEnd);
+      DataMap::const_iterator iteratorStart = data->lowerBound(tsStart);
       stats->calcStatistics( iteratorStart, iteratorEnd);
    } // run()
 
    DtaCompStartsStatistics *stats;
 private:
-   DtaDataMap *data;
+   DataMap *data;
    quint32 tsStart;
    quint32 tsEnd;
 };
@@ -68,7 +68,7 @@ private:
 /*---------------------------------------------------------------------------
 * DtaCompStatsFrame - Daten darstellen
 *---------------------------------------------------------------------------*/
-DtaCompStartsFrame::DtaCompStartsFrame(DtaDataMap *data, QWidget *parent) :
+DtaCompStartsFrame::DtaCompStartsFrame(DataMap *data, QWidget *parent) :
     QFrame(parent)
 {
    this->data = data;
@@ -568,8 +568,8 @@ void DtaCompStartsFrame::updateTimeRangeEdit()
    QDateTime dtEnd = QDateTime::fromTime_t(0);
    if( (data!=NULL) && !data->isEmpty())
    {
-      DtaDataMap::const_iterator iStart = data->constBegin();
-      DtaDataMap::const_iterator iEnd = data->constEnd();
+      DataMap::const_iterator iStart = data->constBegin();
+      DataMap::const_iterator iEnd = data->constEnd();
       iEnd--;
       dtStart.setTime_t(iStart.key());
       dtEnd.setTime_t(iEnd.key());
@@ -598,8 +598,8 @@ void DtaCompStartsFrame::setCompleteTimeRange()
    QDateTime dtEnd = QDateTime::fromTime_t(0);
    if( (data!=NULL) && !data->isEmpty())
    {
-      DtaDataMap::const_iterator iStart = data->constBegin();
-      DtaDataMap::const_iterator iEnd = data->constEnd();
+      DataMap::const_iterator iStart = data->constBegin();
+      DataMap::const_iterator iEnd = data->constEnd();
       iEnd--;
       dtStart.setTime_t(iStart.key());
       dtEnd.setTime_t(iEnd.key());

@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
    // jede Datei einzeln bearbeiten
    for( int i=1; i<argc; i++)
    {
-      DtaDataMap data;
+      DataMap data;
       QString fileName = argv[i];
       cout << QObject::tr("konvertiere Datei: ").toStdString() << fileName.toStdString() << endl;
 
@@ -88,17 +88,16 @@ int main(int argc, char *argv[])
 
          // Kopfzeile
          out << QObject::tr("Datum") << separator;
-         for( int i=0; i<DtaFile::fieldCount; i++)
-            out << DtaFile::fieldInfo(i)->prettyName << separator;
+         for( int i=0; i<DataFile::fieldCount(); i++)
+            out << DataFile::fieldInfo(i)->prettyName << separator;
          out << endl;
 
          // Daten schreiben
-         DtaDataMapIterator iterator(data);
-         while(iterator.hasNext())
+         DataMap::const_iterator iterator = data.constBegin();
+         do
          {
-            iterator.next();
             QDateTime timestamp = QDateTime::fromTime_t(iterator.key());
-            DtaFieldValues values = iterator.value();
+            DataFieldValues values = iterator.value();
 
             // Datum
             out << timestamp.toString("yyyy-MM-dd hh:mm:ss") << separator;
@@ -106,7 +105,10 @@ int main(int argc, char *argv[])
             for( int i=0; i<values.size(); i++)
                out << QLocale::system().toString(values[i]) << separator;
             out << endl;
-         } // while iterator.hasNext
+
+            // naechster Datensatz
+            iterator++;
+         } while( iterator != data.constEnd());
 
          // Ausgabedatei schliessen
          fOut.close();
