@@ -28,6 +28,7 @@
 #include <QMainWindow>
 
 #include "dtafile/dtafile.h"
+#include "dtafile/dumpfile.h"
 
 #define VERSION_STRING "$Rev$"
 
@@ -60,6 +61,7 @@ private:
     quint16 tabCompStartsCount;
 
     void readDtaFiles(QStringList files); // DTA-Dateien lesen
+    void readDumpFiles(QStringList files); // DUMP-Dateien lesen
 
     // Dateien per Drag&Dop in der Anwendung laden
     void dragEnterEvent(QDragEnterEvent *event);
@@ -76,6 +78,7 @@ private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_actionNeuStatistik_triggered();
     void on_actionNeuKompStarts_triggered();
+    void on_actionDUMPOeffnen_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -11,7 +11,8 @@ HEADERS += \
     dtagui/dtacompstartsframe.h \
     statistics/dtafieldstatistics.h \
     statistics/dtacompstartsstatistics.h \
-    dtafile/datafile.h
+    dtafile/datafile.h \
+    dtafile/dumpfile.h
 
 SOURCES += \
     dtagui/mainwindow.cpp \
@@ -24,7 +25,8 @@ SOURCES += \
     dtagui/dtacompstartsframe.cpp \
     statistics/dtafieldstatistics.cpp \
     statistics/dtacompstartsstatistics.cpp \
-    dtafile/datafile.cpp
+    dtafile/datafile.cpp \
+    dtafile/dumpfile.cpp
 
 FORMS += \
     dtagui/mainwindow.ui

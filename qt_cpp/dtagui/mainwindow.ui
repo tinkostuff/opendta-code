@@ -52,6 +52,7 @@
     <addaction name="separator"/>
     <addaction name="actionZuruecksetzen"/>
     <addaction name="actionOeffnen"/>
+    <addaction name="actionDUMPOeffnen"/>
     <addaction name="separator"/>
     <addaction name="actionBeenden"/>
    </widget>
@@ -91,7 +92,7 @@
      <normaloff>:/images/images/open.png</normaloff>:/images/images/open.png</iconset>
    </property>
    <property name="text">
-    <string>Ö&amp;ffnen...</string>
+    <string>DTA Ö&amp;ffnen...</string>
    </property>
    <property name="toolTip">
     <string>DTA-Datei(en) Öffnen</string>
@@ -194,6 +195,14 @@
    </property>
    <property name="toolTip">
     <string>Neue Kompressor-Starts-Seite einfügen</string>
+   </property>
+  </action>
+  <action name="actionDUMPOeffnen">
+   <property name="text">
+    <string>DUMP Öffnen...</string>
+   </property>
+   <property name="toolTip">
+    <string>DUMP-Datei(en) Öffnen</string>
    </property>
   </action>
  </widget>

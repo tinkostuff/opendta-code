@@ -164,6 +164,13 @@ void DtaFile::readDatasets(DataMap *data)
       values[pos] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 10)/10.0;
       pos++;
 
+      // Werte vom Web-Interface stehen hier nicht zur Verfuegung
+      while(pos<m_fieldCount)
+      {
+         values[pos] = 0.0;
+         pos++;
+      }
+
       // Datensatz in Map einfuegen
       data->insert( ts, values);
    }

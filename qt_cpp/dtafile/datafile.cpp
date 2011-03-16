@@ -77,6 +77,7 @@ QStringList DataFile::fieldCategories()
    res << tr("Ausg\344nge ComfortPlatine");
    res << tr("Eing\344nge ComfortPlatine");
    res << tr("Berechnete Werte");
+   res << tr("Web-Interface");
    res << tr("Sonstiges");
    return res;
 }
@@ -172,6 +173,17 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "SpHz",  // Spreizung Heizkreis
    "SpWQ",  // Spreizung Waermequelle
    "Qh",    // thermische Leistung
+
+   // Werte vom Web-Interface
+   "StdVD1", // Betriebsstunden VD1
+   "StdWP",  // Betriebsstunden Waermepumpe
+   "StdHz",  // Betriebsstunden Heizung
+   "StdBW",  // Betriebsstunden Brauchwasser
+   "StdKue", // Betriebsstunden Kuehlung
+   "ImpVD1", // Impulse VD1
+   "WMZ",    // Waermemengenzaehler gesamt
+   "WMZHz",  // Waermemengenzaehler Heizung
+   "WMZBW",  // Waermemengenzaehler Brauchwasser
 };
 
 /*---------------------------------------------------------------------------
@@ -742,6 +754,110 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       QColor(  0,  0,  0),
 #endif
    },  // Qh
+
+
+   //
+   // Werte vom Web-Interface
+   //
+   {
+      tr("BS VD1 [h]"),
+      tr("Betriebsstunden Verdichter 1"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,128,128),
+#endif
+   },  // StdVD1
+   {
+      tr("BS WP [h]"),
+      tr("Betriebsstunden W\344rmepumpe"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,128,  0),
+#endif
+   },  // StdWP
+   {
+      tr("BS Hz [h]"),
+      tr("Betriebsstunden Heizung"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(255, 0,  0),
+#endif
+   },  // StdHz
+   {
+      tr("BS BW [h]"),
+      tr("Betriebsstunden Brauchwasser"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(128,  0,128),
+#endif
+   },  // StdBw
+   {
+      tr("BS K\374 [h]"),
+      tr("Betriebsstunden K\374hlung"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,255),
+#endif
+   },  // StdKue
+   {
+      tr("Imp VD1 []"),
+      tr("Impule Verdichter 1"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,128,128),
+#endif
+   },  // ImpVD1
+   {
+      tr("WMZ [kWh]"),
+      tr("W\344rmemenge gesamt"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,128,  0),
+#endif
+   },  // WMZ
+   {
+      tr("WMZ Hz [kWh]"),
+      tr("W\344rmemenge Heizung"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(255,  0,  0),
+#endif
+   },  // WMZHz
+   {
+      tr("WMZ BW [kWh]"),
+      tr("W\344rmemenge Brauchwasser"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(128,  0,128),
+#endif
+   },  // WMZBW
 };
 
 const DataFieldInfo DataFile::m_defaultFieldInfo = {

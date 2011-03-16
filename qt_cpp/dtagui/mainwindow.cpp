@@ -125,6 +125,54 @@ void MainWindow::readDtaFiles(QStringList files)
 }
 
 /*---------------------------------------------------------------------------
+* DUMP-Dateien oeffnen und laden
+*---------------------------------------------------------------------------*/
+void MainWindow::readDumpFiles(QStringList files)
+{
+   setCursor(Qt::WaitCursor);
+   for( int i=0; i<files.size(); i++)
+   {
+      QString fileName = files.at(i);
+      statusBar()->showMessage(QString(tr("Lese Datei: %1")).arg(fileName));
+      QCoreApplication::processEvents();
+
+      // DTA-Datei einlesen
+      DumpFile *dump = new DumpFile(fileName);
+      if( !dump->open())
+      {
+         QMessageBox::warning(
+               this,
+               tr("Fehler beim \326ffnen der DUMP-Datei"),
+               QString(tr("Fehler beim \326ffnen der DUMP-Datei '%1'!")).arg(fileName));
+      }
+      else
+      {
+         dump->readDatasets(&data);
+      }
+      delete dump;
+   } // for files
+
+   // letzten Pfad merken
+   QFileInfo fi(files.last());
+   lastOpenPathDTA = fi.absolutePath();
+
+   setCursor(Qt::ArrowCursor);
+
+   if(data.isEmpty())
+      statusBar()->showMessage( tr("Datens\344tze: 0"));
+   else
+   {
+      statusBar()->showMessage(
+         QString(tr("Datens\344tze: %1 - Start: %2 - Ende: %3"))
+           .arg(data.size())
+           .arg(QDateTime::fromTime_t(data.keys().first()).toString("yyyy-MM-dd hh:mm"))
+           .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm")));
+   }
+
+   emit dataChanged();
+}
+
+/*---------------------------------------------------------------------------
 * DTA- und Sitzungsdateien per Drag&Drop in die Anwendung bringen
 *---------------------------------------------------------------------------*/
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -242,6 +290,16 @@ void MainWindow::on_actionOeffnen_triggered()
          tr("DTA-Dateien (*.dta);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDtaFiles(files);
 }
+void MainWindow::on_actionDUMPOeffnen_triggered()
+{
+   QStringList files = QFileDialog::getOpenFileNames(
+         this,
+         tr("Eine oder mehrere Dateien ausw\344hlen"),
+         lastOpenPathDTA,
+         tr("DUMP-Dateien (*.dump.bz2);;Alle Dateien (*.*)"));
+   if(!files.isEmpty()) readDumpFiles(files);
+}
+
 
 /*---------------------------------------------------------------------------
 * Datenarray leeren
@@ -340,3 +398,4 @@ void MainWindow::on_actionNeuKompStarts_triggered()
    int idx = ui->tabWidget->addTab( f, QIcon(), tr("Verdichter Starts %1").arg(tabCompStartsCount++));
    ui->tabWidget->setCurrentIndex(idx);
 }
+
