@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
    helpDialog = NULL;
    ui->setupUi(this);
+   ui->tabWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
    // Fenster maximieren
    setWindowState(windowState() ^ Qt::WindowMaximized);
@@ -399,3 +400,19 @@ void MainWindow::on_actionNeuKompStarts_triggered()
    ui->tabWidget->setCurrentIndex(idx);
 }
 
+/*---------------------------------------------------------------------------
+* Seite Umbenennen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_tabWidget_customContextMenuRequested(const QPoint &pos)
+{
+   Q_UNUSED(pos)
+   int idx = ui->tabWidget->currentIndex();
+   bool ok;
+   QString txt = QInputDialog::getText( this,
+                                        tr("Seite umbenennen"),
+                                        tr("neuer Name f\374r die Seite:"),
+                                        QLineEdit::Normal,
+                                        ui->tabWidget->tabText(idx),
+                                        &ok);
+   if(ok) ui->tabWidget->setTabText(idx, txt);
+}

@@ -79,6 +79,7 @@ private slots:
     void on_actionNeuStatistik_triggered();
     void on_actionNeuKompStarts_triggered();
     void on_actionDUMPOeffnen_triggered();
+    void on_tabWidget_customContextMenuRequested(const QPoint &pos);
 };
 
 #endif // MAINWINDOW_H
