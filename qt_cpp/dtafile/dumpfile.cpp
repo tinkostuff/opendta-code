@@ -186,6 +186,7 @@ void DumpFile::readDatasets(DataMap *data)
       values[54] = rawValues[151]/10.0; // WMZ Heizung
       values[55] = rawValues[152]/10.0; // WMZ BW
       values[53] = values[54] + values[55]; // WMZ gesamt
+      values[56] = rawValues[16]/10.0; // TAm
 
       // insert dataset into data map
       data->insert( ts, values);

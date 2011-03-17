@@ -399,20 +399,3 @@ void MainWindow::on_actionNeuKompStarts_triggered()
    int idx = ui->tabWidget->addTab( f, QIcon(), tr("Verdichter Starts %1").arg(tabCompStartsCount++));
    ui->tabWidget->setCurrentIndex(idx);
 }
-
-/*---------------------------------------------------------------------------
-* Seite Umbenennen
-*---------------------------------------------------------------------------*/
-void MainWindow::on_tabWidget_customContextMenuRequested(const QPoint &pos)
-{
-   Q_UNUSED(pos)
-   int idx = ui->tabWidget->currentIndex();
-   bool ok;
-   QString txt = QInputDialog::getText( this,
-                                        tr("Seite umbenennen"),
-                                        tr("neuer Name f\374r die Seite:"),
-                                        QLineEdit::Normal,
-                                        ui->tabWidget->tabText(idx),
-                                        &ok);
-   if(ok) ui->tabWidget->setTabText(idx, txt);
-}

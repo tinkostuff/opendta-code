@@ -184,6 +184,7 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "WMZ",    // Waermemengenzaehler gesamt
    "WMZHz",  // Waermemengenzaehler Heizung
    "WMZBW",  // Waermemengenzaehler Brauchwasser
+   "TAm",    // Mitteltemperatur (aussen)
 };
 
 /*---------------------------------------------------------------------------
@@ -858,6 +859,17 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       QColor(128,  0,128),
 #endif
    },  // WMZBW
+   {
+      tr("TA mittel [\260C]"),
+      tr("Au\337en-Mitteltemperatur"),
+      tr("Web-Interface"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(200,200,  0),
+#endif
+   },  // TAm
 };
 
 const DataFieldInfo DataFile::m_defaultFieldInfo = {

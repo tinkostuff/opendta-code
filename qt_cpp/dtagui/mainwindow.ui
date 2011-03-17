@@ -79,6 +79,7 @@
    <addaction name="actionBeenden"/>
    <addaction name="separator"/>
    <addaction name="actionOeffnen"/>
+   <addaction name="actionDUMPOeffnen"/>
    <addaction name="actionZuruecksetzen"/>
    <addaction name="separator"/>
    <addaction name="actionNeuDiagramm"/>
@@ -198,6 +199,10 @@
    </property>
   </action>
   <action name="actionDUMPOeffnen">
+   <property name="icon">
+    <iconset resource="dtagui.qrc">
+     <normaloff>:/images/images/compress.png</normaloff>:/images/images/compress.png</iconset>
+   </property>
    <property name="text">
     <string>DUMP Öffnen...</string>
    </property>
