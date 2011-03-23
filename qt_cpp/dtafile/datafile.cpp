@@ -73,9 +73,7 @@ QStringList DataFile::fieldCategories()
    res << tr("Temperaturen");
    res << tr("Ausg\344nge");
    res << tr("Eing\344nge");
-   res << tr("ComfortPlatine");
-   res << tr("Ausg\344nge ComfortPlatine");
-   res << tr("Eing\344nge ComfortPlatine");
+   res << tr("Analoge Signale");
    res << tr("Berechnete Werte");
    res << tr("Web-Interface");
    res << tr("Sonstiges");
@@ -185,6 +183,15 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "WMZHz",  // Waermemengenzaehler Heizung
    "WMZBW",  // Waermemengenzaehler Brauchwasser
    "TAm",    // Mitteltemperatur (aussen)
+
+   // Werte der ComfortPlatine
+   "TSS",      // Temperatur Solar Speicher
+   "TSK",      // Temperatur Solar Kollektor
+   "TFB2",     // Temperatur Fussbodenheizung 2
+   "TFB3",     // Temperatur Fussbodenheizung 3
+   "TEE",      // Temperatur Externe Energiequelle
+   "TMK2soll", // Soll-Temperatur Mischkreis 2
+   "TMK3soll", // Soll-Temperatur Mischkreis 3
 };
 
 /*---------------------------------------------------------------------------
@@ -553,7 +560,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("AI1DIV"),
       tr("wenn AI1DIV dann AI1 = AI1/2"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -564,7 +571,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("SUP"),
       tr("Schwimmbadumw\344lzpumpe"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -575,7 +582,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("FUP2"),
       tr("Mischkreispumpe 2 / K\374hlsignal 2"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -586,7 +593,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("MA2"),
       tr("Mischer 2 auf"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -597,7 +604,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("MZ2"),
       tr("Mischer 2 zu"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -608,7 +615,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("MA3"),
       tr("Mischer 3 auf"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -619,7 +626,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("MZ3"),
       tr("Mischer 3 zu"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -630,7 +637,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("FUP3"),
       tr("Mischkreispumpe 3 / K\374hlsignal 3"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -641,7 +648,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("ZW3"),
       tr("Zus\344tzlicher W\344rmeerzeuger 3"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -652,7 +659,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("SLP"),
       tr("Solarladepumpe"),
-      tr("Ausg\344nge ComfortPlatine"),
+      tr("Ausg\344nge"),
       false,
       1.0,
       0.0,
@@ -665,7 +672,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("AO1 [V]"),
       tr("analoger Ausgang 1"),
-      tr("ComfortPlatine"),
+      tr("Analoge Signale"),
       true,
       1.0,
       0.0,
@@ -676,7 +683,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("AO2 [V]"),
       tr("analoger Ausgang 2"),
-      tr("ComfortPlatine"),
+      tr("Analoge Signale"),
       true,
       1.0,
       0.0,
@@ -689,7 +696,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("SWT"),
       tr("Schwimmbadthermostat"),
-      tr("Eing\344nge ComfortPlatine"),
+      tr("Eing\344nge"),
       false,
       1.0,
       0.0,
@@ -701,7 +708,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
    {
       tr("AI1 [V]"),
       tr("analoger Eingang 1"),
-      tr("ComfortPlatine"),
+      tr("Analoge Signale"),
       true,
       1.0,
       0.0,
@@ -870,6 +877,87 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       QColor(200,200,  0),
 #endif
    },  // TAm
+
+   //
+   // Temperaturen Comfortplatine
+   //
+   {
+      tr("TSS [\260C]"),
+      tr("Temperatur Solar Speicher"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(255,128,  0),
+#endif
+   },  // TSS
+   {
+      tr("TSK [\260C]"),
+      tr("Temperatur Solar Kollektor"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(255, 64,  0),
+#endif
+   },  // TSK
+   {
+      tr("TFB2 [\260C]"),
+      tr("Temperatur Fu\337bodenheizung 2"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,  0),
+#endif
+   },  // TFB2
+   {
+      tr("TFB3 [\260C]"),
+      tr("Temperatur Fu\337bodenheizung 3"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,  0),
+#endif
+   },  // TFB3
+   {
+      tr("TEE [\260C]"),
+      tr("Temperatur externe Energiequelle"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,  0),
+#endif
+   },  // TEE
+   {
+      tr("TMK2soll [\260C]"),
+      tr("Mischkreis2-Soll-Temperatur"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(128,128,128),
+#endif
+   },  // TMK2soll
+   {
+      tr("TMK3soll [\260C]"),
+      tr("Mischkreis3-Soll-Temperatur"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(128,128,128),
+#endif
+   },  // TMK3soll
 };
 
 const DataFieldInfo DataFile::m_defaultFieldInfo = {

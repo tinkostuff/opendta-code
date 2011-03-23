@@ -188,6 +188,17 @@ void DumpFile::readDatasets(DataMap *data)
       values[53] = values[54] + values[55]; // WMZ gesamt
       values[56] = rawValues[16]/10.0; // TAm
 
+      //
+      // Temperaturen der Comfortplatine
+      //
+      values[57] = rawValues[27]/10.0;  // TSS
+      values[58] = rawValues[26]/10.0;  // TSK
+      values[59] = rawValues[24]/10.0;  // TFB2
+      values[60] = rawValues[137]/10.0; // TFB3
+      values[61] = rawValues[28]/10.0;  // TEE
+      values[62] = rawValues[25]/10.0;  // TMK2soll
+      values[63] = rawValues[136]/10.0; // TMK3soll
+
       // insert dataset into data map
       data->insert( ts, values);
 

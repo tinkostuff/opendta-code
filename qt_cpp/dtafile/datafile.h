@@ -34,7 +34,7 @@
 #include <QColor>
 #endif
 
-#define DATA_DS_FIELD_COUNT 57   // fields per dataset
+#define DATA_DS_FIELD_COUNT 64   // fields per dataset
 
 // Array zum Speichern der Werte eines Datensatzes
 typedef QVarLengthArray<qreal> DataFieldValues;

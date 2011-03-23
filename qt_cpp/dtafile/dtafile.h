@@ -87,7 +87,16 @@
 *  - [138:139] AO2 = ComfortPlatine: Analoger Ausgang 2
 *  - [140:141] StatusE_CP = Status der Eingaenge der ComfortPlatine
 *        bit 4:  SWT_ = Schwimmbadthermostat
+*  - [144:145] TSS  = Temperatur Solar Speicher
+*  - [146:147] TSK  = Temperatur Solar Kollektor
+*  - [148:149] TFB2 = Temperatur Fussbodenheizung 2
+*  - [150:151] TFB3 = Temperatur Fussbodenheizung 3
+*  - [152:153] TEE  = Temperatur Externe Energiequelle
 *  - [158:159] AI1 = ComfortPlatine: Analoger Eingang 1
+*  - [160:161] TMK2soll = Solltemperatur Mischer Kreis 2
+*  - [162:163] TMK2soll_highbytes = zwei Extra-Byte fuer TMK2soll (werden nicht ausgelesen)
+*  - [164:165] TMK3soll = Solltemperatur Mischer Kreis 3
+*  - [166:167] TMK3soll_highbytes = zwei Extra-Byte fuer TMK3soll (werden nicht ausgelesen)
 *
 * Umrechnung der Werte:
 *  Fuer die oben genannten Werte sind in den Datensaetzen natuerliche
@@ -127,7 +136,7 @@
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
 {
-   qint16 data[103];  // Y-Datenpunkte
+   qint16 data[105];  // Y-Datenpunkte
    qint16 offset;     // Verschiebung des Anfangs der Datenpunkte
    qint16 delta;      // X-Abstand zwischen den Datenpunkten
    quint8 precision;  // Praezision der Datenpunkte
@@ -151,7 +160,7 @@ private:
     QDataStream m_dtaStream;
 
     // Wertetabellen zur Umrechnung
-    static const DtaLUTInfo LUT[3];
+    static const DtaLUTInfo LUT[5];
     static inline qreal calcLinearData( const quint16 &value, const qreal &m, const qreal &n, const qint8 &precision);
     static qreal calcLUTData( const quint16 &value, const DtaLUTInfo &info);
     static inline qreal calcBitData( const quint16 &value, const quint8 &pos);
