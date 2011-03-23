@@ -42,7 +42,7 @@ class DtaCompStart : public QObject
 {
    Q_OBJECT
 public:
-   enum CompStartFields { fStart, fLength, fMode, fPause, fTVL, fTRL, fSpHz, fTWQein, fTWQaus, fSpWQ, fTA};
+   enum CompStartFields { fStart, fLength, fMode, fPause, fTVL, fTRL, fSpHz, fTWQein, fTWQaus, fSpWQ, fDF, fTA};
    enum CompStartModes { mHz, mBW, mEVUstop, mAfterEVU};
 
    DtaCompStart(QObject *parent = 0);
@@ -68,6 +68,7 @@ public:
    inline qreal TWQein() const { return m_data[fTWQein].toReal();}
    inline qreal TWQaus() const { return m_data[fTWQaus].toReal();}
    inline qreal SpWQ() const { return m_data[fSpWQ].toReal();}
+   inline qreal DF() const { return m_data[fDF].toReal();}
    inline qreal TA() const { return m_data[fTA].toReal();}
 
    inline void setStart( const quint32 &value) { m_data[fStart] = value;}
@@ -80,6 +81,7 @@ public:
    inline void setTWQein( const qreal &value) { m_data[fTWQein] = value;}
    inline void setTWQaus( const qreal &value) { m_data[fTWQaus] = value;}
    inline void setSpWQ( const qreal &value) { m_data[fSpWQ] = value;}
+   inline void setDF( const qreal &value) { m_data[fDF] = value;}
    inline void setTA( const qreal &value) { m_data[fTA] = value;}
 	
 private:

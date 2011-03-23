@@ -77,7 +77,7 @@ QList<DtaCompStart::CompStartFields> DtaCompStart::initFieldList()
 {
    QList<CompStartFields> res;
    res << fStart << fLength << fMode << fPause << fTVL << fTRL << fSpHz
-       << fTWQein << fTWQaus << fSpWQ << fTA;
+       << fTWQein << fTWQaus << fSpWQ << fDF << fTA;
    return res;
 }
 const QList<DtaCompStart::CompStartFields> DtaCompStart::m_fieldList = DtaCompStart::initFieldList();
@@ -98,6 +98,7 @@ QStringList DtaCompStart::initFieldNames()
        << tr("TWQein [\260C]")
        << tr("TWQaus [\260C]")
        << tr("SpWQ [K]")
+       << tr("DF [l/min]")
        << tr("TA [\260C]");
    return res;
 }
@@ -175,8 +176,11 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
    m_datasets = 0;
    m_dataStart = 0;
    m_dataEnd = 0;
+   m_runs.clear();
+   m_runCounts.clear();
+   m_statValues.clear();
 
-   do
+   while( iterator != iteratorEnd)
    {
       quint32 ts = iterator.key();
       DataFieldValues data = iterator.value();
@@ -277,6 +281,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
             cmprun.setTWQein(DataFile::fieldValueReal(data,"TWQein"));
             cmprun.setTWQaus(DataFile::fieldValueReal(data,"TWQaus"));
             cmprun.setSpWQ(DataFile::fieldValueReal(data,"SpWQ"));
+            cmprun.setDF(DataFile::fieldValueReal(data,"DF"));
          }
 
          // Ende eines Laufes
@@ -365,7 +370,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
 
       // naechster Datensatz
       iterator++;
-   } while( iterator != iteratorEnd);
+   }
 
    //
    // Statistk der Verdichterstarts
