@@ -18,6 +18,7 @@
 		<li><a href="#allgemeines">Allgemeines</a></li>
 		<ul>
 			<li><a href="#dtadateien">DTA-Dateien</a></li>
+			<li><a href="#dumpdateien">DUMP-Dateien</a></li>
 			<li><a href="#Darstellung">Darstellung</a></li>
 		</ul>
 		<li><a href="#diagramme">Diagramme</a></li>
@@ -59,6 +60,20 @@
 		<li>DTA-Dateien k&ouml;nnen per Drag&amp;Drop in das Programm gezogen werden.</li>
 		<li>Mit <i>Datei / Neu</i> werden alle geladenen Daten aus dem Speicher entfernt.</li>
 	</ul>
+	<h3><a name="dumpdateien">DUMP-Dateien</a></h3>
+	<p>DUMP-Dateien beinhalten die Daten der W&auml;rmepumpe, wie sie &uuml;ber das 
+	Web-Interface der Luxtronik 2 ausgelesen werden k&ouml;nnen. DUMP-Dateien haben
+	folgendes Format:</p>
+	<ul>
+		<li>DUMP-Dateien sind Textdateien, die mit dem BZIP2-Algorithmus komprimiert sind.</li>
+		<li>Jede Zeile enth&auml;lt einen Datensatz.</li>
+		<li>Daten innerhalb eines Datensatzes sind nach dem Schema <code>Index=Wert,Index=Wert,...</code> abgelegt.</li>
+		<li>Der erste Datensatz muss alle Indizes enhalten.</li>
+		<li>Alle weiteren Datens&auml;tze m&uuml;ssen nur die Indizes enhalten, die sich zum vorhergehenden Datensatz ge&auml;ndert haben.</li>
+	</ul>
+	<p>Die Daten von DUMP-Dateien f&uuml;gen sich nahtlos in das Datenformat 
+	von DtaGui ein. D.h. es kann auch eine Mischung aus DTA- und DUMP-Dateien
+	ge&ouml;ffnet werden.</p>
 	<h3><a name="darstellung">Darstellung</a></h3>
 	<ul>
 		<li>zur Darstellung der Daten stehen verschiedene "Seiten" zur Verf&uuml;gung:</li>

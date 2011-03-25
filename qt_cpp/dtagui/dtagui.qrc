@@ -18,6 +18,7 @@
         <file>images/zoom-fit.png</file>
         <file>images/race-flag.png</file>
         <file>images/compress.png</file>
+        <file>images/csv.png</file>
     </qresource>
     <qresource prefix="/sessions">
         <file>default.session</file>

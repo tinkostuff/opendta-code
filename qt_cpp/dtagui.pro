@@ -1,4 +1,4 @@
-win32:include(C:\Qt\Qwt-5.2.1\qwt.pri)
+win32:include(C:\\Qt\\Qwt-5.2.1\\qwt.pri)
 unix:include(../qwt.pri)
 
 HEADERS += \

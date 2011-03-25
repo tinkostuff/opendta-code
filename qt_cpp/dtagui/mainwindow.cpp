@@ -26,8 +26,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QCoreApplication>
-#include <QPainter>
-#include <QSettings>
+#include <QLocale>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -398,4 +397,75 @@ void MainWindow::on_actionNeuKompStarts_triggered()
    connect( this, SIGNAL(dataChanged()), f, SLOT(dataUpdated()));
    int idx = ui->tabWidget->addTab( f, QIcon(), tr("Verdichter Starts %1").arg(tabCompStartsCount++));
    ui->tabWidget->setCurrentIndex(idx);
+}
+
+/*---------------------------------------------------------------------------
+* Daten im CSV-Format speichern
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionCSVSpeichern_triggered()
+{
+   // Daten vorhanden?
+   if(data.isEmpty())
+   {
+      QMessageBox::warning( this,
+                            tr("keine Daten"),
+                            tr("Z.Z. sind keine Daten vorhanden!<br>Deshalb kann auch nichts gespeichert werden!"));
+      return;
+   }
+
+   // Dateinamen abfragen
+   QString fileName = QFileDialog::getSaveFileName( this,
+                                                    tr("Daten speichern"),
+                                                    ".",
+                                                    tr("CSV-Dateien (*.csv);;Alle Dateien (*.*)"));
+   if( fileName == "") return;
+
+   // Separator wechseln, wenn "," schon Decimal-Separator ist
+   QChar separator = ',';
+   if( QLocale::system().decimalPoint() == ',') separator = ';';
+
+   // Ausgabedatei oeffnen
+   QFile fOut(fileName);
+   if (!fOut.open(QIODevice::WriteOnly | QIODevice::Text))
+   {
+      QMessageBox::critical( this,
+                             tr("Fehler"),
+                             tr("FEHLER: beim \326ffnen der CSV-Datei '%1'!").arg(fileName));
+      return;
+   }
+   QTextStream out(&fOut);
+
+   setCursor(Qt::WaitCursor);
+   QCoreApplication::processEvents();
+
+   // Kopfzeile
+   out << tr("Datum/Uhrzeit") << separator << tr("Zeitstempel");
+   for( int i=0; i<DataFile::fieldCount(); i++)
+      out << separator << DataFile::fieldInfo(i)->prettyName;
+   out << endl;
+
+   // Daten schreiben
+   DataMap::const_iterator iterator = data.constBegin();
+   do
+   {
+      QDateTime timestamp = QDateTime::fromTime_t(iterator.key());
+      DataFieldValues values = iterator.value();
+
+      // Datum + Zeitstempel
+      out << timestamp.toString("yyyy-MM-dd hh:mm:ss")
+          << separator
+          << iterator.key();
+      // Felder
+      for( int i=0; i<values.size(); i++)
+         out << separator << QLocale::system().toString(values[i]);
+      out << endl;
+
+      // naechster Datensatz
+      iterator++;
+   } while( iterator != data.constEnd());
+
+   // Ausgabedatei schliessen
+   fOut.close();
+
+   setCursor(Qt::ArrowCursor);
 }

@@ -53,6 +53,7 @@
     <addaction name="actionZuruecksetzen"/>
     <addaction name="actionOeffnen"/>
     <addaction name="actionDUMPOeffnen"/>
+    <addaction name="actionCSVSpeichern"/>
     <addaction name="separator"/>
     <addaction name="actionBeenden"/>
    </widget>
@@ -81,6 +82,7 @@
    <addaction name="actionOeffnen"/>
    <addaction name="actionDUMPOeffnen"/>
    <addaction name="actionZuruecksetzen"/>
+   <addaction name="actionCSVSpeichern"/>
    <addaction name="separator"/>
    <addaction name="actionNeuDiagramm"/>
    <addaction name="actionNeuStatistik"/>
@@ -208,6 +210,18 @@
    </property>
    <property name="toolTip">
     <string>DUMP-Datei(en) Öffnen</string>
+   </property>
+  </action>
+  <action name="actionCSVSpeichern">
+   <property name="icon">
+    <iconset resource="dtagui.qrc">
+     <normaloff>:/images/images/csv.png</normaloff>:/images/images/csv.png</iconset>
+   </property>
+   <property name="text">
+    <string>Daten als CSV &amp;speichern ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Daten im CSV-Format speichern</string>
    </property>
   </action>
  </widget>

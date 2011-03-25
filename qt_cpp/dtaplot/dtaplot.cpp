@@ -322,7 +322,11 @@ void DtaPlot::fit(Directions dir)
       if(axisEnabled(QwtPlot::yLeft)) setAxisAutoScale(QwtPlot::yLeft);
       if(axisEnabled(QwtPlot::yRight)) setAxisAutoScale(QwtPlot::yRight);
    }
+
    if(allowReplot) replot();
+
+   // Ansicht als Basis speichern
+   if(dir.testFlag(xyDirection)) zoomer->setZoomBase();
 }
 
 /*---------------------------------------------------------------------------
