@@ -79,6 +79,9 @@ void DumpFile::readDatasets(DataMap *data)
    QString line = strm.readLine();
    quint32 lineCount = 1;
 
+   qreal heatEnergy = 0.0;
+   quint32 lastTS = 0;
+   qreal lastVD1 = 0.0;
 
    while(!line.isNull())
    {
@@ -172,7 +175,7 @@ void DumpFile::readDatasets(DataMap *data)
       //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
       const quint8 posDF = 43;
       const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 10)/10.0;
+      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
 
       //
       // Werte, die nur das Web-Interface liefert
@@ -198,6 +201,17 @@ void DumpFile::readDatasets(DataMap *data)
       values[61] = rawValues[28]/10.0;  // TEE
       values[62] = rawValues[25]/10.0;  // TMK2soll
       values[63] = rawValues[136]/10.0; // TMK3soll
+
+      //
+      // Berechnung Waermemenge
+      //
+      const quint8 posVD1 = 7;
+      const quint8 posQth = 46;
+      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
+      if( lastTS!=0) heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      values[64] = heatEnergy;
+      lastTS = ts;
+      lastVD1 = values[posVD1];
 
       // insert dataset into data map
       data->insert( ts, values);

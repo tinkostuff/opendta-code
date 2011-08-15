@@ -192,6 +192,8 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "TEE",      // Temperatur Externe Energiequelle
    "TMK2soll", // Soll-Temperatur Mischkreis 2
    "TMK3soll", // Soll-Temperatur Mischkreis 3
+
+   "WMCalc",   // berechnete Waermemenge
 };
 
 /*---------------------------------------------------------------------------
@@ -956,6 +958,17 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       0.0,
 #ifdef QT_GUI_LIB
       QColor(128,128,128),
+#endif
+   },  // TMK3soll
+   {
+      tr("WM [kWh]"),
+      tr("berechnete W\344rmemenge pro Verdichter-Start"),
+      tr("Berechnete Werte"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(255, 64,  0),
 #endif
    },  // TMK3soll
 };

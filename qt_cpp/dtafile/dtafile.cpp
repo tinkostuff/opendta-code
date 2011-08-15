@@ -89,6 +89,10 @@ void DtaFile::readDatasets(DataMap *data)
 {
    quint16 value;
 
+   quint32 lastTS = 0;
+   qreal heatEnergy = 0.0;
+   qreal lastVD1 = 0.0;
+
    // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
    char buffer[50];
 
@@ -167,7 +171,18 @@ void DtaFile::readDatasets(DataMap *data)
       //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
       const quint8 posDF = 43;
       const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 10)/10.0;
+      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
+
+      //
+      // Berechnung Waermemenge
+      //
+      const quint8 posVD1 = 7;
+      const quint8 posQth = 46;
+      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
+      if( lastTS!=0) heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      values[64] = heatEnergy;
+      lastTS = ts;
+      lastVD1 = values[posVD1];
 
       // Werte vom Web-Interface stehen hier nicht zur Verfuegung
       for( int j=47; j<=56; ++j) values[j] = 0.0;
