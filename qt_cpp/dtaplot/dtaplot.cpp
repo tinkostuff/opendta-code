@@ -58,9 +58,9 @@ class DateTimePlotZoomer: public QwtPlotZoomer
 {
 public:
    DateTimePlotZoomer( int xAxis, int yAxis, QwtPlotCanvas *canvas): QwtPlotZoomer( xAxis, yAxis, canvas) {}
-   virtual QwtText trackerText(const QwtDoublePoint &pos) const
+   virtual QwtText trackerTextF(const QPointF &pos) const
    {
-      QString label;
+      QwtText label;
       QDateTime dt = QDateTime::fromTime_t(uint(pos.x()));
       switch(rubberBand())
       {
@@ -71,8 +71,8 @@ public:
          label = QString("%1").arg(dt.toString("dd.MM.yy hh:mm"));
          break;
       default:
-         //label = QString("%1, %2").arg(dt.toString("dd.MM.yy hh:mm")).arg(pos.y(), 0, 'f', 1);
-         label = QString("%1, %2").arg(dt.toString("hh:mm:ss")).arg(pos.y(), 0, 'f', 1);
+         label = QString("%1, %2").arg(dt.toString("dd.MM. hh:mm")).arg(pos.y(), 0, 'f', 1);
+         //label = QString("%1, %2").arg(dt.toString("hh:mm:ss")).arg(pos.y(), 0, 'f', 1);
       }
       return label;
    }
@@ -144,7 +144,8 @@ DtaPlot::DtaPlot(QWidget *parent, bool xAxisVisible) :
    zoomer = new DateTimePlotZoomer( QwtPlot::xBottom,
                                     QwtPlot::yLeft,
                                     canvas());
-   zoomer->setSelectionFlags(QwtPicker::PointSelection | QwtPicker::DragSelection);
+   // TODO
+   //zoomer->setSelectionFlags(QwtPicker::PointSelection | QwtPicker::DragSelection);
    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
    zoomer->setRubberBand(QwtPicker::RectRubberBand);
    zoomer->setMousePattern( QwtEventPattern::MouseSelect1,
@@ -292,7 +293,7 @@ void DtaPlot::zoom(Directions dir, double steps)
       // neue Skalierung berechnen
       const double range = axisScaleDiv(axis)->upperBound() - axisScaleDiv(axis)->lowerBound();
       const double center = axisScaleDiv(axis)->lowerBound() + range/2;
-      double scale = 1 + WHEEL_ZOOM_RATIO * qwtAbs(steps);
+      double scale = 1 + WHEEL_ZOOM_RATIO * qAbs(steps);
       double newRange = 0.0;
       if( steps < 0)
          // reinzoomen
@@ -340,13 +341,13 @@ void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog,
 {
    // Kurve erstellen
    QwtPlotCurve *curve = new QwtPlotCurve(name);
-   curve->setData(*data);
+   curve->setData( new QwtPointSeriesData(*data));
    //curve->setRenderHint(QwtPlotItem::RenderAntialiased); // lange Rechnenzeit bei grossen Datenmengen
    curve->setPen(QPen(color));
    if(symbols)
-      curve->setSymbol(QwtSymbol(QwtSymbol::XCross,QBrush(),QPen(color),QSize(5,5)));
+      curve->setSymbol( new QwtSymbol(QwtSymbol::XCross,QBrush(),QPen(color),QSize(5,5)));
    else
-      curve->setSymbol(QwtSymbol());
+      curve->setSymbol( new QwtSymbol());
 
    // digitale Kurven als Stufen zeichnen
    if(!analog) curve->setStyle(QwtPlotCurve::Steps);
@@ -409,7 +410,7 @@ void DtaPlot::updateCurveData(QString name, QPolygonF *data)
 {
    if( !curves.contains(name)) return;
    QwtPlotCurve *curve = curves[name];
-   curve->setData(*data);
+   curve->setData( new QwtPointSeriesData(*data));
 }
 
 /*---------------------------------------------------------------------------
@@ -439,9 +440,9 @@ void DtaPlot::setSymbols(bool on)
    {
       QwtPlotCurve *c = cs.at(i);
       if(on)
-         c->setSymbol(QwtSymbol(QwtSymbol::XCross,QBrush(),c->pen(),QSize(5,5)));
+         c->setSymbol( new QwtSymbol(QwtSymbol::XCross,QBrush(),c->pen(),QSize(5,5)));
       else
-         c->setSymbol(QwtSymbol());
+         c->setSymbol( new QwtSymbol());
    }
    this->replot();
 }

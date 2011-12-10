@@ -72,7 +72,7 @@ double DateTimeScaleEngine::divideInterval(
    double idealStep = intervalSize / numSteps;
    double step = zoomSteps[0];
    for( int i=1; i<zoomStepsSize; i++)
-      if( qwtAbs(idealStep-zoomSteps[i]) < qwtAbs(idealStep-step))
+      if( qAbs(idealStep-zoomSteps[i]) < qAbs(idealStep-step))
          step = zoomSteps[i];
    return step;
 }
@@ -80,7 +80,7 @@ double DateTimeScaleEngine::divideInterval(
 /*---------------------------------------------------------------------------
 * Haupt-Grid bauen
 *---------------------------------------------------------------------------*/
-QwtValueList DateTimeScaleEngine::buildMajorTicks( const QwtDoubleInterval &interval,
+QList<double> DateTimeScaleEngine::buildMajorTicks( const QwtInterval &interval,
                                                    double stepSize) const
 {
    int numTicks = qRound(interval.width() / stepSize) + 1;
@@ -91,7 +91,7 @@ QwtValueList DateTimeScaleEngine::buildMajorTicks( const QwtDoubleInterval &inte
    double offset = 0;
    if( stepSize > 60*60) offset = offsetUTCToLocalTime;
 
-   QwtValueList ticks;
+   QList<double> ticks;
 
    ticks += interval.minValue() + offset;
    for (int i = 1; i < numTicks; i++)
@@ -108,7 +108,7 @@ void DateTimeScaleEngine::autoScale(int maxNumSteps,
                                     double &x2,
                                     double &stepSize) const
 {
-   QwtDoubleInterval interval(x1, x2);
+   QwtInterval interval(x1, x2);
    interval = interval.normalized();
 
    interval.setMinValue(interval.minValue() - lowerMargin());
@@ -123,7 +123,7 @@ void DateTimeScaleEngine::autoScale(int maxNumSteps,
    if (interval.width() == 0.0)
       interval = buildInterval(interval.minValue());
 
-   stepSize = divideInterval(interval.width(), qwtMax(maxNumSteps, 1));
+   stepSize = divideInterval(interval.width(), qMax(maxNumSteps, 1));
 
    if ( !testAttribute(QwtScaleEngine::Floating) )
       interval = align(interval, stepSize);
@@ -145,11 +145,11 @@ QwtScaleDiv DateTimeScaleEngine::divideScale(double x1,
                                              int maxMinSteps,
                                              double stepSize) const
 {
-   QwtDoubleInterval interval = QwtDoubleInterval(x1, x2).normalized();
+   QwtInterval interval = QwtInterval(x1, x2).normalized();
    if (interval.width() <= 0 )
       return QwtScaleDiv();
 
-   stepSize = qwtAbs(stepSize);
+   stepSize = qAbs(stepSize);
    if ( stepSize == 0.0 )
    {
       if ( maxMajSteps < 1 )
@@ -162,7 +162,7 @@ QwtScaleDiv DateTimeScaleEngine::divideScale(double x1,
 
    if ( stepSize != 0.0 )
    {
-      QwtValueList ticks[QwtScaleDiv::NTickTypes];
+      QList<double> ticks[QwtScaleDiv::NTickTypes];
       buildTicks(interval, stepSize, maxMinSteps, ticks);
 
       scaleDiv = QwtScaleDiv(interval, ticks);
@@ -174,12 +174,12 @@ QwtScaleDiv DateTimeScaleEngine::divideScale(double x1,
    return scaleDiv;
 }
 
-void DateTimeScaleEngine::buildTicks( const QwtDoubleInterval& interval,
+void DateTimeScaleEngine::buildTicks( const QwtInterval& interval,
                                       double stepSize,
                                       int maxMinSteps,
-                                      QwtValueList ticks[QwtScaleDiv::NTickTypes]) const
+                                      QList<double> ticks[QwtScaleDiv::NTickTypes]) const
 {
-   const QwtDoubleInterval boundingInterval = align(interval, stepSize);
+   const QwtInterval boundingInterval = align(interval, stepSize);
 
    ticks[QwtScaleDiv::MajorTick] = buildMajorTicks(boundingInterval, stepSize);
 
@@ -198,28 +198,28 @@ void DateTimeScaleEngine::buildTicks( const QwtDoubleInterval& interval,
 
       for ( int j = 0; j < (int)ticks[i].count(); j++ )
       {
-         if ( QwtScaleArithmetic::compareEps(ticks[i][j], 0.0, stepSize) == 0 )
+         if ( qwtFuzzyCompare(ticks[i][j], 0.0, stepSize) == 0 )
             ticks[i][j] = 0.0;
       }
    }
 }
 
-void DateTimeScaleEngine::buildMinorTicks( const QwtValueList& majorTicks,
+void DateTimeScaleEngine::buildMinorTicks( const QList<double>& majorTicks,
                                            int maxMinSteps,
                                            double stepSize,
-                                           QwtValueList &minorTicks,
-                                           QwtValueList &mediumTicks) const
+                                           QList<double> &minorTicks,
+                                           QList<double> &mediumTicks) const
 {
    double minStep = divideInterval(stepSize, maxMinSteps);
    if (minStep == 0.0)
       return;
 
    // # ticks per interval
-   int numTicks = (int)::ceil(qwtAbs(stepSize / minStep)) - 1;
+   int numTicks = (int)::ceil(qAbs(stepSize / minStep)) - 1;
 
    // Do the minor steps fit into the interval?
-   if ( QwtScaleArithmetic::compareEps((numTicks +  1) * qwtAbs(minStep),
-                                       qwtAbs(stepSize), stepSize) > 0)
+   if ( qwtFuzzyCompare((numTicks +  1) * qAbs(minStep),
+                                       qAbs(stepSize), stepSize) > 0)
    {
       numTicks = 1;
       minStep = stepSize * 0.5;
@@ -239,7 +239,7 @@ void DateTimeScaleEngine::buildMinorTicks( const QwtValueList& majorTicks,
          val += minStep;
 
          double alignedValue = val;
-         if (QwtScaleArithmetic::compareEps(val, 0.0, stepSize) == 0)
+         if (qwtFuzzyCompare(val, 0.0, stepSize) == 0)
             alignedValue = 0.0;
 
          if ( k == medIndex )

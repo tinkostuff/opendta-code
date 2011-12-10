@@ -29,7 +29,7 @@
 #include <qwt_scale_widget.h>
 #include <qwt_scale_draw.h>
 #include <qwt_legend.h>
-#include <qwt_plot_printfilter.h>
+#include <qwt_plot_renderer.h>
 
 #include "dtaplotframe.h"
 #include "dtafile/dtafile.h"
@@ -655,7 +655,7 @@ void DtaPlotFrame::alignPlots()
          scaleWidget = plot->axisWidget(QwtPlot::yLeft);
          sd = scaleWidget->scaleDraw();
          sd->setMinimumExtent(0);
-         const int extent = sd->extent(QPen(), scaleWidget->font());
+         const int extent = sd->extent(scaleWidget->font());
          if( extent > maxScaleExtentLeft) maxScaleExtentLeft = extent;
       }
 
@@ -665,7 +665,7 @@ void DtaPlotFrame::alignPlots()
          scaleWidget = plot->axisWidget(QwtPlot::yRight);
          sd = scaleWidget->scaleDraw();
          sd->setMinimumExtent(0);
-         const int extent = sd->extent(QPen(), scaleWidget->font());
+         const int extent = sd->extent(scaleWidget->font());
          if( extent > maxScaleExtentRight) maxScaleExtentRight = extent;
       }
 
@@ -807,9 +807,9 @@ void DtaPlotFrame::printPlot()
       rect = QRect(0, 0, printer->width(), fm.height());
       painter->drawText( rect, "DtaGui - http://opendta.sourceforge.net/ - opendta@gmx.de");
 
-      QwtPlotPrintFilter filter;
+      QwtPlotRenderer renderer;
       // Hintergrund nicht mit drucken
-      filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
+      renderer.setDiscardFlag( QwtPlotRenderer::DiscardBackground);
 
       // Groesse der Seite
       quint32 pageHeight = printer->height() - textHeight;
@@ -821,7 +821,7 @@ void DtaPlotFrame::printPlot()
           rect.setHeight(int(aspect*rect.width()));
 
       // drucken
-      plot->print(painter, rect, filter);
+      renderer.render( plot, painter, rect);
 
       delete painter;
    }
@@ -844,9 +844,9 @@ void DtaPlotFrame::printAll()
       rect = QRect(0, 0, printer->width(), fm.height());
       painter->drawText( rect, "DtaGui - http://opendta.sourceforge.net/ - opendta@gmx.de");
 
-      QwtPlotPrintFilter filter;
+//      QwtPlotPrintFilter filter;
       // Hintergrund nicht mit drucken
-      filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
+//      filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
 
       // Groesse der Plots ermitteln
       quint32 totalHeight = 0;
@@ -866,7 +866,7 @@ void DtaPlotFrame::printAll()
       {
          quint32 height = qFloor( qreal(plotHeights.at(i))/qreal(totalHeight)*qreal(pageHeight));
          rect = QRect(0, pos, printer->width(), height);
-         plotList.at(i)->print( painter, rect, filter);
+ //        plotList.at(i)->print( painter, rect, filter);
          pos += height + 1;
       }
 

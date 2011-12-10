@@ -50,17 +50,17 @@ protected:
    double divideInterval(double interval, int numSteps) const;
 
 private:
-   void buildTicks( const QwtDoubleInterval &,
+   void buildTicks( const QwtInterval &,
                     double stepSize,
                     int maxMinSteps,
-                    QwtValueList ticks[QwtScaleDiv::NTickTypes]) const;
+                    QList<double> ticks[QwtScaleDiv::NTickTypes]) const;
 
-   void buildMinorTicks( const QwtValueList& majorTicks,
+   void buildMinorTicks( const QList<double>& majorTicks,
                          int maxMinMark,
                          double step,
-                         QwtValueList &, QwtValueList &) const;
+                         QList<double> &, QList<double> &) const;
 
-   QwtValueList buildMajorTicks( const QwtDoubleInterval &interval,
+   QList<double> buildMajorTicks( const QwtInterval &interval,
                                  double stepSize) const;
    int offsetUTCToLocalTime;
 };

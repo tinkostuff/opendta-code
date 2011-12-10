@@ -29,7 +29,7 @@
 #include <QMainWindow>
 
 #include "dtafile/dtafile.h"
-#include "dtafile/dumpfile.h"
+#include "dtafile/dumpfile.h" 
 
 #define VERSION_STRING "$Rev$"
 
