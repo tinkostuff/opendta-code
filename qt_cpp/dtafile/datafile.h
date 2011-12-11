@@ -89,7 +89,7 @@ public:
 
 protected:
    QString m_fileName;
-   static const quint16 m_fieldCount = DATA_DS_FIELD_COUNT;
+   static const quint16 m_fieldCount;
 
 private:
 

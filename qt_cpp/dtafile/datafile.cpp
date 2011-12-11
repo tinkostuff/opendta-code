@@ -199,6 +199,7 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
 /*---------------------------------------------------------------------------
 * statische Liste mit Feldnamen
 *---------------------------------------------------------------------------*/
+const quint16 DataFile::m_fieldCount = DATA_DS_FIELD_COUNT;
 QStringList DataFile::initFieldList()
 {
    QStringList res;
