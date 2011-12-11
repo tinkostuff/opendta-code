@@ -1,5 +1,4 @@
 win32:include(C:\\Qt\\Qwt-5.2.1\\qwt.pri)
-#unix:include(/usr/share/qt4/mkspecs/features/qwtconfig.pri)
 CONFIG += qwt
 
 HEADERS += \

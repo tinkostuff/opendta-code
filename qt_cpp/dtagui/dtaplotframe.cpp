@@ -810,6 +810,7 @@ void DtaPlotFrame::printPlot()
       QwtPlotRenderer renderer;
       // Hintergrund nicht mit drucken
       renderer.setDiscardFlag( QwtPlotRenderer::DiscardBackground);
+      renderer.setDiscardFlag( QwtPlotRenderer::DiscardCanvasBackground);
 
       // Groesse der Seite
       quint32 pageHeight = printer->height() - textHeight;
@@ -844,9 +845,10 @@ void DtaPlotFrame::printAll()
       rect = QRect(0, 0, printer->width(), fm.height());
       painter->drawText( rect, "DtaGui - http://opendta.sourceforge.net/ - opendta@gmx.de");
 
-//      QwtPlotPrintFilter filter;
+      QwtPlotRenderer renderer;
       // Hintergrund nicht mit drucken
-//      filter.setOptions( QwtPlotPrintFilter::PrintAll&(~QwtPlotPrintFilter::PrintBackground));
+      renderer.setDiscardFlag( QwtPlotRenderer::DiscardBackground);
+      renderer.setDiscardFlag( QwtPlotRenderer::DiscardCanvasBackground);
 
       // Groesse der Plots ermitteln
       quint32 totalHeight = 0;
@@ -866,7 +868,7 @@ void DtaPlotFrame::printAll()
       {
          quint32 height = qFloor( qreal(plotHeights.at(i))/qreal(totalHeight)*qreal(pageHeight));
          rect = QRect(0, pos, printer->width(), height);
- //        plotList.at(i)->print( painter, rect, filter);
+         renderer.render( plotList.at(i), painter, rect);
          pos += height + 1;
       }
 

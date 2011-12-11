@@ -144,8 +144,6 @@ DtaPlot::DtaPlot(QWidget *parent, bool xAxisVisible) :
    zoomer = new DateTimePlotZoomer( QwtPlot::xBottom,
                                     QwtPlot::yLeft,
                                     canvas());
-   // TODO
-   //zoomer->setSelectionFlags(QwtPicker::PointSelection | QwtPicker::DragSelection);
    zoomer->setTrackerMode(QwtPicker::AlwaysOn);
    zoomer->setRubberBand(QwtPicker::RectRubberBand);
    zoomer->setMousePattern( QwtEventPattern::MouseSelect1,
