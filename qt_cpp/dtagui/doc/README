@@ -13,3 +13,8 @@ Rev 0.05:
     gleichzeitig geoeffnet werden
   - Eingrenzung der statistische Analyse auf einen bestimmten Zeitbreich
 
+Rev 0.06:
+  - Unterstuetzung von DUMP-Dateien
+
+Rev 0.07:
+  - Umstellung auf QWT 6.0
