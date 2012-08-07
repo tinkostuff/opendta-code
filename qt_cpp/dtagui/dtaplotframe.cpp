@@ -285,6 +285,10 @@ DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
    btnPrint->setIcon(QIcon(":/images/images/print.png"));
    connect( btnPrint, SIGNAL(clicked()), this, SLOT(printAll()));
 
+   QPushButton *btnZoom = new QPushButton(tr("Ansicht zur\374cksetzen"));
+   btnZoom->setIcon(QIcon(":/images/images/zoom-fit.png"));
+   connect( btnZoom, SIGNAL(clicked()), this, SLOT(plotZoomFitAllPlots()));
+
    cbSymbols = new QCheckBox(tr("Datenpunkte anzeigen"));
    cbSymbols->setTristate(false);
    cbSymbols->setChecked(false);
@@ -321,6 +325,12 @@ DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
    frameLines->setFrameShadow(QFrame::Sunken);
    gbLayout->addWidget(frameLines);
 
+   gbLayout->addWidget(btnZoom);
+
+   frameLines = new QFrame();
+   frameLines->setFrameShape(QFrame::HLine);
+   frameLines->setFrameShadow(QFrame::Sunken);
+   gbLayout->addWidget(frameLines);
    gbLayout->addWidget(cbSymbols);
 
    frameLines = new QFrame();
@@ -635,8 +645,8 @@ void DtaPlotFrame::scaleDivChanged()
 
 void DtaPlotFrame::alignPlots()
 {
-   int maxScaleExtentLeft = 0;
-   int maxScaleExtentRight = 0;
+   double maxScaleExtentLeft = 0;
+   double maxScaleExtentRight = 0;
    int maxLegendWidth = 0;
    int maxBorderDistStart = 0;
    int maxBorderDistEnd = 0;
@@ -655,7 +665,7 @@ void DtaPlotFrame::alignPlots()
          scaleWidget = plot->axisWidget(QwtPlot::yLeft);
          sd = scaleWidget->scaleDraw();
          sd->setMinimumExtent(0);
-         const int extent = sd->extent(scaleWidget->font());
+         const double extent = sd->extent(scaleWidget->font());
          if( extent > maxScaleExtentLeft) maxScaleExtentLeft = extent;
       }
 
@@ -665,7 +675,7 @@ void DtaPlotFrame::alignPlots()
          scaleWidget = plot->axisWidget(QwtPlot::yRight);
          sd = scaleWidget->scaleDraw();
          sd->setMinimumExtent(0);
-         const int extent = sd->extent(scaleWidget->font());
+         const double extent = sd->extent(scaleWidget->font());
          if( extent > maxScaleExtentRight) maxScaleExtentRight = extent;
       }
 
@@ -739,6 +749,12 @@ void DtaPlotFrame::plotZoomFitXY()
    QAction *act = static_cast<QAction *>(QObject::sender());
    DtaPlot *plot = static_cast<DtaPlot *>(act->parent());
    plot->fit(DtaPlot::xyDirection);
+}
+void DtaPlotFrame::plotZoomFitAllPlots()
+{
+   for( int i=0; i<plotList.size(); i++)
+      plotList.at(i)->fit(DtaPlot::yDirection);
+   plotList.at(0)->fit(DtaPlot::xDirection);
 }
 
 /*---------------------------------------------------------------------------

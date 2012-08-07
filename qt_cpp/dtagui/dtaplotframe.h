@@ -69,6 +69,7 @@ private slots:
     void plotZoomFitX();
     void plotZoomFitY();
     void plotZoomFitXY();
+    void plotZoomFitAllPlots();
 
     // Haupt- und Unter-Teilung der y-Achse festlegen
     void maxMajorYTicks();
