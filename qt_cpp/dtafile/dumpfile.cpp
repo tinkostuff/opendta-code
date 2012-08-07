@@ -145,15 +145,22 @@ void DumpFile::readDatasets(DataMap *data)
       values[36] = rawValues[140]; // FUP3
       values[37] = rawValues[50]; // ZW3
       values[38] = rawValues[52]; // SLP
-      values[39] = rawValues[156]/10.0; // AO1
-      values[40] = rawValues[157]/10.0; // AO2
+      values[39] = rawValues[156]/100.0; // AO1
+      values[40] = rawValues[157]/100.0; // AO2
       values[41] = rawValues[36] ? 0 : 1; // SWT
-      values[42] = rawValues[147]/10.0; // AI1
+      values[42] = rawValues[147]/100.0; // AI1
       values[43] = rawValues[155]/60.0; // DF (Umrechnung l/h in l/min)
 
       //
       // berechnete Felder
       //
+
+      // Durchfluss Heizkreis
+      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
+      const quint8 posAI1 = 42;
+      if( values[posAI1] < 0.5) values[57] = 0.0;
+      else
+         values[57] = qRound( (values[posAI1] * 32.0 - 12.0) * 2) / 2.0 + 1.5;
 
       // Spreizung Heizkreis
       const quint8 posHUP = 0;
@@ -194,7 +201,7 @@ void DumpFile::readDatasets(DataMap *data)
       //
       // Temperaturen der Comfortplatine
       //
-      values[57] = rawValues[27]/10.0;  // TSS
+      //values[57] = rawValues[27]/10.0;  // TSS
       values[58] = rawValues[26]/10.0;  // TSK
       values[59] = rawValues[24]/10.0;  // TFB2
       values[60] = rawValues[137]/10.0; // TFB3
@@ -208,7 +215,10 @@ void DumpFile::readDatasets(DataMap *data)
       const quint8 posVD1 = 7;
       const quint8 posQth = 46;
       if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
-      if( lastTS!=0) heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      if(ts-lastTS > MISSING_DATA_GAP)
+         heatEnergy = 0.0;
+      else
+         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
       values[64] = heatEnergy;
       lastTS = ts;
       lastVD1 = values[posVD1];

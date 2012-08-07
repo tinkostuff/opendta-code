@@ -217,7 +217,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
       {
          // Luecken suchen
          bool missingFound = false;
-         if(ts-lastTS > 65) // 65 Sekunden fuer ein bisschen Spielraum
+         if(ts-lastTS > MISSING_DATA_GAP)
          {
             m_missingCount++;
             m_missingSum += ts - lastTS - 60;

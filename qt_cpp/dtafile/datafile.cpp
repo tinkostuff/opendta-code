@@ -515,17 +515,6 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
 #endif
    },  // THG
    {
-      tr("TWQein [\260C]"),
-      tr("Temperatur W\344rmequelle Eingang"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // TWQein
-   {
       tr("TWQaus [\260C]"),
       tr("Temperatur W\344rmequelle Ausgang"),
       tr("Temperaturen"),
@@ -536,6 +525,17 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       QColor(  0,  0,128),
 #endif
    },  // TWQaus
+   {
+      tr("TWQein [\260C]"),
+      tr("Temperatur W\344rmequelle Eingang"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+   #ifdef QT_GUI_LIB
+      QColor(  0,128,  0),
+   #endif
+   },  // TWQein
    {
       tr("TRLsoll [\260C]"),
       tr("R\374cklauf-Soll-Temperatur"),

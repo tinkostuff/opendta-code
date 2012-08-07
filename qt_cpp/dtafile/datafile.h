@@ -34,7 +34,10 @@
 #include <QColor>
 #endif
 
-#define DATA_DS_FIELD_COUNT 65   // fields per dataset
+#define DATA_DS_FIELD_COUNT 65   // Felder pro Datensatz
+
+#define MISSING_DATA_GAP 605 // Zeit (in sec) ab wann eine Luecke als fehlende
+                             // Daten interpretiert wird
 
 // Array zum Speichern der Werte eines Datensatzes
 typedef QVarLengthArray<qreal> DataFieldValues;
