@@ -252,7 +252,7 @@ void MainWindow::on_actionUeber_triggered()
       "diesem Programm erhalten haben. Falls nicht, siehe "
       "<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.</p>"
       ""
-      "<p>Copyright (C) 2011 opendta@gmx.de<p>").arg(VERSION_STRING)
+      "<p>Copyright (C) 2012 opendta@gmx.de<p>").arg(VERSION_STRING)
    );
 }
 void MainWindow::on_actionUeberQt_triggered()
@@ -274,7 +274,7 @@ void MainWindow::on_actionUeberQwt_triggered()
       "<h4>English:</h4>"
       "<p>Program is based in part on the work of the Qwt project "
       "(<a href=\"http://qwt.sf.net\">http://qwt.sf.net</a>).</p>"
-      "<p>I would like to thank the Qwt tean for their work!</p>"
+      "<p>I would like to thank the Qwt team for their work!</p>"
       ));
 }
 
