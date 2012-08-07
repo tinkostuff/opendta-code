@@ -148,8 +148,12 @@ void DtaFile::readDatasets(DataMap *data)
 
       // Durchfluss Heizkreis
       // Werte fuer Durchflussmesser Grundfoss VFS 5-100
+      // der Sensor hat "nur" 0.5l/min Aufloesung
+      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
       const quint8 posAI1 = 42;
-      values[43] = calcLinearData( 1, values[posAI1] * 32.0, -12.0, 100);
+      if(values[posAI1]<0.5) values[43] = 0.0;
+      else
+         values[43] = calcLinearData( 1, values[posAI1] * 32.0, -12.0, 2);
 
       // Spreizung Heizkreis
       const quint8 posHUP = 0;
@@ -179,7 +183,10 @@ void DtaFile::readDatasets(DataMap *data)
       const quint8 posVD1 = 7;
       const quint8 posQth = 46;
       if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
-      if( lastTS!=0) heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
+         heatEnergy = 0.0;
+      else
+         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
       values[64] = heatEnergy;
       lastTS = ts;
       lastVD1 = values[posVD1];
