@@ -25,7 +25,7 @@
 /*---------------------------------------------------------------------------
 * Aufbau einer DUMP-Datei
 * =======================
-*  - Textdatei
+*  - Textdatei + BZ2 Kompression
 *  - eine Zeile enthaelt einen Datensatz
 *  - Format einer Zeile: Index1=Wert1,Index2=Wert2,...
 *  - nur in der ersten Zeile einer Datei sind alle Indexes aufgefuehrt

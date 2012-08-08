@@ -27,8 +27,10 @@
 *---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien:
-*  - die ersten 8 Byte sind ein Datei-Kopf (noch unbekannte Funktion)
+* Aufbau der DTA-Dateien (von Firmware Version 1.x):
+*  - die ersten 8 Byte sind ein Datei-Kopf
+*      [0:3]: 0x2011 fuer Version 1.x
+*      [4:7]: unbekannte Funktion
 *  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
 *  - jeder Datensatz ist 168 Byte lang
 *  - die Byte-Order ist little-endian
@@ -130,8 +132,9 @@
 
 #define DTA_HEADER_LENGTH 8     // bytes
 #define DTA_DATASET_LENGTH 168  // bytes
-#define DTA_DATASET_COUNT 2880  // count
 #define DTA_TIME_INTERVAL 60    // sec
+
+#define DTA1_HEADER_VALUE 0x2011
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -158,6 +161,8 @@ public:
 private:
     QFile *m_dtaFile;
     QDataStream m_dtaStream;
+    quint16 m_dsCount;
+    quint8 m_dtaVersion;
 
     // Wertetabellen zur Umrechnung
     static const DtaLUTInfo LUT[5];
@@ -165,6 +170,8 @@ private:
     static qreal calcLUTData( const quint16 &value, const DtaLUTInfo &info);
     static inline qreal calcBitData( const quint16 &value, const quint8 &pos);
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
+
+    virtual void readDTA1(DataMap *data); // DAT Version 1.x lesen
 };
 
 #endif // DTAFILE_H

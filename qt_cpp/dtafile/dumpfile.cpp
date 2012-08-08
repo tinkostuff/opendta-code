@@ -52,7 +52,8 @@ bool DumpFile::open()
    // gibt es die Daten
    if( !QFile::exists(m_fileName))
    {
-      qWarning() << QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
+      errorMsg = QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
+      qWarning() << errorMsg;
       return false;
    }
 
@@ -61,7 +62,8 @@ bool DumpFile::open()
    bzcat.setReadChannel(QProcess::StandardOutput);
    if(!bzcat.waitForReadyRead())
    {
-      qWarning() << QString(tr("FEHLER: 'bzcat' kann nicht gestarted werden!"));
+      errorMsg = QString(tr("FEHLER: 'bzcat' kann nicht gestarted werden!"));
+      qWarning() << errorMsg;
       return false;
    }
 

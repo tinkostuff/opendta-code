@@ -24,6 +24,7 @@
 
 #include <qmath.h>
 #include <QStringList>
+#include <QFileInfo>
 
 #include "dtafile/dtafile.h"
 
@@ -34,6 +35,7 @@ DtaFile::DtaFile(QString fileName, QObject *parent) :
     DataFile(fileName,parent)
 {
    this->m_dtaFile = NULL;
+   this->m_dtaVersion = 0;
 }
 
 /*---------------------------------------------------------------------------
@@ -53,7 +55,8 @@ bool DtaFile::open()
    // gibt es die Daten
    if( !QFile::exists(m_fileName))
    {
-      qWarning() << QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
+      errorMsg = QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
+      qWarning() << errorMsg;
       return false;
    }
 
@@ -61,23 +64,36 @@ bool DtaFile::open()
    m_dtaFile = new QFile(m_fileName);
    m_dtaFile->open(QIODevice::ReadOnly);
 
-   // Groesse der Datei ueberpruefen
-   qint16 dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA_DATASET_LENGTH;
-   if( dsCount != DTA_DATASET_COUNT) {
-      qWarning() << QString(tr("FEHLER %3: Anzahl der Datensaetze (%1) weicht vom erwarteten Wert (%2) ab!"))
-                        .arg(dsCount)
-                        .arg(DTA_DATASET_COUNT)
-                        .arg(m_fileName);
-      return false;
-   }
-
    // Stream erstellen
    m_dtaStream.setDevice(m_dtaFile);
    m_dtaStream.setByteOrder(QDataStream::LittleEndian);
 
-   // Dateikoepf lesen und verwerfen (damit der Dateizeiger auf dem
-   // ersten Datensatz steht
-   m_dtaStream.skipRawData(DTA_HEADER_LENGTH);
+   // Dateikopf lesen
+   quint32 header[2];
+   m_dtaStream >> header[0];
+   m_dtaStream >> header[1];
+
+   // Kopf pruefen
+   if( header[0] != DTA1_HEADER_VALUE) {
+      QFileInfo fi(m_fileName);
+      errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei an opendta@gmx.de schicken."))
+                        .arg(header[0])
+                        .arg(fi.fileName());
+      qWarning() << errorMsg;
+      return false;
+   }
+
+   // Groesse der Datei ueberpruefen
+   if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % DTA_DATASET_LENGTH != 0) {
+      errorMsg = QString(tr("FEHLER %1: Unerwartete Dateigroesse!"))
+                         .arg(m_fileName);
+      qWarning() << errorMsg;
+      return false;
+   }
+   m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA_DATASET_LENGTH;
+
+   // Version der DTA-Datei festhalten
+   if( header[0] == DTA1_HEADER_VALUE) m_dtaVersion = 1;
 
    return true;
 }
@@ -86,6 +102,18 @@ bool DtaFile::open()
 * alle Datensaetze der Datei lesen
 *---------------------------------------------------------------------------*/
 void DtaFile::readDatasets(DataMap *data)
+{
+   // DTA in Abhaengigkeit von Version lesen
+   if( m_dtaVersion == 1) readDTA1(data);
+   else {
+      qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)").arg(m_dtaVersion));
+   }
+}
+
+/*---------------------------------------------------------------------------
+* DAT Version 1.x lesen
+*---------------------------------------------------------------------------*/
+void DtaFile::readDTA1(DataMap *data)
 {
    quint16 value;
 
@@ -97,7 +125,7 @@ void DtaFile::readDatasets(DataMap *data)
    char buffer[50];
 
    // jeden Datensatz lesen
-   for( int i=0; i<DTA_DATASET_COUNT; i++)
+   for( int i=0; i<m_dsCount; i++)
    {
       DataFieldValues values(m_fieldCount); // Werte-Array
       quint32 ts; // Zeitstempel

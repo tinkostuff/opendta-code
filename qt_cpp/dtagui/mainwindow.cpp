@@ -95,7 +95,7 @@ void MainWindow::readDtaFiles(QStringList files)
          QMessageBox::warning(
                this,
                tr("Fehler beim \326ffnen der DTA-Datei"),
-               QString(tr("Fehler beim \326ffnen der DTA-Datei '%1'!")).arg(fileName));
+               dta->errorMsg);
       }
       else
       {

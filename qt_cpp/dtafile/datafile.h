@@ -90,6 +90,9 @@ public:
    static QStringList fieldCategories();
    static const DataFieldInfo* const defaultFieldInfo();
 
+   // String mit Fehlermeldung
+   QString errorMsg;
+
 protected:
    QString m_fileName;
    static const quint16 m_fieldCount;
