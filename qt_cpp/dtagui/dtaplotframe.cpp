@@ -490,12 +490,15 @@ QPolygonF DtaPlotFrame::extractCurveData(QString field)
    quint16 index = DataFile::fieldIndex(field);
 
    QPolygonF result;
-   DataMap::const_iterator i = data->constBegin();
-   do
+   if( data->size() > 0)
    {
-      result << QPointF( i.key(), i.value()[index] * info->scale + info->offset);
-      i++;
-   } while( i != data->constEnd());
+       DataMap::const_iterator i = data->constBegin();
+       do
+       {
+          result << QPointF( i.key(), i.value()[index] * info->scale + info->offset);
+          i++;
+       } while( i != data->constEnd());
+   }
    return result;
 }
 
