@@ -121,6 +121,98 @@
 *
 *---------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------
+*
+* Aufbau der DTA-Dateien (von Firmware Version 2.x):
+*  - die ersten 8 Byte sind ein Datei-Kopf
+*      [0:3]: 0x2011 fuer Version 1.x
+*      [4:7]: unbekannte Funktion
+*  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
+*  - die Byte-Order ist little-endian
+*  - die Datensaetze sind sortiert
+*  - ein Datensatz besteht aus 4 Bytes fuer Datum/Uhrzeit und 38 Datenfeldern
+*
+* Aufbau eines Datenfeldes
+*  - [0] Feldtyp:
+*      - 0: positive Zahl, 1 Byte lang
+*      - 1: positive Zahl, 2 Byte lang
+*      - 4: negative Zahl, 1 Byte lang
+*      - 5: negative Zahl, 2 Byte lang
+*  - [1:Laenge] Wert des Feldes
+*
+* Zuordnung der Feldpositionen
+*   [0 ] TVL
+*   [1 ] TRL
+*   [2 ] TWQein
+*   [3 ] TWQaus?
+*   [4 ] THG
+*   [5 ] TBW
+*   [6 ] ?
+*   [7 ] TA
+*   [8 ] TRLext
+*   [9 ] TRLsoll
+*   [10] ?
+*   [11] ?
+*   [12] StatusA = Status der Ausgaenge
+*        bit 0:  HUP  = Heizungsumwaelzpumpe
+*        bit 1:  ZUP  = Zusatzumwaelzpumpe
+*        bit 2:  BUP  = Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
+*        bit 3:  ZW2  = Zusaetzlicher Waermeerzeuger 2 / Sammelstoerung
+*        bit 4:  MA1  = Mischer 1 auf
+*        bit 5:  MZ1  = Mischer 1 zu
+*        bit 6:  ZIP  = Zirkulationspumpe
+*        bit 7:  VD1  = Verdichter 1
+*        bit 8:  VD2  = Verdichter 2
+*        bit 9:  VENT = Ventilation des WP Gehaeses / 2. Stufe des Ventilators
+*        bit 10: AV   = Abtauventil (Kreislaufumkehr)
+*        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
+*        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
+*   [13] StatusE = Status der Eingaenge (die Bits sind invertiert zur Funktion)
+*        bit 0:  HD_  = Hochdruckpressostat
+*        bit 1:  ND_  = Niederdruckpressostat
+*        bit 2:  MOT_ = Motorschutz
+*        bit 3:  ASD_ = Abtau/Soledruck/Durchfluss
+*        bit 4:  EVU_ = EVU Sperre
+*   [14] ?
+*   [15] ?
+*   [16] ?
+*   [17] ?
+*   [18] ?
+*   [19] ?
+*   [20] ?
+*   [21] ?
+*   [22] ?
+*   [23] DF
+*   [24] ?
+*   [25] ?
+*   [26] ?
+*   [27] Ansaug VD
+*   [28] Ansaug Verdampfer
+*   [29] VD-Heizung
+*   [30] ?
+*   [31] ?
+*   [32] ?
+*   [33] ?
+*   [34] ?
+*   [35] Ueberhitzung
+*   [36] Ueberhitzung soll
+*   [37] ?
+*
+* Umrechnung der Werte:
+*  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
+*  die Messwerte x10 gespeichert.
+*
+* invertierte Bit-Werte:
+*  Feldnamen, die mit eine "_" enden (alle Eingaenge) beinhalten invertierte
+*  Werte.
+*
+* Felder, die mit dieser Klasse berechnet werden:
+*  - SpHz: Spreizung Heizkreis (TVL-TRL)
+*  - SpWQ: Spreizung Waermequelle (TWQein-TWQaus)
+*  - Qh: thermische Leistung (Durchfluss * Dichte * Waermekapazitaet * SpHz)
+*
+*---------------------------------------------------------------------------*/
+
 #ifndef DTAFILE_H
 #define DTAFILE_H
 
@@ -130,11 +222,13 @@
 
 #include "dtafile/datafile.h"
 
-#define DTA_HEADER_LENGTH 8     // bytes
-#define DTA_DATASET_LENGTH 168  // bytes
-#define DTA_TIME_INTERVAL 60    // sec
+#define DTA_HEADER_LENGTH 8      // bytes
+#define DTA1_DATASET_LENGTH 168  // bytes
+#define DTA2_DATASET_LENGTH 39   // fields
 
+// Header-Werte fuer unterschiedliche Datei-Versionen
 #define DTA1_HEADER_VALUE 0x2011
+#define DTA2_HEADER_VALUE 0x2328
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -172,6 +266,7 @@ private:
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
 
     virtual void readDTA1(DataMap *data); // DAT Version 1.x lesen
+    virtual void readDTA2(DataMap *data); // DAT Version 2.x lesen
 };
 
 #endif // DTAFILE_H

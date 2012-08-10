@@ -55,9 +55,8 @@ bool DtaFile::open()
    // gibt es die Daten
    if( !QFile::exists(m_fileName))
    {
-      errorMsg = QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
-      qWarning() << errorMsg;
-      return false;
+      qWarning() << QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(fileName);
+      continue;
    }
 
    // Datei oeffnen
@@ -74,7 +73,7 @@ bool DtaFile::open()
    m_dtaStream >> header[1];
 
    // Kopf pruefen
-   if( header[0] != DTA1_HEADER_VALUE) {
+   if( (header[0] != DTA1_HEADER_VALUE) && (header[0] != DTA2_HEADER_VALUE)) {
       QFileInfo fi(m_fileName);
       errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei an opendta@gmx.de schicken."))
                         .arg(header[0])
@@ -83,17 +82,20 @@ bool DtaFile::open()
       return false;
    }
 
-   // Groesse der Datei ueberpruefen
-   if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % DTA_DATASET_LENGTH != 0) {
-      errorMsg = QString(tr("FEHLER %1: Unerwartete Dateigroesse!"))
-                         .arg(m_fileName);
-      qWarning() << errorMsg;
-      return false;
-   }
-   m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA_DATASET_LENGTH;
-
    // Version der DTA-Datei festhalten
    if( header[0] == DTA1_HEADER_VALUE) m_dtaVersion = 1;
+   else if( header[0] == DTA2_HEADER_VALUE) m_dtaVersion = 2;
+
+   // Groesse der Datei ueberpruefen
+   if( m_dtaVersion == 1) {
+      if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % DTA1_DATASET_LENGTH != 0) {
+         errorMsg = QString(tr("FEHLER %1: Unerwartete Dateigroesse!"))
+                            .arg(m_fileName);
+         qWarning() << errorMsg;
+         return false;
+      }
+      m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA1_DATASET_LENGTH;
+   }
 
    return true;
 }
@@ -105,6 +107,7 @@ void DtaFile::readDatasets(DataMap *data)
 {
    // DTA in Abhaengigkeit von Version lesen
    if( m_dtaVersion == 1) readDTA1(data);
+   else if( m_dtaVersion == 2) readDTA2(data);
    else {
       qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)").arg(m_dtaVersion));
    }
@@ -373,4 +376,143 @@ const DtaLUTInfo DtaFile::LUT[5] = {
 	}
 };
 
+/*---------------------------------------------------------------------------
+* DAT Version 2.x lesen
+*---------------------------------------------------------------------------*/
+void DtaFile::readDTA2(DataMap *data)
+{
+   qint32 ds[DTA2_DATASET_LENGTH-1]; // Werte des Datensatzes
+
+   quint32 lastTS = 0;
+   qreal heatEnergy = 0.0;
+   qreal lastVD1 = 0.0;
+
+   m_dsCount = 0;
+   while(1)
+   {
+      // Zeitstempel einlesen
+      quint32 ts; // Zeitstempel
+      m_dtaStream >> ts; // [0  :3  ] - Datum
+
+      // Ende der Datei?
+      if( ts == 0) break;
+
+      // jedes Feld lesen
+      for( int j=0; j<DTA2_DATASET_LENGTH-1; j++)
+      {
+         quint8 type;
+         m_dtaStream >> type;
+
+         switch(type)
+         {
+         case 0:
+            // positive byte
+            quint8 tmp8u;
+            m_dtaStream >> tmp8u;
+            ds[j] = tmp8u;
+            break;
+         case 1:
+            // positive short
+            qint16 tmp16;
+            m_dtaStream >> tmp16;
+            ds[j] = tmp16;
+            break;
+         case 4:
+            // negative byte
+            quint8 tmp8;
+            m_dtaStream >> tmp8;
+            ds[j] = -tmp8;
+            break;
+         case 5:
+            // negative short
+            quint16 tmp16u;
+            m_dtaStream >> tmp16u;
+            ds[j] = -tmp16u;
+            break;
+         default:
+            qWarning() << "type" << type << "not supported";
+            ds[j] = 0;
+         }
+      }
+
+      // Werte zuordnen
+      m_dsCount++;
+      DataFieldValues values(m_fieldCount); // Werte-Array
+      for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initial values
+
+      for( int j=0; j<=12; j++) values[0+j ]=calcBitData(ds[12],j);       // Status Ausgaenge
+      for( int j=0; j<=4;  j++) values[13+j]=calcBitDataInv(ds[13],j);    // Status Eingaenge
+
+      values[18] = 0.0; // TFB1
+      values[19] = ds[ 5]/10.0; // TBW
+      values[20] = ds[ 7]/10.0; // TA
+      values[21] = ds[ 8]/10.0; // TRLext
+      values[22] = ds[ 1]/10.0; // TRL
+      values[23] = ds[ 0]/10.0; // TVL
+      values[24] = ds[ 4]/10.0; // THG
+      values[25] = ds[ 3]/10.0; // TWQaus
+      values[26] = ds[ 2]/10.0; // TWQein
+      values[27] = ds[ 9]/10.0; // TRLsoll
+      values[28] = 0.0; // TMK1soll
+      //for( int j=6; j<=15; j++) values[29+j-6]=calcBitData(ds[23],j);    // Status Ausgaenge ComfortPlatine
+      values[29] = 0.0; // AI1DIV
+      values[30] = 0.0; // SUP
+      values[31] = 0.0; // FUP2
+      values[32] = 0.0; // MA2
+      values[33] = 0.0; // MZ2
+      values[34] = 0.0; // MA3
+      values[35] = 0.0; // MZ3
+      values[36] = 0.0; // FUP3
+      values[37] = 0.0; // ZW3
+      values[38] = 0.0; // SLP
+      values[39] = 0.0; // AO1
+      values[40] = 0.0; // AO2
+      values[41] = 0.0; // SWT
+      values[42] = 0.0; // AI1
+      values[43] = ds[23]/60.0; // DF (Umrechnung l/h in l/min)
+
+      //
+      // berechnete Felder
+      //
+
+      // Spreizung Heizkreis
+      const quint8 posHUP = 0;
+      const quint8 posTRL = 22;
+      const quint8 posTVL = 23;
+      if(values[posHUP]) values[44] = values[posTVL] - values[posTRL];
+      else values[44] = 0;
+
+      // Spreizung Waermequelle
+      const quint8 posVBS = 11;
+      const quint8 posTWQein = 26;
+      const quint8 posTWQaus = 25;
+      if(values[posVBS]) values[45] = values[posTWQein] - values[posTWQaus];
+      else values[45] = 0;
+
+      // thermische Leistung
+      // Qth = Durchfluss[l/min] * Spreizung[K] / 60 * c[kJ/kg] * Dichte[kg/l]
+      //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
+      //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
+      const quint8 posDF = 43;
+      const quint8 posSpHz = 44;
+      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
+
+      //
+      // Berechnung Waermemenge
+      //
+      const quint8 posVD1 = 7;
+      const quint8 posQth = 46;
+      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
+      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
+         heatEnergy = 0.0;
+      else
+         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      values[64] = heatEnergy;
+      lastTS = ts;
+      lastVD1 = values[posVD1];
+
+      // Datensatz einfuegen
+      data->insert( ts, values);
+   }
+}
 
