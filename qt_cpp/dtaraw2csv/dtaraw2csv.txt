@@ -1,0 +1,9 @@
+dtaraw2csv
+- Konvertierung von DTA-Dateien in das CSV-Format (Rohwerte)
+- Ausgabe-Datei = <DTA-Datei>.raw.csv
+- es koennen mehrere Dateien gleichzeitig konvertiert werden
+- Kommandozeile: dta2csv.exe <Liste-mit-DTA-Dateien>
+- Windows: DTA-Dateien markieren und per Drag&Drop auf dta2csv.exe ziehen
+
+Copyright (C) 2012  opendta@gmx.de, http://opendta.sf.net/
+GNU General Public License Version 3
