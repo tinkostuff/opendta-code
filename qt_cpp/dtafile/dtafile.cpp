@@ -55,8 +55,9 @@ bool DtaFile::open()
    // gibt es die Daten
    if( !QFile::exists(m_fileName))
    {
-      qWarning() << QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(fileName);
-      continue;
+      errorMsg = QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
+      qWarning() << errorMsg;
+      return false;
    }
 
    // Datei oeffnen
