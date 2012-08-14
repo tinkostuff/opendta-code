@@ -185,7 +185,7 @@ void DtaFile::readDTA1(DataMap *data)
       const quint8 posAI1 = 42;
       if(values[posAI1]<0.5) values[43] = 0.0;
       else
-         values[43] = calcLinearData( 1, values[posAI1] * 32.0, -12.0, 2);
+         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
 
       // Spreizung Heizkreis
       const quint8 posHUP = 0;
