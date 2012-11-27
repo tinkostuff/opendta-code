@@ -76,6 +76,7 @@ QStringList DataFile::fieldCategories()
    res << tr("Analoge Signale");
    res << tr("Berechnete Werte");
    res << tr("Web-Interface");
+   res << tr("Elektro-Z\344hler");
    res << tr("Sonstiges");
    return res;
 }
@@ -194,6 +195,14 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "TMK3soll", // Soll-Temperatur Mischkreis 3
 
    "WMCalc",   // berechnete Waermemenge
+
+   // elektrische Energie
+   "Pe1",      // elektrische Leistung Verdichter
+   "Pe2",      // elektrische Leistung Steuerung, Pumpen, ...
+   "AZ1",      // Arbeitszahl mit Elt1
+   "AZ2",      // Arbeitszahl mit Elt1 + Elt2
+   "E1",       // elektrische Energie Verdichter
+   "E2",       // elektrische Energie Steuerung, Pumpen, ....
 };
 
 /*---------------------------------------------------------------------------
@@ -755,7 +764,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
 #endif
    },  // SpWQ
    {
-      tr("Qh [kW]"),
+      tr("Qh [W]"),
       tr("Heizleistung"),
       tr("Berechnete Werte"),
       true,
@@ -971,7 +980,76 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
 #ifdef QT_GUI_LIB
       QColor(255, 64,  0),
 #endif
-   },  // TMK3soll
+   },  // WMCalc
+   //
+   // elektrische Energie
+   //
+   {
+      tr("Pe1 [W]"),
+      tr("elektrische Leistung Verdichter"),
+      tr("Elektro-Z\344hler"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,128,128),
+#endif
+   },  // Pe1
+   {
+      tr("Pe2 [W]"),
+      tr("elektrische Leistung Steuerung, Pumpen"),
+      tr("Elektro-Z\344hler"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(128,128,  0),
+#endif
+   },  // Pe2
+   {
+      tr("AZ1 []"),
+      tr("Arbeitszahl mit Elt1"),
+      tr("Elektro-Z\344hler"),
+      false,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0, 64, 64),
+#endif
+   },  // AZ1
+   {
+      tr("AZ2 []"),
+      tr("Arbeitszahl mit Elt1 und Elt2"),
+      tr("Elektro-Z\344hler"),
+      false,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor( 64, 64,  0),
+#endif
+   },  // AZ2
+   {
+      tr("E1 [kWh]"),
+      tr("elektrische Energie Verdichter"),
+      tr("Elektro-Z\344hler"),
+      false,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,192,192),
+#endif
+   },  // E1
+   {
+      tr("E2 [kWh]"),
+      tr("elektrische Energie Steuerung, Pumpen"),
+      tr("Elektro-Z\344hler"),
+      false,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(192,192,  0),
+#endif
+   },  // E2
 };
 
 const DataFieldInfo DataFile::m_defaultFieldInfo = {

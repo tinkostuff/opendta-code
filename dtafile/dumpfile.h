@@ -206,6 +206,8 @@
 * 170: SAXin
 * 171: SPLin
 * 172: Compact_exists
+* elt1: elektrical energy compressor
+* elt2: elektrical energy Luxtronik2, pumps
 *---------------------------------------------------------------------------*/
 #ifndef DUMPFILE_H
 #define DUMPFILE_H

@@ -74,6 +74,7 @@ bool DtaFile::open()
    m_dtaStream >> header[1];
 
    // Kopf pruefen
+#ifndef NO_HEADER_CHECK
    if( (header[0] != DTA1_HEADER_VALUE) && (header[0] != DTA2_HEADER_VALUE)) {
       QFileInfo fi(m_fileName);
       errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei an opendta@gmx.de schicken."))
@@ -86,6 +87,10 @@ bool DtaFile::open()
    // Version der DTA-Datei festhalten
    if( header[0] == DTA1_HEADER_VALUE) m_dtaVersion = 1;
    else if( header[0] == DTA2_HEADER_VALUE) m_dtaVersion = 2;
+#else
+   if( header[0] <= DTA1_HEADER_VALUE) m_dtaVersion = 1;
+   else if( header[0] >= DTA2_HEADER_VALUE) m_dtaVersion = 2;
+#endif
 
    // Groesse der Datei ueberpruefen
    if( m_dtaVersion == 1) {
@@ -225,6 +230,9 @@ void DtaFile::readDTA1(DataMap *data)
 
       // Werte vom Web-Interface stehen hier nicht zur Verfuegung
       for( int j=47; j<=56; ++j) values[j] = 0.0;
+
+      // Werte zur Elektroenergie stehen hier nicht zur Verfuegung
+      for( int j=65; j<=70; ++j) values[j] = 0.0;
 
       // Datensatz in Map einfuegen
       data->insert( ts, values);

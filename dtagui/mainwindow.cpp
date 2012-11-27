@@ -296,7 +296,7 @@ void MainWindow::on_actionDUMPOeffnen_triggered()
          this,
          tr("Eine oder mehrere Dateien ausw\344hlen"),
          lastOpenPathDTA,
-         tr("DUMP-Dateien (*.dump.bz2);;Alle Dateien (*.*)"));
+         tr("DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDumpFiles(files);
 }
 

@@ -82,6 +82,8 @@ void DumpFile::readDatasets(DataMap *data)
    quint32 lineCount = 1;
 
    qreal heatEnergy = 0.0;
+   qreal elEnergy1 = 0.0;
+   qreal elEnergy2 = 0.0;
    quint32 lastTS = 0;
    qreal lastVD1 = 0.0;
 
@@ -93,15 +95,23 @@ void DumpFile::readDatasets(DataMap *data)
       // Groesse des Arrays bestimmen
       if(firstLine)
       {
-         quint32 max = fields.last().split('=',QString::SkipEmptyParts)[0].toInt();
-         rawValues.resize(max+1);
+         rawValues.resize(fields.size());
          firstLine = false;
       }
 
       for( int i=0; i<fields.size(); ++i)
       {
          QStringList l = fields.at(i).split( '=', QString::SkipEmptyParts);
-         rawValues[l.at(0).toInt()] = l.at(1).toInt(0,10);
+         if( l.at(0).startsWith("elt"))
+         {
+            // EltMon fields
+            QString fname = l.at(0);
+            quint16 pos = rawValues.size() - fname.right(1).toInt();
+            rawValues[pos] = l.at(1).toInt(0,10);
+         } else {
+            // Lxt2Mon fields
+            rawValues[l.at(0).toInt()] = l.at(1).toInt(0,10);
+         }
       }
 
       // Daten auslesen und speichern
@@ -153,6 +163,9 @@ void DumpFile::readDatasets(DataMap *data)
       values[42] = rawValues[147]/100.0; // AI1
       values[43] = rawValues[155]/60.0; // DF (Umrechnung l/h in l/min)
 
+      values[65] = rawValues[rawValues.size()-1]/1.0; // Pe1
+      values[66] = rawValues[rawValues.size()-2]/1.0; // Pe2
+
       //
       // berechnete Felder
       //
@@ -184,7 +197,7 @@ void DumpFile::readDatasets(DataMap *data)
       //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
       const quint8 posDF = 43;
       const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
+      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*995.6 * 100)/100.0;
 
       //
       // Werte, die nur das Web-Interface liefert
@@ -220,8 +233,46 @@ void DumpFile::readDatasets(DataMap *data)
       if(ts-lastTS > MISSING_DATA_GAP)
          heatEnergy = 0.0;
       else
-         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+         heatEnergy += values[posQth]/1000.0 * (ts-lastTS) / 3600.0;
       values[64] = heatEnergy;
+
+      //
+      // Berechnung Arbeitszahl
+      //
+      const quint8 posPe1 = 65;
+      const quint8 posPe2 = 66;
+      // - aufpassen, dass Pe != 0.0
+      // - Arbeitszahl nur berechnen, wenn Verdichter laeuft
+      // - unrealistische Arbeitszahlen zu Beginn/Ende eines Kompressorstarts
+      //   ausblenden
+      if( values[posVD1]==0 || values[posPe1]==0.0) values[67] = 0.0;
+      else {
+         values[67] = values[posQth] / values[posPe1];
+         if( values[67] > 10 || values[67] < 0) values[67] = 0.0;
+      }
+      if( values[posVD1]==0 || values[posPe2] == 0.0) values[68] = 0.0;
+      else {
+         values[68] = values[posQth] / (values[posPe1] + values[posPe2]);
+         if( values[68] > 10 || values[68] < 0) values[68] = 0.0;
+      }
+
+      //
+      // Berechnung Elektroenergie
+      //
+      if( lastVD1==0.0 && values[posVD1]==1) {
+         elEnergy1 = 0.0;
+         elEnergy2 = 0.0;
+      }
+      if(ts-lastTS > MISSING_DATA_GAP) {
+         elEnergy1 = 0.0;
+         elEnergy2 = 0.0;
+      } else {
+         elEnergy1 += values[posPe1]/1000.0 * (ts-lastTS) / 3600.0;
+         elEnergy2 += values[posPe2]/1000.0 * (ts-lastTS) / 3600.0;
+      }
+      values[69] = elEnergy1;
+      values[70] = elEnergy2;
+
       lastTS = ts;
       lastVD1 = values[posVD1];
 
