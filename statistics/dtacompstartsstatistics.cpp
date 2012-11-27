@@ -77,7 +77,8 @@ QList<DtaCompStart::CompStartFields> DtaCompStart::initFieldList()
 {
    QList<CompStartFields> res;
    res << fStart << fLength << fMode << fPause << fTVL << fTRL << fSpHz
-       << fTWQein << fTWQaus << fSpWQ << fDF << fTA;
+       << fTWQein << fTWQaus << fSpWQ << fDF << fTA << fWM << fE1 << fE2
+       << fAZ1 << fAZ2;
    return res;
 }
 const QList<DtaCompStart::CompStartFields> DtaCompStart::m_fieldList = DtaCompStart::initFieldList();
@@ -99,7 +100,12 @@ QStringList DtaCompStart::initFieldNames()
        << tr("TWQaus [\260C]")
        << tr("SpWQ [K]")
        << tr("DF [l/min]")
-       << tr("TA [\260C]");
+       << tr("TA [\260C]")
+       << tr("WM [kWh]")
+       << tr("E1 [kWh]")
+       << tr("E2 [kWh]")
+       << tr("AZ1 []")
+       << tr("AZ2 []");
    return res;
 }
 const QStringList DtaCompStart::m_fieldNames = DtaCompStart::initFieldNames();
@@ -282,6 +288,9 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
             cmprun.setTWQaus(DataFile::fieldValueReal(data,"TWQaus"));
             cmprun.setSpWQ(DataFile::fieldValueReal(data,"SpWQ"));
             cmprun.setDF(DataFile::fieldValueReal(data,"DF"));
+            cmprun.setWM(DataFile::fieldValueReal(data,"WMCalc"));
+            cmprun.setE1(DataFile::fieldValueReal(data,"E1"));
+            cmprun.setE2(DataFile::fieldValueReal(data,"E2"));
          }
 
          // Ende eines Laufes
@@ -296,6 +305,8 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
             {
                // Daten des Laufes speichern
                cmprun.setLength(ts-cmprun.start()-inlineRunLength);
+               cmprun.setAZ1( cmprun.WM() / cmprun.E1());
+               cmprun.setAZ2( cmprun.WM() / (cmprun.E1() + cmprun.E2()));
 
                // von EVU unterbrochen?
                if(stateEVU==stateOn)
@@ -492,6 +503,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
          }
       }
    }
+
 }
 
 /*---------------------------------------------------------------------------

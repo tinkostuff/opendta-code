@@ -359,6 +359,11 @@ void DtaCompStartsFrame::threadFinished()
    header << tr("TWQaus\n[\260C]");
    header << tr("SpWQ\n[K]");
    header << tr("TA\n[\260C]");
+   header << tr("WM\n[kWh]");
+   header << tr("E1\n[kWh]");
+   header << tr("E2\n[kWh]");
+   header << tr("AZ1");
+   header << tr("AZ2");
 
    table->setColumnCount(header.size());
    table->setRowCount(stats->runs()->size());
@@ -429,6 +434,31 @@ void DtaCompStartsFrame::threadFinished()
       item = new QTableWidgetItem(QString("%1").arg(run->TA(),0,'f',1));
       item->setTextAlignment(Qt::AlignCenter);
       table->setItem( i, 10, item);
+
+      // WM
+      item = new QTableWidgetItem(QString("%1").arg(run->WM(),0,'f',2));
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem( i, 11, item);
+
+      // E1
+      item = new QTableWidgetItem(QString("%1").arg(run->E1(),0,'f',2));
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem( i, 12, item);
+
+      // E2
+      item = new QTableWidgetItem(QString("%1").arg(run->E2(),0,'f',2));
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem( i, 13, item);
+
+      // AZ1
+      item = new QTableWidgetItem(QString("%1").arg(run->AZ1(),0,'f',2));
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem( i, 14, item);
+
+      // AZ2
+      item = new QTableWidgetItem(QString("%1").arg(run->AZ2(),0,'f',2));
+      item->setTextAlignment(Qt::AlignCenter);
+      table->setItem( i, 15, item);
    }
 
    table->resizeColumnsToContents();

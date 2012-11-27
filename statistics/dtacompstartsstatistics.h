@@ -42,14 +42,14 @@ class DtaCompStart : public QObject
 {
    Q_OBJECT
 public:
-   enum CompStartFields { fStart, fLength, fMode, fPause, fTVL, fTRL, fSpHz, fTWQein, fTWQaus, fSpWQ, fDF, fTA};
+   enum CompStartFields { fStart, fLength, fMode, fPause, fTVL, fTRL, fSpHz, fTWQein, fTWQaus, fSpWQ, fDF, fTA, fWM, fE1, fE2, fAZ1, fAZ2};
    enum CompStartModes { mHz, mBW, mEVUstop, mAfterEVU};
 
    DtaCompStart(QObject *parent = 0);
    DtaCompStart(const DtaCompStart &cs, QObject *parent=0);
    static const QStringList fieldNames() { return m_fieldNames;}
    static const QString fieldName(CompStartFields field) { return m_fieldNames[field];}
-   static const int fieldCount() { return (int)fTA+1;}
+   static const int fieldCount() { return (int)fAZ2+1;}
    static const QStringList modeStringList() { return m_modeStringList;}
    static const QString modeString(CompStartModes mode) { return m_modeStringList.at((int)mode);}
    static const int modeCount() { return (int)mAfterEVU+1;}
@@ -70,6 +70,11 @@ public:
    inline qreal SpWQ() const { return m_data[fSpWQ].toReal();}
    inline qreal DF() const { return m_data[fDF].toReal();}
    inline qreal TA() const { return m_data[fTA].toReal();}
+   inline qreal WM() const { return m_data[fWM].toReal();}
+   inline qreal E1() const { return m_data[fE1].toReal();}
+   inline qreal E2() const { return m_data[fE2].toReal();}
+   inline qreal AZ1() const { return m_data[fAZ1].toReal();}
+   inline qreal AZ2() const { return m_data[fAZ2].toReal();}
 
    inline void setStart( const quint32 &value) { m_data[fStart] = value;}
    inline void setLength( const quint32 &value) { m_data[fLength] = value;}
@@ -83,6 +88,11 @@ public:
    inline void setSpWQ( const qreal &value) { m_data[fSpWQ] = value;}
    inline void setDF( const qreal &value) { m_data[fDF] = value;}
    inline void setTA( const qreal &value) { m_data[fTA] = value;}
+   inline void setWM( const qreal &value) { m_data[fWM] = value;}
+   inline void setE1( const qreal &value) { m_data[fE1] = value;}
+   inline void setE2( const qreal &value) { m_data[fE2] = value;}
+   inline void setAZ1( const qreal &value) { m_data[fAZ1] = value;}
+   inline void setAZ2( const qreal &value) { m_data[fAZ2] = value;}
 	
 private:
    QHash<CompStartFields,QVariant> m_data;
