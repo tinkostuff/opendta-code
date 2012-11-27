@@ -1010,7 +1010,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       tr("AZ1 []"),
       tr("Arbeitszahl mit Elt1"),
       tr("Elektro-Z\344hler"),
-      false,
+      true,
       1.0,
       0.0,
 #ifdef QT_GUI_LIB
@@ -1021,7 +1021,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       tr("AZ2 []"),
       tr("Arbeitszahl mit Elt1 und Elt2"),
       tr("Elektro-Z\344hler"),
-      false,
+      true,
       1.0,
       0.0,
 #ifdef QT_GUI_LIB
@@ -1032,7 +1032,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       tr("E1 [kWh]"),
       tr("elektrische Energie Verdichter"),
       tr("Elektro-Z\344hler"),
-      false,
+      true,
       1.0,
       0.0,
 #ifdef QT_GUI_LIB
@@ -1043,7 +1043,7 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       tr("E2 [kWh]"),
       tr("elektrische Energie Steuerung, Pumpen"),
       tr("Elektro-Z\344hler"),
-      false,
+      true,
       1.0,
       0.0,
 #ifdef QT_GUI_LIB
