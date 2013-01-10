@@ -116,6 +116,7 @@ void DumpFile::readDatasets(DataMap *data)
 
       // Daten auslesen und speichern
       DataFieldValues values(m_fieldCount); // Werte-Array
+      for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
       quint32 ts = rawValues[134];
 
       values[0 ] = rawValues[39]; // HUP

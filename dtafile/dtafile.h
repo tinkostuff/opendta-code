@@ -230,7 +230,7 @@
 // Header-Werte fuer unterschiedliche Datei-Versionen
 #define DTA1_HEADER_VALUE 0x2011
 #define DTA2_HEADER_VALUE 0x2328
-#define DTA2_HEADER_VALUE_SUBVERSION 0x3F
+#define DTA2_HEADER_VALUE_SUBVERSION 676
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct

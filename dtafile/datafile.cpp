@@ -203,6 +203,13 @@ const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
    "AZ2",      // Arbeitszahl mit Elt1 + Elt2
    "E1",       // elektrische Energie Verdichter
    "E2",       // elektrische Energie Steuerung, Pumpen, ....
+
+   // Felder von DTA2 (ID >= 9000)
+   "UEHZ",     // Ueberhitzung
+   "UEHzsoll", // Sollwert Ueberhitzung
+   "Asg.VDi",  // Ansaug Verdichter
+   "Asg.Vda",  // Ansaug Verdampfer
+   "VDHz",     // VD Heizung
 };
 
 /*---------------------------------------------------------------------------
@@ -1050,6 +1057,62 @@ const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
       QColor(192,192,  0),
 #endif
    },  // E2
+
+   {
+      tr("UEHZ [K]"),
+      tr("\334berhitzung"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,192),
+#endif
+   },  // UEHZ
+   {
+      tr("UEHZsoll [K]"),
+      tr("\334berhitzung Sollwert"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,192),
+#endif
+   },  // UEHZsoll
+   {
+      tr("Asg.VDi [\260C]"),
+      tr("Ansaug Verdichter"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,192),
+#endif
+   },  // Asg.VDi
+   {
+      tr("Asg.VDa [\260C]"),
+      tr("Ansaug Verdampfer"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,192),
+#endif
+   },  // Asg.VDa
+   {
+      tr("VDHz [\260C]"),
+      tr("VD Heizung"),
+      tr("Temperaturen"),
+      true,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      QColor(  0,  0,192),
+#endif
+   },  // Asg.VDi
 };
 
 const DataFieldInfo DataFile::m_defaultFieldInfo = {

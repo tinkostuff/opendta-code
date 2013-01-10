@@ -105,6 +105,7 @@ bool DtaFile::open()
 
    // Unter-Version ueberpruefen
    if( m_dtaVersion == 2) {
+      qDebug() << header[1];
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
@@ -143,6 +144,7 @@ void DtaFile::readDTA1(DataMap *data)
    for( int i=0; i<m_dsCount; i++)
    {
       DataFieldValues values(m_fieldCount); // Werte-Array
+      for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
       quint32 ts; // Zeitstempel
 
       // Felder einlesen
@@ -233,12 +235,6 @@ void DtaFile::readDTA1(DataMap *data)
       values[64] = heatEnergy;
       lastTS = ts;
       lastVD1 = values[posVD1];
-
-      // Werte vom Web-Interface stehen hier nicht zur Verfuegung
-      for( int j=47; j<=56; ++j) values[j] = 0.0;
-
-      // Werte zur Elektroenergie stehen hier nicht zur Verfuegung
-      for( int j=65; j<=70; ++j) values[j] = 0.0;
 
       // Datensatz in Map einfuegen
       data->insert( ts, values);
@@ -398,6 +394,7 @@ void DtaFile::readDTA2(DataMap *data)
 {
    quint16 dsLenght = DTA2_DATASET_LENGTH1;
    if( m_dtaSubVersion == 2) dsLenght = DTA2_DATASET_LENGTH2;
+   qWarning() << "subversion" << m_dtaSubVersion;
 
    qint32 ds[dsLenght-1]; // Werte des Datensatzes
    quint32 lastTS = 0;
@@ -457,10 +454,9 @@ void DtaFile::readDTA2(DataMap *data)
       DataFieldValues values(m_fieldCount); // Werte-Array
       for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initial values
 
+      // Datensatz konvertieren
       for( int j=0; j<=12; j++) values[0+j ]=calcBitData(ds[12],j);       // Status Ausgaenge
       for( int j=0; j<=4;  j++) values[13+j]=calcBitDataInv(ds[13],j);    // Status Eingaenge
-
-      values[18] = 0.0; // TFB1
       values[19] = ds[ 5]/10.0; // TBW
       values[20] = ds[ 7]/10.0; // TA
       values[21] = ds[ 8]/10.0; // TRLext
@@ -470,23 +466,16 @@ void DtaFile::readDTA2(DataMap *data)
       values[25] = ds[ 3]/10.0; // TWQaus
       values[26] = ds[ 2]/10.0; // TWQein
       values[27] = ds[ 9]/10.0; // TRLsoll
-      values[28] = 0.0; // TMK1soll
-      //for( int j=6; j<=15; j++) values[29+j-6]=calcBitData(ds[23],j);    // Status Ausgaenge ComfortPlatine
-      values[29] = 0.0; // AI1DIV
-      values[30] = 0.0; // SUP
-      values[31] = 0.0; // FUP2
-      values[32] = 0.0; // MA2
-      values[33] = 0.0; // MZ2
-      values[34] = 0.0; // MA3
-      values[35] = 0.0; // MZ3
-      values[36] = 0.0; // FUP3
-      values[37] = 0.0; // ZW3
-      values[38] = 0.0; // SLP
-      values[39] = 0.0; // AO1
-      values[40] = 0.0; // AO2
-      values[41] = 0.0; // SWT
-      values[42] = 0.0; // AI1
       values[43] = ds[23]/60.0; // DF (Umrechnung l/h in l/min)
+
+      // Felder, welche nur in Unterversion1 vorhanden sind
+      if( m_dtaSubVersion == 1) {
+        values[67] = ds[36]/10.0; // UEHZ
+        values[68] = ds[37]/10.0; // UEHZsoll
+        values[69] = ds[28]/10.0; // Asg.VDi
+        values[70] = ds[29]/10.0; // Asg.VDa
+        values[71] = ds[30]/10.0; // VDHz
+      }
 
       //
       // berechnete Felder
