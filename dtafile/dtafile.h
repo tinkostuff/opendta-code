@@ -224,11 +224,13 @@
 
 #define DTA_HEADER_LENGTH 8      // bytes
 #define DTA1_DATASET_LENGTH 168  // bytes
-#define DTA2_DATASET_LENGTH 39   // fields
+#define DTA2_DATASET_LENGTH1 39  // fields
+#define DTA2_DATASET_LENGTH2 26  // fields
 
 // Header-Werte fuer unterschiedliche Datei-Versionen
 #define DTA1_HEADER_VALUE 0x2011
 #define DTA2_HEADER_VALUE 0x2328
+#define DTA2_HEADER_VALUE_SUBVERSION 0x3F
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -257,6 +259,7 @@ private:
     QDataStream m_dtaStream;
     quint16 m_dsCount;
     quint8 m_dtaVersion;
+    quint8 m_dtaSubVersion;
 
     // Wertetabellen zur Umrechnung
     static const DtaLUTInfo LUT[5];

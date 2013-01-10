@@ -103,6 +103,12 @@ bool DtaFile::open()
       m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA1_DATASET_LENGTH;
    }
 
+   // Unter-Version ueberpruefen
+   if( m_dtaVersion == 2) {
+      if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
+      else m_dtaSubVersion = 2;
+   }
+
    return true;
 }
 
@@ -390,8 +396,10 @@ const DtaLUTInfo DtaFile::LUT[5] = {
 *---------------------------------------------------------------------------*/
 void DtaFile::readDTA2(DataMap *data)
 {
-   qint32 ds[DTA2_DATASET_LENGTH-1]; // Werte des Datensatzes
+   quint16 dsLenght = DTA2_DATASET_LENGTH1;
+   if( m_dtaSubVersion == 2) dsLenght = DTA2_DATASET_LENGTH2;
 
+   qint32 ds[dsLenght-1]; // Werte des Datensatzes
    quint32 lastTS = 0;
    qreal heatEnergy = 0.0;
    qreal lastVD1 = 0.0;
@@ -407,7 +415,7 @@ void DtaFile::readDTA2(DataMap *data)
       if( ts == 0) break;
 
       // jedes Feld lesen
-      for( int j=0; j<DTA2_DATASET_LENGTH-1; j++)
+      for( int j=0; j<dsLenght-1; j++)
       {
          quint8 type;
          m_dtaStream >> type;
