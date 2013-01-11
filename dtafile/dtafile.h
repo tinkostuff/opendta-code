@@ -59,7 +59,7 @@
 *        bit 1:  ND_  = Niederdruckpressostat
 *        bit 2:  MOT_ = Motorschutz
 *        bit 3:  ASD_ = Abtau/Soledruck/Durchfluss
-*        bit 4:  EVU_ = EVU Sperre
+*        bit 4:  EVU  = EVU Sperre
 *  -   [52:53] TFB1    = Temperatur Fussbodenheizung 1
 *  -   [54:55] TBW     = Temperatur Brauch-Warm-Wasser
 *  -   [56:57] TA      = Aussentemperatur
@@ -123,14 +123,15 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 2.x):
+* Aufbau der DTA-Dateien (von Firmware Version 2.61 und 2.62):
 *  - die ersten 8 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2011 fuer Version 1.x
-*      [4:7]: unbekannte Funktion
-*  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
+*      [0:3]: 0x2328 fuer Version 2.61 und 2.62
+*      [4:7]: Unterversion
+*  - die Anzahl der Datensaetze ist nicht bestimmt (es wird bis zum Ende der Datei lesen)
 *  - die Byte-Order ist little-endian
 *  - die Datensaetze sind sortiert
 *  - ein Datensatz besteht aus 4 Bytes fuer Datum/Uhrzeit und 38 Datenfeldern
+*      * bei Unterversion=676 sind es nur 25 Datenfelder
 *
 * Aufbau eines Datenfeldes
 *  - [0] Feldtyp:
@@ -184,6 +185,7 @@
 *   [22] ?
 *   [23] DF
 *   [24] ?
+* fuer Unterversion < 676:
 *   [25] ?
 *   [26] ?
 *   [27] Ansaug VD
@@ -213,6 +215,90 @@
 *
 *---------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------
+*
+* Aufbau der DTA-Dateien (von Firmware Version 2.63):
+*  - die ersten 10 Byte sind ein Datei-Kopf
+*      [0:3]: 0x2329 fuer Version 2.63
+*      [4:7]: unbekannt
+*      [8:9]: Anzahl der Datensaetze in der Datei
+*  - die Byte-Order ist little-endian
+*  - die Datensaetze sind sortiert
+*
+* Aufbau eines Datensatzes
+*  -   [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
+*  -   [4 :5 ] TVL 
+*  -   [6 :7 ] TRL
+*  -   [8 :9 ] TWQein 
+*  -   [10:11] TWQaus
+*  -   [12:13] THG
+*  -   [14:15] TBW 
+*  -   [16:17] unbekannt 
+*  -   [18:19] TA
+*  -   [20:21] unbekannt 
+*  -   [22:23] TRLsoll 
+*  -   [24:25] unbekannt 
+*  -   [26:27] Eingaenge
+*        bit 0:  HD   = Hochdruckpressostat
+*        bit 1:  ND   = Niederdruckpressostat
+*        bit 2:  MOT  = Motorschutz
+*        bit 3:  ASD  = Abtau/Soledruck/Durchfluss
+*        bit 4:  EVU_ = EVU Sperre
+*  -   [28:29] Ausgaenge 
+*        bit 0:  HUP  = Heizungsumwaelzpumpe
+*        bit 1:  ZUP  = Zusatzumwaelzpumpe
+*        bit 2:  BUP  = Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
+*        bit 3:  ZW2  = Zusaetzlicher Waermeerzeuger 2 / Sammelstoerung
+*        bit 4:  MA1  = Mischer 1 auf
+*        bit 5:  MZ1  = Mischer 1 zu
+*        bit 6:  ZIP  = Zirkulationspumpe
+*        bit 7:  VD1  = Verdichter 1
+*        bit 8:  VD2  = Verdichter 2
+*        bit 9:  VENT = Ventilation des WP Gehaeses / 2. Stufe des Ventilators
+*        bit 10: AV   = Abtauventil (Kreislaufumkehr)
+*        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
+*        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
+*  -   [30:31] unbekannt 
+*  -   [32:33] unbekannt 
+*  -   [34:35] unbekannt 
+*  -   [36:37] unbekannt 
+*  -   [38:39] unbekannt 
+*  -   [40:41] unbekannt 
+*  -   [42:43] unbekannt 
+*  -   [44:45] unbekannt 
+*  -   [46:47] unbekannt T(TA)
+*  -   [48:49] unbekannt 
+*  -   [50:51] DF
+*  -   [52:53] unbekannt 
+*  -   [54:55] unbekannt
+*  -   [56:57] unbekannt (IOs)
+*  -   [58:59] Ansaug Verdichter
+*  -   [60:61] Ansaug Verdampfer
+*  -   [62:63] VD Heizung
+*  -   [64:65] unbekannt T(VD*TA)
+*  -   [66:67] unbekannt T(VD*TA)
+*  -   [68:69] unbekannt T(VD*TA)
+*  -   [70:71] unbekannt T(VD)
+*  -   [72:73] unbekannt T(VD)
+*  -   [74:75] Ueberhitzung
+*  -   [76:77] Ueberhiztung Sollwert 
+*  -   [78:79] unbekannt 
+*
+* Umrechnung der Werte:
+*  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
+*  die Messwerte x10 gespeichert (Zweierkomplement fr negative Werte).
+*
+* invertierte Bit-Werte:
+*  Feldnamen, die mit eine "_" enden beinhalten invertierte
+*  Werte.
+*
+* Felder, die mit dieser Klasse berechnet werden:
+*  - SpHz: Spreizung Heizkreis (TVL-TRL)
+*  - SpWQ: Spreizung Waermequelle (TWQein-TWQaus)
+*  - Qh: thermische Leistung (Durchfluss * Dichte * Waermekapazitaet * SpHz)
+*
+*---------------------------------------------------------------------------*/
+
 #ifndef DTAFILE_H
 #define DTAFILE_H
 
@@ -226,11 +312,13 @@
 #define DTA1_DATASET_LENGTH 168  // bytes
 #define DTA2_DATASET_LENGTH1 39  // fields
 #define DTA2_DATASET_LENGTH2 26  // fields
+#define DTA3_DATASET_LENGTH 38   // fields
 
 // Header-Werte fuer unterschiedliche Datei-Versionen
 #define DTA1_HEADER_VALUE 0x2011
 #define DTA2_HEADER_VALUE 0x2328
 #define DTA2_HEADER_VALUE_SUBVERSION 676
+#define DTA3_HEADER_VALUE 0x2329
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -269,7 +357,8 @@ private:
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
 
     virtual void readDTA1(DataMap *data); // DAT Version 1.x lesen
-    virtual void readDTA2(DataMap *data); // DAT Version 2.x lesen
+    virtual void readDTA2(DataMap *data); // DAT Version 2.61, 2.6.2 lesen
+    virtual void readDTA3(DataMap *data); // DAT Version 2.63 lesen
 };
 
 #endif // DTAFILE_H

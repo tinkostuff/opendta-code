@@ -74,10 +74,12 @@ bool DtaFile::open()
    m_dtaStream >> header[1];
 
    // Kopf pruefen
-#ifndef NO_HEADER_CHECK
-   if( (header[0] != DTA1_HEADER_VALUE) && (header[0] != DTA2_HEADER_VALUE)) {
+   if( (header[0] != DTA1_HEADER_VALUE)
+       && (header[0] != DTA2_HEADER_VALUE)
+       && (header[0] != DTA3_HEADER_VALUE))
+   {
       QFileInfo fi(m_fileName);
-      errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei an opendta@gmx.de schicken."))
+      errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei (incl. CSV-Datei) an opendta@gmx.de schicken."))
                         .arg(header[0])
                         .arg(fi.fileName());
       qWarning() << errorMsg;
@@ -85,12 +87,9 @@ bool DtaFile::open()
    }
 
    // Version der DTA-Datei festhalten
-   if( header[0] == DTA1_HEADER_VALUE) m_dtaVersion = 1;
-   else if( header[0] == DTA2_HEADER_VALUE) m_dtaVersion = 2;
-#else
    if( header[0] <= DTA1_HEADER_VALUE) m_dtaVersion = 1;
-   else if( header[0] >= DTA2_HEADER_VALUE) m_dtaVersion = 2;
-#endif
+   else if( header[0] == DTA2_HEADER_VALUE) m_dtaVersion = 2;
+   else if( header[0] >= DTA3_HEADER_VALUE) m_dtaVersion = 3;
 
    // Groesse der Datei ueberpruefen
    if( m_dtaVersion == 1) {
@@ -105,9 +104,14 @@ bool DtaFile::open()
 
    // Unter-Version ueberpruefen
    if( m_dtaVersion == 2) {
-      qDebug() << header[1];
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
+   }
+
+   // Anzahl der Datensaetze lesen
+   if( m_dtaVersion == 3)
+   {
+      m_dtaStream >> m_dsCount;
    }
 
    return true;
@@ -121,6 +125,7 @@ void DtaFile::readDatasets(DataMap *data)
    // DTA in Abhaengigkeit von Version lesen
    if( m_dtaVersion == 1) readDTA1(data);
    else if( m_dtaVersion == 2) readDTA2(data);
+   else if( m_dtaVersion == 3) readDTA3(data);
    else {
       qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)").arg(m_dtaVersion));
    }
@@ -153,6 +158,7 @@ void DtaFile::readDTA1(DataMap *data)
       m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [8  :9  ] - Status Ausgaenge
       m_dtaStream.readRawData( buffer, 34);                                                   // [10 :43 ]
       m_dtaStream >> value; for( int j=0; j<=4; j++) values[13+j]=calcBitDataInv(value,j);    // [44 :45 ] - Status Eingaenge
+      values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
       m_dtaStream.readRawData( buffer, 6);                                                    // [46 :51 ]
       m_dtaStream >> value; values[18] = calcLUTData( value, LUT[0]);                         // [52 :53 ] - TFB1
       m_dtaStream >> value; values[19] = calcLUTData( value, LUT[0]);                         // [54 :55 ] - TBW
@@ -280,9 +286,9 @@ qreal DtaFile::calcBitData(const quint16 &value, const quint8 &pos)
 qreal DtaFile::calcBitDataInv(const quint16 &value, const quint8 &pos)
 {
    if( ((value >> pos) & 1) == 1)
-      return 1.0;
-   else
       return 0.0;
+   else
+      return 1.0;
 }
 
 /*---------------------------------------------------------------------------
@@ -388,13 +394,12 @@ const DtaLUTInfo DtaFile::LUT[5] = {
 };
 
 /*---------------------------------------------------------------------------
-* DAT Version 2.x lesen
+* DAT Version 2.61 lesen
 *---------------------------------------------------------------------------*/
 void DtaFile::readDTA2(DataMap *data)
 {
    quint16 dsLenght = DTA2_DATASET_LENGTH1;
    if( m_dtaSubVersion == 2) dsLenght = DTA2_DATASET_LENGTH2;
-   qWarning() << "subversion" << m_dtaSubVersion;
 
    qint32 ds[dsLenght-1]; // Werte des Datensatzes
    quint32 lastTS = 0;
@@ -456,7 +461,11 @@ void DtaFile::readDTA2(DataMap *data)
 
       // Datensatz konvertieren
       for( int j=0; j<=12; j++) values[0+j ]=calcBitData(ds[12],j);       // Status Ausgaenge
-      for( int j=0; j<=4;  j++) values[13+j]=calcBitDataInv(ds[13],j);    // Status Eingaenge
+      if( m_dtaSubVersion >= 2)
+         for( int j=0; j<=4;  j++) values[13+j]=calcBitDataInv(ds[13],j); // Status Eingaenge
+      else
+         for( int j=0; j<=4;  j++) values[13+j]=calcBitData(ds[13],j); // Status Eingaenge
+      values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
       values[19] = ds[ 5]/10.0; // TBW
       values[20] = ds[ 7]/10.0; // TA
       values[21] = ds[ 8]/10.0; // TRLext
@@ -470,11 +479,11 @@ void DtaFile::readDTA2(DataMap *data)
 
       // Felder, welche nur in Unterversion1 vorhanden sind
       if( m_dtaSubVersion == 1) {
-        values[67] = ds[36]/10.0; // UEHZ
-        values[68] = ds[37]/10.0; // UEHZsoll
-        values[69] = ds[28]/10.0; // Asg.VDi
-        values[70] = ds[29]/10.0; // Asg.VDa
-        values[71] = ds[30]/10.0; // VDHz
+        values[71] = ds[36]/10.0; // UEHZ
+        values[72] = ds[37]/10.0; // UEHZsoll
+        values[73] = ds[28]/10.0; // Asg.VDi
+        values[74] = ds[29]/10.0; // Asg.VDa
+        values[75] = ds[30]/10.0; // VDHz
       }
 
       //
@@ -522,3 +531,96 @@ void DtaFile::readDTA2(DataMap *data)
    }
 }
 
+/*---------------------------------------------------------------------------
+* DAT Version 2.63 lesen
+*---------------------------------------------------------------------------*/
+void DtaFile::readDTA3(DataMap *data)
+{
+   quint16 value;
+   qint16 valueS;
+
+   quint32 lastTS = 0;
+   qreal heatEnergy = 0.0;
+   qreal lastVD1 = 0.0;
+
+   // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
+   char buffer[50];
+
+   // jeden Datensatz lesen
+   for( int i=0; i<m_dsCount; i++)
+   {
+      DataFieldValues values(m_fieldCount); // Werte-Array
+      for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
+      quint32 ts; // Zeitstempel
+
+		// Felder einlesen
+      m_dtaStream >> ts;                                                                      // [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
+      m_dtaStream >> valueS; values[23] = valueS/10.0;                                        // [4 :5 ] TVL 
+      m_dtaStream >> valueS; values[22] = valueS/10.0;                                        // [6 :7 ] TRL
+      m_dtaStream >> valueS; values[26] = valueS/10.0;                                        // [8 :9 ] TWQein 
+      m_dtaStream >> valueS; values[25] = valueS/10.0;                                        // [10:11] TWQaus
+      m_dtaStream >> valueS; values[24] = valueS/10.0;                                        // [12:13] THG
+      m_dtaStream >> valueS; values[19] = valueS/10.0;                                        // [14:15] TBW 
+      m_dtaStream.readRawData( buffer, 2);                                                    // [16:17] unbekannt 
+      m_dtaStream >> valueS; values[20] = valueS/10.0;                                        // [18:19] TA
+      m_dtaStream.readRawData( buffer, 2);                                                    // [20:21] unbekannt 
+      m_dtaStream >> valueS; values[27] = valueS/10.0;                                        // [22:23] TRLsoll 
+      m_dtaStream.readRawData( buffer, 2);                                                    // [24:25] unbekannt 
+      m_dtaStream >> value; for( int j=0; j<=4; j++) values[13+j]=calcBitData(value,j);       // [26:27] Eingaenge
+      values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
+      m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [28:29] Ausgaenge 
+      m_dtaStream.readRawData( buffer, 20);                                                   // [30:49] unbekannt 
+      m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
+      m_dtaStream.readRawData( buffer, 6);                                                    // [52:57] unbekannt             
+      m_dtaStream >> valueS; values[73] = valueS/10.0;                                        // [58:59] Ansaug Verdichter
+      m_dtaStream >> valueS; values[74] = valueS/10.0;                                        // [60:61] Ansaug Verdampfer
+      m_dtaStream >> valueS; values[75] = valueS/10.0;                                        // [62:63] VD Heizung
+      m_dtaStream.readRawData( buffer, 10);                                                   // [64:73] unbekannt T(VD*TA)    
+      m_dtaStream >> valueS; values[71] = valueS/10.0;                                        // [74:75] Ueberhitzung
+      m_dtaStream >> valueS; values[72] = valueS/10.0;                                        // [76:77] Ueberhiztung Sollwert
+      m_dtaStream.readRawData( buffer, 2);                                                    // [78:79] unbekannt             
+
+      //
+      // berechnete Felder
+      //
+
+      // Spreizung Heizkreis
+      const quint8 posHUP = 0;
+      const quint8 posTRL = 22;
+      const quint8 posTVL = 23;
+      if(values[posHUP]) values[44] = values[posTVL] - values[posTRL];
+      else values[44] = 0;
+
+      // Spreizung Waermequelle
+      const quint8 posVBS = 11;
+      const quint8 posTWQein = 26;
+      const quint8 posTWQaus = 25;
+      if(values[posVBS]) values[45] = values[posTWQein] - values[posTWQaus];
+      else values[45] = 0;
+
+      // thermische Leistung
+      // Qth = Durchfluss[l/min] * Spreizung[K] / 60 * c[kJ/kg] * Dichte[kg/l]
+      //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
+      //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
+      const quint8 posDF = 43;
+      const quint8 posSpHz = 44;
+      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
+
+      //
+      // Berechnung Waermemenge
+      //
+      const quint8 posVD1 = 7;
+      const quint8 posQth = 46;
+      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
+      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
+         heatEnergy = 0.0;
+      else
+         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
+      values[64] = heatEnergy;
+      lastTS = ts;
+      lastVD1 = values[posVD1];
+
+      // Datensatz in Map einfuegen
+      data->insert( ts, values);
+   }
+}
