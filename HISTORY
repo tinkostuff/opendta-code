@@ -20,4 +20,11 @@ Rev 0.07:
   - Umstellung auf QWT 6.0
 
 Rev 0.08
-  - Unterstuetzung von DTA Version 2.x
+  - Unterstuetzung von DTA Version 9000
+
+Rev 0.09
+  - Unterstuetzung von DTA Version 9001
+  - Fehler bei der Durchfluss-Berechnung behoben
+  - DUMP-Datei
+    * Felder für elektrische Leistung hinzugefügt
+    * Berechnung der Arbeitszahl hinzugefuegt
