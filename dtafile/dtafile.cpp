@@ -127,7 +127,7 @@ void DtaFile::readDatasets(DataMap *data)
    else if( m_dtaVersion == 2) readDTA2(data);
    else if( m_dtaVersion == 3) readDTA3(data);
    else {
-      qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)").arg(m_dtaVersion));
+      qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)!").arg(m_dtaVersion));
    }
 }
 

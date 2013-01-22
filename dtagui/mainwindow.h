@@ -81,6 +81,7 @@ private slots:
     void on_actionNeuKompStarts_triggered();
     void on_actionDUMPOeffnen_triggered();
     void on_actionCSVSpeichern_triggered();
+    void on_actionSprache_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -34,3 +34,5 @@ RESOURCES += \
     dtagui/dtagui.qrc
 
 OTHER_FILES +=
+
+TRANSLATION = translations/dtagui_en.ts

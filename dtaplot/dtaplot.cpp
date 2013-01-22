@@ -335,10 +335,10 @@ void DtaPlot::fit(Directions dir)
 *  - Farbe
 *  - analog oder digitale Kruve (Groesse des Plots, Linien oder Stufen)
 *---------------------------------------------------------------------------*/
-void DtaPlot::addCurve(QString name, QPolygonF *data, QColor color, bool analog, bool symbols)
+void DtaPlot::addCurve(QString name, QString dispName, QPolygonF *data, QColor color, bool analog, bool symbols)
 {
    // Kurve erstellen
-   QwtPlotCurve *curve = new QwtPlotCurve(name);
+   QwtPlotCurve *curve = new QwtPlotCurve(dispName);
    curve->setData( new QwtPointSeriesData(*data));
    //curve->setRenderHint(QwtPlotItem::RenderAntialiased); // lange Rechnenzeit bei grossen Datenmengen
    curve->setPen(QPen(color));

@@ -47,11 +47,11 @@ public:
 
    DtaCompStart(QObject *parent = 0);
    DtaCompStart(const DtaCompStart &cs, QObject *parent=0);
-   static const QStringList fieldNames() { return m_fieldNames;}
-   static const QString fieldName(CompStartFields field) { return m_fieldNames[field];}
+   static QStringList fieldNames();
+   static QString fieldName(CompStartFields field) { return fieldNames().at((int)field);}
    static const int fieldCount() { return (int)fAZ2+1;}
-   static const QStringList modeStringList() { return m_modeStringList;}
-   static const QString modeString(CompStartModes mode) { return m_modeStringList.at((int)mode);}
+   static QStringList modeStringList();
+   static QString modeString(CompStartModes mode) { return modeStringList().at((int)mode);}
    static const int modeCount() { return (int)mAfterEVU+1;}
    inline QVariant value(const CompStartFields &field) const { return m_data[field];}
    inline void setValue(const CompStartFields &field, const QVariant &value) { m_data[field] = value;}
@@ -60,7 +60,7 @@ public:
    inline quint32 start() const { return m_data[fStart].toInt();}
    inline quint32 length() const { return m_data[fLength].toInt();}
    inline CompStartModes mode() const { return CompStartModes(m_data[fMode].toInt());}
-   inline QString modeString() const { return m_modeStringList[m_data[fMode].toInt()];}
+   inline QString modeString() const { return modeStringList()[m_data[fMode].toInt()];}
    inline quint32 pause() const { return m_data[fPause].toInt();}
    inline qreal TVL() const { return m_data[fTVL].toReal();}
    inline qreal TRL() const { return m_data[fTRL].toReal();}

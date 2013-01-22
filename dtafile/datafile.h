@@ -48,8 +48,25 @@ typedef QVarLengthArray<qreal> DataFieldValues;
 //  Map sortiert automatisch nach dem Schluessel
 typedef QMap<quint32,DataFieldValues> DataMap;
 
-// Struktur mit Informationen zu einem Feld
-typedef struct {
+// Klasse mit Informationen zu einem Feld
+class DataFieldInfo : public QObject
+{
+   Q_OBJECT
+public:
+   //explicit DataFieldInfo(QObject *parent=0) : QObject(parent) {}
+   explicit DataFieldInfo(
+      QString prettyName,
+      QString toolTip,
+      QString category,
+      bool analog,
+      qreal scale,
+      qreal offset,
+   #ifdef QT_GUI_LIB
+      QColor color,
+   #endif
+      QObject *parent=0);
+   DataFieldInfo(const DataFieldInfo &info);
+   DataFieldInfo operator=(const DataFieldInfo &info);
    QString prettyName; // schoener Name
    QString toolTip;    // erweiterte Beschreibung
    QString category;   // Kategorie des Feldes
@@ -59,9 +76,8 @@ typedef struct {
 #ifdef QT_GUI_LIB
    QColor color;       // Standardfarbe
 #endif
-} DataFieldInfo;
-// Hash mit Feldinformationen
-typedef QHash<QString,DataFieldInfo> DataFieldInfoHash;
+};
+typedef QList<DataFieldInfo> DataFieldInfoList;
 
 /*---------------------------------------------------------------------------
 * DataFile
@@ -85,10 +101,11 @@ public:
    static qint32 fieldValueInt( const DataFieldValues &values, const QString &name);
 
    // Feldinformationen
-   static const DataFieldInfo* const fieldInfo(const QString &name);
-   static const DataFieldInfo* const fieldInfo(const quint16 &index);
+   static const DataFieldInfoList fieldInfos();
+   static const DataFieldInfo fieldInfo(const QString &name);
+   static const DataFieldInfo fieldInfo(const quint16 &index);
+   static const DataFieldInfo defaultFieldInfo();
    static QStringList fieldCategories();
-   static const DataFieldInfo* const defaultFieldInfo();
 
    // String mit Fehlermeldung
    QString errorMsg;
@@ -98,21 +115,6 @@ protected:
    static const quint16 m_fieldCount;
 
 private:
-
-   // initialisierung statischer Variablen
-   static QStringList initFieldList();
-   static QHash<QString,quint16> initFieldHash();
-   static DataFieldInfoHash initFieldInfoHash();
-
-   // Feldnamen
-   static const QString m_fieldNamesArray[DATA_DS_FIELD_COUNT];
-   static const QHash<QString,quint16> m_fieldNamesHash;
-   static const QStringList m_fieldNamesList;
-
-   // Feldinformationen
-   static const DataFieldInfo m_fieldInfoArray[DATA_DS_FIELD_COUNT];
-   static const DataFieldInfo m_defaultFieldInfo;
-   static const DataFieldInfoHash m_fieldInfoHash;
 };
 
 #endif // DATAFILE_H

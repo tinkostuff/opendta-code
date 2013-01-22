@@ -55,6 +55,8 @@
     <addaction name="actionDUMPOeffnen"/>
     <addaction name="actionCSVSpeichern"/>
     <addaction name="separator"/>
+    <addaction name="actionSprache"/>
+    <addaction name="separator"/>
     <addaction name="actionBeenden"/>
    </widget>
    <widget class="QMenu" name="menu_Hilfe">
@@ -222,6 +224,14 @@
    </property>
    <property name="toolTip">
     <string>Daten im CSV-Format speichern</string>
+   </property>
+  </action>
+  <action name="actionSprache">
+   <property name="text">
+    <string>Sprache...</string>
+   </property>
+   <property name="toolTip">
+    <string>Sprache auswählen (Neustart erforderlich)</string>
    </property>
   </action>
  </widget>

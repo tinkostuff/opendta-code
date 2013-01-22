@@ -118,7 +118,7 @@ DtaStatsFrame::DtaStatsFrame(DataMap *data, QWidget *parent) :
    QDateTime dtStart = QDateTime::fromTime_t(0);
    QDateTime dtEnd = QDateTime::fromTime_t(0);
 
-   layoutGbButtons->addWidget(new QLabel(tr("Begin:")));
+   layoutGbButtons->addWidget(new QLabel(tr("Start:")));
    dteStart = new QDateTimeEdit(dtStart);
    dteStart->setDateTimeRange( dtStart, dtEnd);
    dteStart->setCalendarPopup(true);
@@ -259,7 +259,7 @@ void DtaStatsFrame::threadFinished()
    html << "</table>";
 
    // analoge Felder
-   html << "<h1>analoge Signale</h1>";
+   html << tr("<h1>analoge Signale</h1>");
    html << "<table cellpadding=\"2\" cellspacing=\"0\" border=\"1\">";
    html << QString("<tr><th align=left>%1</th><th align=center>%2</th><th align=center>%3</th><th align=center>%4</th><th align=center>%5</th><th align=center>%6</th></tr>")
                       .arg(tr("Signalname"))
@@ -271,11 +271,11 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->analogFields().size(); i++)
    {
       QString field = stats->analogFields().at(i);
-      const DataFieldInfo *info = DataFile::fieldInfo(field);
+      const DataFieldInfo info = DataFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%7\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td></tr>")
-            .arg(info->prettyName)
+            .arg(info.prettyName)
             .arg(stats->analogMin(field),0,'f',1,' ')
             .arg(stats->analogMax(field),0,'f',1,' ')
             .arg(stats->analogAvg(field),0,'f',1,' ')
@@ -286,7 +286,7 @@ void DtaStatsFrame::threadFinished()
    html << "</table>";
 
    // digitale Felder
-   html << "<h1>digitale Signale</h1>";
+   html << tr("<h1>digitale Signale</h1>");
    html << "<table cellpadding=\"2\" cellspacing=\"0\" border=\"1\">";
    html << QString("<tr><th align=left>%1</th><th align=center>%2</th><th align=center>%3</th><th align=center>%4</th><th align=center>%5</th><th align=center>%6</th><th align=center>%7</th><th align=center>%8</th><th align=center>%9</th><th align=center>%10</th></tr>")
                       .arg(tr("Signalname"))
@@ -311,10 +311,10 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->digitalFields().size(); i++)
    {
       QString field = stats->digitalFields().at(i);
-      const DataFieldInfo *info = DataFile::fieldInfo(field);
+      const DataFieldInfo info = DataFile::fieldInfo(field);
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%11\"><td align=left>%1</td><td align=center>%2</td><td align=center>%3</td><td align=center>%4</td><td align=center>%5</td><td align=center>%6</td><td align=center>%7</td><td align=center>%8</td><td align=center>%9</td><td align=center>%10</td></tr>")
-              .arg(info->prettyName)
+              .arg(info.prettyName)
               .arg(stats->digitalActOn(field),6)
               .arg(QString(tr("%1&nbsp;%")  ).arg(qreal(stats->digitalTimeOn(field))/(stats->digitalTimeOn(field)+stats->digitalTimeOff(field))*100.0,5,'f',1,' '))
               .arg(QString(tr("%1:%2")).arg(stats->digitalAvgOn(field)/3600).arg(QString("%1").arg((stats->digitalAvgOn(field)%3600)/60.0,0,'f',0).rightJustified(2,'0')))
@@ -329,7 +329,7 @@ void DtaStatsFrame::threadFinished()
    html << "</table>";
 
    // statische Felder
-   html << "<h1>statische Signale</h1>";
+   html << tr("<h1>statische Signale</h1>");
    html << "<table cellpadding=\"2\" cellspacing=\"0\" border=\"1\">";
    html << QString("<tr><th align=left>%1</th><th align=center>%2</th></tr>")
                       .arg(tr("Signalname"))
@@ -337,21 +337,21 @@ void DtaStatsFrame::threadFinished()
    for( int i=0; i<stats->analogStaticFields().size(); i++)
    {
       QString field = stats->analogStaticFields().at(i);
-      const DataFieldInfo *info = DataFile::fieldInfo(field);
+      const DataFieldInfo info = DataFile::fieldInfo(field);
 
       QString lineColor = i%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
-            .arg(info->prettyName)
+            .arg(info.prettyName)
             .arg(stats->analogMin(field))
             .arg(lineColor);
    }
    for( int i=0; i<stats->digitalStaticFields().size(); i++)
    {
       QString field = stats->digitalStaticFields().at(i);
-      const DataFieldInfo *info = DataFile::fieldInfo(field);
+      const DataFieldInfo info = DataFile::fieldInfo(field);
       QString lineColor = (i+stats->analogStaticFields().size())%2 ? "#FFFFFF" : "#E5E5E5";
       html << QString("<tr bgcolor=\"%3\"><td align=left>%1</td><td align=center>%2</td></tr>")
-            .arg(info->prettyName)
+            .arg(info.prettyName)
             .arg(stats->digitalLastValue(field))
             .arg(lineColor);
    }

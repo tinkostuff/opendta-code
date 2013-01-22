@@ -23,13 +23,39 @@
 * Hauptprogramm
 *---------------------------------------------------------------------------*/
 #include <QtGui/QApplication>
+#include <QTranslator>
+#include <QSettings>
 #include "mainwindow.h"
+
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    QApplication app(argc, argv);
 
-    return a.exec();
+    // Spracheinstellung laden
+    QSettings cfg(
+             QCoreApplication::applicationDirPath()+"/dtagui.ini",
+             QSettings::IniFormat,
+             0);
+    QString lang = cfg.value( "dtagui/lang", "de").toString();
+    QString qmFileName = QString("%1/dtagui_%2.qm").arg(QCoreApplication::applicationDirPath()).arg(lang);
+
+    // Uebersetzung laden
+    if (lang != "de")
+    {
+       QTranslator *translator = new QTranslator;
+       if(translator->load(qmFileName))
+       {
+          app.installTranslator(translator);
+       } else {
+          qWarning() << QString("WARNING: unable to load translation file '%1'!").arg(qmFileName);
+       }
+    }
+
+    // Anwendung starten
+    MainWindow *w = new MainWindow;
+    w->show();
+
+    return app.exec();
 }

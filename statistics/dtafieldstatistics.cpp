@@ -104,9 +104,9 @@ void DtaFieldStatistics::calcStatistics( DataMap::const_iterator iteratorStart,
          {
             QString field = DataFile::fieldName(i);
             qreal value = data[i];
-            const DataFieldInfo *info = DataFile::fieldInfo(i);
+            const DataFieldInfo info = DataFile::fieldInfo(i);
 
-            if(info->analog)
+            if(info.analog)
             {
                // analoges Feld: min, max, Durchschnitt, Median, Standardabweichung
                m_analogFields << field;

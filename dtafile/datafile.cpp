@@ -27,6 +27,60 @@
 #include "datafile.h"
 
 /*---------------------------------------------------------------------------
+* DataFieldInfo
+*---------------------------------------------------------------------------*/
+DataFieldInfo::DataFieldInfo(
+   QString prettyName,
+   QString toolTip,
+   QString category,
+   bool analog,
+   qreal scale,
+   qreal offset,
+#ifdef QT_GUI_LIB
+   QColor color,
+#endif
+   QObject *parent) :
+   QObject(parent)
+{
+   this->prettyName = prettyName;
+   this->toolTip = toolTip;
+   this->category = category;
+   this->analog = analog;
+   this->scale = scale;
+   this->offset = offset;
+#ifdef QT_GUI_LIB
+   this->color = color;
+#endif
+}
+DataFieldInfo::DataFieldInfo(const DataFieldInfo &info) : QObject()
+{
+   this->prettyName = info.prettyName;
+   this->toolTip = info.toolTip;
+   this->category = info.category;
+   this->analog = info.analog;
+   this->scale = info.scale;
+   this->offset = info.offset;
+#ifdef QT_GUI_LIB
+   this->color = info.color;
+#endif
+}
+DataFieldInfo DataFieldInfo::operator =(const DataFieldInfo &info)
+{
+   return DataFieldInfo(
+            info.prettyName,
+            info.toolTip,
+            info.category,
+            info.analog,
+            info.scale,
+            info.offset,
+#ifdef QT_GUI_LIB
+            info.color,
+#endif
+            0
+            );
+}
+
+/*---------------------------------------------------------------------------
 * Construktor
 *---------------------------------------------------------------------------*/
 DataFile::DataFile(QString fileName, QObject *parent) :
@@ -84,22 +138,991 @@ QStringList DataFile::fieldCategories()
 /*---------------------------------------------------------------------------
 * Feldinformationen
 *---------------------------------------------------------------------------*/
-const DataFieldInfo* const DataFile::fieldInfo(const quint16 &index)
+const DataFieldInfo DataFile::fieldInfo(const quint16 &index)
 {
-   if(index<m_fieldCount) return &m_fieldInfoArray[index];
-   return &m_defaultFieldInfo;
+   if(index<m_fieldCount) return fieldInfos().at(index);
+   return defaultFieldInfo();
 }
 
-const DataFieldInfo* const DataFile::fieldInfo(const QString &name)
+const DataFieldInfo DataFile::fieldInfo(const QString &name)
 {
    quint16 idx = fieldIndex(name);
-   if(idx<m_fieldCount) return &m_fieldInfoArray[idx];
-   return &m_defaultFieldInfo;
+   if(idx<m_fieldCount) return fieldInfos().at(idx);
+   return defaultFieldInfo();
 }
 
-const DataFieldInfo* const DataFile::defaultFieldInfo()
+const DataFieldInfo DataFile::defaultFieldInfo()
 {
-   return &m_defaultFieldInfo;
+   return DataFieldInfo(
+      tr("XX"),
+      tr("unbekanntes Feld"),
+      tr("Sonstiges"),
+      false,
+      1.0,
+      0.0,
+#ifdef QT_GUI_LIB
+      Qt::white,
+#endif
+      0
+   );
+}
+
+const DataFieldInfoList DataFile::fieldInfos()
+{
+   DataFieldInfoList res;
+
+   //
+   // Ausgaenge
+   //
+   res << DataFieldInfo(
+             tr("HUP"),
+             tr("Heizungsumw\344lzpumpe"),
+             tr("Ausg\344nge"),
+             false,
+             0.5,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,  0),
+          #endif
+             0
+             ); // HUP
+   res << DataFieldInfo(
+             tr("ZUP"),
+             tr("Zusatzumw\344lzpumpe"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255, 65,  0),
+          #endif
+             0
+             ); // ZUP
+   res << DataFieldInfo(
+             tr("BUP"),
+             tr("Brauswarmwasserumw\344lzpumpe oder Drei-Wege-Ventil auf Brauchwassererw\344rmung"),
+             tr("Ausg\344nge"),
+             false,
+             1.5,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,128),
+          #endif
+             0
+             ); // BUP
+   res << DataFieldInfo(
+             tr("ZW2"),
+             tr("Zus\344tzlicher W\344rmeerzeuger 2 / Sammelstoerung"),
+             tr("Ausg\344nge"),
+             false,
+             2.1,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             ); // ZW2
+   res << DataFieldInfo(
+             tr("MA1"),
+             tr("Mischer 1 auf"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,128),
+          #endif
+             0
+             ); // MA1
+   res << DataFieldInfo(
+             tr("MZ1"),
+             tr("Mischer 1 zu"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(160,160,160),
+          #endif
+             0
+             ); // MZ1
+   res << DataFieldInfo(
+             tr("ZIP"),
+             tr("Zirkulationspumpe"),
+             tr("Ausg\344nge"),
+             false,
+             0.7,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(160,  0,160),
+          #endif
+             0
+             ); // ZIP
+   res << DataFieldInfo(
+             tr("VD1"),
+             tr("Verdichter 1"),
+             tr("Ausg\344nge"),
+             false,
+             1.2,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,128),
+          #endif
+             0
+             ); // VD1
+   res << DataFieldInfo(
+             tr("VD2"),
+             tr("Verdichter 2"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,192,192),
+          #endif
+             0
+             );  // VD2
+   res << DataFieldInfo(
+             tr("VENT"),
+             tr("Ventilation des WP Geh\344ses / 2. Stufe des Ventilators"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,255,  0),
+          #endif
+             0
+             ); // VENT
+   res << DataFieldInfo(
+             tr("AV"),
+             tr("Abtauventil (Kreislaufumkehr)"),
+             tr("Ausg\344nge"),
+             false,
+             1.7,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,255),
+          #endif
+             0
+             ); // AV
+   res << DataFieldInfo(
+             tr("VBS"),
+             tr("Ventilator, Brunnen- oder Soleumw\344lzpumpe"),
+             tr("Ausg\344nge"),
+             false,
+             1.1,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             ); // VBS
+   res << DataFieldInfo(
+             tr("ZW1"),
+             tr("Zus\344tzlicher W\344rmeerzeuger 1"),
+             tr("Ausg\344nge"),
+             false,
+             2.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,  0),
+          #endif
+             0
+             ); // ZW1
+
+   //
+   // Eingaenge
+   //
+   res << DataFieldInfo(
+             tr("HD"),
+             tr("Hochdruckpressostat"),
+             tr("Eing\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,  0),
+          #endif
+             0
+             );  // HD_
+   res << DataFieldInfo(
+             tr("ND"),
+             tr("Niederdruckpressostat"),
+             tr("Eing\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             );  // ND_
+   res << DataFieldInfo(
+             tr("MOT"),
+             tr("Motorschutz"),
+             tr("Eing\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // MOT_
+   res << DataFieldInfo(
+             tr("ASD"),
+             tr("Abtau/Soledruck/Durchfluss"),
+             tr("Eing\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,128),
+          #endif
+             0
+             );  // ASD_
+   res << DataFieldInfo(
+             tr("EVU"),
+             tr("EVU Sperre"),
+             tr("Eing\344nge"),
+             false,
+             1.4,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,  0),
+          #endif
+             0
+             );  // EVU_
+
+   //
+   // Temperaturen
+   //
+   res << DataFieldInfo(
+             tr("TFB1 [\260C]"),
+             tr("Temperatur Fu\337bodenheizung 1"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,  0),
+          #endif
+             0
+             );  // TFB1
+   res << DataFieldInfo(
+             tr("TBW [\260C]"),
+             tr("Brauchwasser-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,128),
+          #endif
+             0
+             );  // TBW
+   res << DataFieldInfo(
+             tr("TA [\260C]"),
+             tr("Au\337entemperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,  0),
+          #endif
+             0
+             );  // TA
+   res << DataFieldInfo(
+             tr("TRLext [\260C]"),
+             tr("R\374cklauf-Temperatur (extern)"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,128),
+          #endif
+             0
+             );  // TRLext
+   res << DataFieldInfo(
+             tr("TRL [\260C]"),
+             tr("R\374cklauf-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             );  // TRL
+   res << DataFieldInfo(
+             tr("TVL [\260C]"),
+             tr("Vorlauf-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,  0),
+          #endif
+             0
+             );  // TVL
+   res << DataFieldInfo(
+             tr("THG [\260C]"),
+             tr("Hei\337gas-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,  0),
+          #endif
+             0
+             );  // THG
+   res << DataFieldInfo(
+             tr("TWQaus [\260C]"),
+             tr("Temperatur W\344rmequelle Ausgang"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,128),
+          #endif
+             0
+             );  // TWQaus
+   res << DataFieldInfo(
+             tr("TWQein [\260C]"),
+             tr("Temperatur W\344rmequelle Eingang"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // TWQein
+   res << DataFieldInfo(
+             tr("TRLsoll [\260C]"),
+             tr("R\374cklauf-Soll-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,255),
+          #endif
+             0
+             );  // TRLsoll
+   res << DataFieldInfo(
+             tr("TMK1soll [\260C]"),
+             tr("Mischkreis1-Soll-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,128),
+          #endif
+             0
+             );  // TMK1soll
+
+   //
+   // Ausgaenge ComfortPlatine
+   //
+   res << DataFieldInfo(
+             tr("AI1DIV"),
+             tr("wenn AI1DIV dann AI1 = AI1/2"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,255,255),
+          #endif
+             0
+             );  // AI1DIV
+   res << DataFieldInfo(
+             tr("SUP"),
+             tr("Schwimmbadumw\344lzpumpe"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,255),
+          #endif
+             0
+             );  // SUP
+   res << DataFieldInfo(
+             tr("FUP2"),
+             tr("Mischkreispumpe 2 / K\374hlsignal 2"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,255,  0),
+          #endif
+             0
+             );  // FUP2
+   res << DataFieldInfo(
+             tr("MA2"),
+             tr("Mischer 2 auf"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // MA2
+   res << DataFieldInfo(
+             tr("MZ2"),
+             tr("Mischer 2 zu"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,160,  0),
+          #endif
+             0
+             );  // MZ2
+   res << DataFieldInfo(
+             tr("MA3"),
+             tr("Mischer 3 auf"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,238),
+          #endif
+             0
+             );  // MA3
+   res << DataFieldInfo(
+             tr("MZ3"),
+             tr("Mischer 3 zu"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,160),
+          #endif
+             0
+             );  // MZ3
+   res << DataFieldInfo(
+             tr("FUP3"),
+             tr("Mischkreispumpe 3 / K\374hlsignal 3"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             );  // FUP3
+   res << DataFieldInfo(
+             tr("ZW3"),
+             tr("Zus\344tzlicher W\344rmeerzeuger 3"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // ZW3
+   res << DataFieldInfo(
+             tr("SLP"),
+             tr("Solarladepumpe"),
+             tr("Ausg\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,128,  0),
+          #endif
+             0
+             );  // SLP
+
+   //
+   // ComfortPlatine
+   //
+   res << DataFieldInfo(
+             tr("AO1 [V]"),
+             tr("analoger Ausgang 1"),
+             tr("Analoge Signale"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             );  // AO1
+   res << DataFieldInfo(
+             tr("AO2 [V]"),
+             tr("analoger Ausgang 2"),
+             tr("Analoge Signale"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // AO2
+   res << DataFieldInfo(
+             tr("SWT"),
+             tr("Schwimmbadthermostat"),
+             tr("Eing\344nge"),
+             false,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,255),
+          #endif
+             0
+             );  // SWT_
+
+   res << DataFieldInfo(
+             tr("AI1 [V]"),
+             tr("analoger Eingang 1"),
+             tr("Analoge Signale"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,  0),
+          #endif
+             0
+             );  // AI1
+
+   //
+   // Berechnete Werte
+   //
+   res << DataFieldInfo(
+             tr("DF [l/min]"),
+             tr("Durchfluss Heizkreis"),
+             tr("Berechnete Werte"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // DF
+   res << DataFieldInfo(
+             tr("SpHz [K]"),
+             tr("Spreizung Heizkreis"),
+             tr("Berechnete Werte"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,  0),
+          #endif
+             0
+             );  // SpHz
+   res << DataFieldInfo(
+             tr("SpWQ [K]"),
+             tr("Spreizung W\344rmequelle"),
+             tr("Berechnete Werte"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,128),
+          #endif
+             0
+             );  // SpWQ
+   res << DataFieldInfo(
+             tr("Qh [W]"),
+             tr("Heizleistung"),
+             tr("Berechnete Werte"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,  0),
+          #endif
+             0
+             );  // Qh
+
+   //
+   // Werte vom Web-Interface
+   //
+   res << DataFieldInfo(
+             tr("BS VD1 [h]"),
+             tr("Betriebsstunden Verdichter 1"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,128),
+          #endif
+             0
+             );  // StdVD1
+   res << DataFieldInfo(
+             tr("BS WP [h]"),
+             tr("Betriebsstunden W\344rmepumpe"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // StdWP
+   res << DataFieldInfo(
+             tr("BS Hz [h]"),
+             tr("Betriebsstunden Heizung"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255, 0,  0),
+          #endif
+             0
+             );  // StdHz
+   res << DataFieldInfo(
+             tr("BS BW [h]"),
+             tr("Betriebsstunden Brauchwasser"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,128),
+          #endif
+             0
+             );  // StdBw
+   res << DataFieldInfo(
+             tr("BS K\374 [h]"),
+             tr("Betriebsstunden K\374hlung"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,255),
+          #endif
+             0
+             );  // StdKue
+   res << DataFieldInfo(
+             tr("Imp VD1 []"),
+             tr("Impule Verdichter 1"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,128),
+          #endif
+             0
+             );  // ImpVD1
+   res << DataFieldInfo(
+             tr("WMZ [kWh]"),
+             tr("W\344rmemenge gesamt"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,  0),
+          #endif
+             0
+             );  // WMZ
+   res << DataFieldInfo(
+             tr("WMZ Hz [kWh]"),
+             tr("W\344rmemenge Heizung"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,  0,  0),
+          #endif
+             0
+             );  // WMZHz
+   res << DataFieldInfo(
+             tr("WMZ BW [kWh]"),
+             tr("W\344rmemenge Brauchwasser"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,  0,128),
+          #endif
+             0
+             );  // WMZBW
+   res << DataFieldInfo(
+             tr("TA mittel [\260C]"),
+             tr("Au\337en-Mitteltemperatur"),
+             tr("Web-Interface"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(200,200,  0),
+          #endif
+             0
+             );  // TAm
+
+   //
+   // Temperaturen Comfortplatine
+   //
+   res << DataFieldInfo(
+             tr("TSS [\260C]"),
+             tr("Temperatur Solar Speicher"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255,128,  0),
+          #endif
+             0
+             );  // TSS
+   res << DataFieldInfo(
+             tr("TSK [\260C]"),
+             tr("Temperatur Solar Kollektor"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255, 64,  0),
+          #endif
+             0
+             );  // TSK
+   res << DataFieldInfo(
+             tr("TFB2 [\260C]"),
+             tr("Temperatur Fu\337bodenheizung 2"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,  0),
+          #endif
+             0
+             );  // TFB2
+   res << DataFieldInfo(
+             tr("TFB3 [\260C]"),
+             tr("Temperatur Fu\337bodenheizung 3"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,  0),
+          #endif
+             0
+             );  // TFB3
+   res << DataFieldInfo(
+             tr("TEE [\260C]"),
+             tr("Temperatur externe Energiequelle"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,  0),
+          #endif
+             0
+             );  // TEE
+   res << DataFieldInfo(
+             tr("TMK2soll [\260C]"),
+             tr("Mischkreis2-Soll-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,128),
+          #endif
+             0
+             );  // TMK2soll
+   res << DataFieldInfo(
+             tr("TMK3soll [\260C]"),
+             tr("Mischkreis3-Soll-Temperatur"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,128),
+          #endif
+             0
+             );  // TMK3soll
+   res << DataFieldInfo(
+             tr("WM [kWh]"),
+             tr("berechnete W\344rmemenge pro Verdichter-Start"),
+             tr("Berechnete Werte"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(255, 64,  0),
+          #endif
+             0
+             );  // WMCalc
+
+   //
+   // elektrische Energie
+   //
+   res << DataFieldInfo(
+             tr("Pe1 [W]"),
+             tr("elektrische Leistung Verdichter"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,128,128),
+          #endif
+             0
+             );  // Pe1
+   res << DataFieldInfo(
+             tr("Pe2 [W]"),
+             tr("elektrische Leistung Steuerung, Pumpen"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(128,128,  0),
+          #endif
+             0
+             );  // Pe2
+   res << DataFieldInfo(
+             tr("AZ1 []"),
+             tr("Arbeitszahl mit Elt1"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0, 64, 64),
+          #endif
+             0
+             );  // AZ1
+   res << DataFieldInfo(
+             tr("AZ2 []"),
+             tr("Arbeitszahl mit Elt1 und Elt2"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor( 64, 64,  0),
+          #endif
+             0
+             );  // AZ2
+   res << DataFieldInfo(
+             tr("E1 [kWh]"),
+             tr("elektrische Energie Verdichter"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,192,192),
+          #endif
+             0
+             );  // E1
+   res << DataFieldInfo(
+             tr("E2 [kWh]"),
+             tr("elektrische Energie Steuerung, Pumpen"),
+             tr("Elektro-Z\344hler"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(192,192,  0),
+          #endif
+             0
+             );  // E2
+
+   res << DataFieldInfo(
+             tr("UEHZ [K]"),
+             tr("\334berhitzung"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // UEHZ
+   res << DataFieldInfo(
+             tr("UEHZsoll [K]"),
+             tr("\334berhitzung Sollwert"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // UEHZsoll
+   res << DataFieldInfo(
+             tr("Asg.VDi [\260C]"),
+             tr("Ansaug Verdichter"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // Asg.VDi
+   res << DataFieldInfo(
+             tr("Asg.VDa [\260C]"),
+             tr("Ansaug Verdampfer"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // Asg.VDa
+   res << DataFieldInfo(
+             tr("VDHz [\260C]"),
+             tr("VD Heizung"),
+             tr("Temperaturen"),
+             true,
+             1.0,
+             0.0,
+          #ifdef QT_GUI_LIB
+             QColor(  0,  0,192),
+          #endif
+             0
+             );  // Asg.VDi   return res;
+
+   Q_ASSERT( m_fieldCount == res.size());
+   return res;
 }
 
 /*---------------------------------------------------------------------------
@@ -107,1022 +1130,124 @@ const DataFieldInfo* const DataFile::defaultFieldInfo()
 * Initialisierung statischer Variablen
 *---------------------------------------------------------------------------
 *---------------------------------------------------------------------------*/
-
-/*---------------------------------------------------------------------------
-* statisches Array mit Feldnamen
-*---------------------------------------------------------------------------*/
-const QString DataFile::m_fieldNamesArray[DATA_DS_FIELD_COUNT] = {
-   // Status Ausgaenge
-   "HUP",  // Heizungsumwaelzpumpe
-   "ZUP",  // Zusatzumwaelzpumpe
-   "BUP",  // Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
-   "ZW2",  // Zusaetzlicher Waermeerzeuger 2 / Sammelstoerung
-   "MA1",  // Mischer 1 auf
-   "MZ1",  // Mischer 1 zu
-   "ZIP",  // Zirkulationspumpe
-   "VD1",  // Verdichter 1
-   "VD2",  // Verdichter 2
-   "VENT", // Ventilation des WP Gehaeses / 2. Stufe des Ventilators
-   "AV",   // Abtauventil (Kreislaufumkehr)
-   "VBS",  // Ventilator, Brunnen- oder Soleumwaelzpumpe
-   "ZW1",  // Zusaetzlicher Waermeerzeuger 1
-
-   // Status Eingaenge
-   "HD",  // Hochdruckpressostat
-   "ND",  // Niederdruckpressostat
-   "MOT", // Motorschutz
-   "ASD", // Abtau/Soledruck/Durchfluss
-   "EVU", // EVU Sperre
-
-   // Temperaturen
-   "TFB1",     // TFB1
-   "TBW",      // TBW
-   "TA",       // TA
-   "TRLext",   // TRLext
-   "TRL",      // TRL
-   "TVL",      // TVL
-   "THG",      // THG
-   "TWQaus",   // TWQaus
-   "TWQein",   // TQWein
-   "TRLsoll",  // TRLsoll
-   "TMK1soll", // TMK1soll
-
-   // Status Ausgaenge ComfortPlatine
-   "AI1DIV", // wenn AI1DIV dann AI1 = AI1/2
-   "SUP",    // Schwimmbadumwaelzpumpe
-   "FUP2",   // Mischkreispumpe 2 / Kuehlsignal 2
-   "MA2",    // Mischer 2 auf
-   "MZ2",    // Mischer 2 zu
-   "MA3",    // Mischer 3 auf
-   "MZ3",    // Mischer 3 zu
-   "FUP3",   // Mischkreispumpe 3 / Kuehlsignal 3
-   "ZW3",    // Zusaetzlicher Waermeerzeuger 3
-   "SLP",    // Solarladepumpe
-
-   "AO1",    // AO1
-   "AO2",    // AO2
-
-   // Status Eingaenge ComfortPlatine
-   "SWT",  // Schwimmbadthermostat
-
-   "AI1",   // AI1
-
-   // berechnete Werte
-   "DF",    // Durchfluss Heizkreis
-   "SpHz",  // Spreizung Heizkreis
-   "SpWQ",  // Spreizung Waermequelle
-   "Qh",    // thermische Leistung
-
-   // Werte vom Web-Interface
-   "StdVD1", // Betriebsstunden VD1
-   "StdWP",  // Betriebsstunden Waermepumpe
-   "StdHz",  // Betriebsstunden Heizung
-   "StdBW",  // Betriebsstunden Brauchwasser
-   "StdKue", // Betriebsstunden Kuehlung
-   "ImpVD1", // Impulse VD1
-   "WMZ",    // Waermemengenzaehler gesamt
-   "WMZHz",  // Waermemengenzaehler Heizung
-   "WMZBW",  // Waermemengenzaehler Brauchwasser
-   "TAm",    // Mitteltemperatur (aussen)
-
-   // Werte der ComfortPlatine
-   "TSS",      // Temperatur Solar Speicher
-   "TSK",      // Temperatur Solar Kollektor
-   "TFB2",     // Temperatur Fussbodenheizung 2
-   "TFB3",     // Temperatur Fussbodenheizung 3
-   "TEE",      // Temperatur Externe Energiequelle
-   "TMK2soll", // Soll-Temperatur Mischkreis 2
-   "TMK3soll", // Soll-Temperatur Mischkreis 3
-
-   "WMCalc",   // berechnete Waermemenge
-
-   // elektrische Energie
-   "Pe1",      // elektrische Leistung Verdichter
-   "Pe2",      // elektrische Leistung Steuerung, Pumpen, ...
-   "AZ1",      // Arbeitszahl mit Elt1
-   "AZ2",      // Arbeitszahl mit Elt1 + Elt2
-   "E1",       // elektrische Energie Verdichter
-   "E2",       // elektrische Energie Steuerung, Pumpen, ....
-
-   // Felder von DTA2 (ID >= 9000)
-   "UEHZ",     // Ueberhitzung
-   "UEHzsoll", // Sollwert Ueberhitzung
-   "Asg.VDi",  // Ansaug Verdichter
-   "Asg.Vda",  // Ansaug Verdampfer
-   "VDHz",     // VD Heizung
-};
-
-/*---------------------------------------------------------------------------
-* statische Liste mit Feldnamen
-*---------------------------------------------------------------------------*/
 const quint16 DataFile::m_fieldCount = DATA_DS_FIELD_COUNT;
-QStringList DataFile::initFieldList()
+
+/*---------------------------------------------------------------------------
+* statische Feldnamen
+*---------------------------------------------------------------------------*/
+QStringList DataFile::fieldNames()
 {
    QStringList res;
-   for(int i=0; i<m_fieldCount; i++)
-      res << m_fieldNamesArray[i];
+
+   // Status Ausgaenge
+   res << "HUP";  // Heizungsumwaelzpumpe
+   res << "ZUP";  // Zusatzumwaelzpumpe
+   res << "BUP";  // Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
+   res << "ZW2";  // Zusaetzlicher Waermeerzeuger 2 / Sammelstoerung
+   res << "MA1";  // Mischer 1 auf
+   res << "MZ1";  // Mischer 1 zu
+   res << "ZIP";  // Zirkulationspumpe
+   res << "VD1";  // Verdichter 1
+   res << "VD2";  // Verdichter 2
+   res << "VENT"; // Ventilation des WP Gehaeses / 2. Stufe des Ventilators
+   res << "AV";   // Abtauventil (Kreislaufumkehr)
+   res << "VBS";  // Ventilator, Brunnen- oder Soleumwaelzpumpe
+   res << "ZW1";  // Zusaetzlicher Waermeerzeuger 1
+
+   // Status Eingaenge
+   res << "HD";  // Hochdruckpressostat
+   res << "ND";  // Niederdruckpressostat
+   res << "MOT"; // Motorschutz
+   res << "ASD"; // Abtau/Soledruck/Durchfluss
+   res << "EVU"; // EVU Sperre
+
+   // Temperaturen
+   res << "TFB1";     // TFB1
+   res << "TBW";      // TBW
+   res << "TA";       // TA
+   res << "TRLext";   // TRLext
+   res << "TRL";      // TRL
+   res << "TVL";      // TVL
+   res << "THG";      // THG
+   res << "TWQaus";   // TWQaus
+   res << "TWQein";   // TQWein
+   res << "TRLsoll";  // TRLsoll
+   res << "TMK1soll"; // TMK1soll
+
+   // Status Ausgaenge ComfortPlatine
+   res << "AI1DIV"; // wenn AI1DIV dann AI1 = AI1/2
+   res << "SUP";    // Schwimmbadumwaelzpumpe
+   res << "FUP2";   // Mischkreispumpe 2 / Kuehlsignal 2
+   res << "MA2";    // Mischer 2 auf
+   res << "MZ2";    // Mischer 2 zu
+   res << "MA3";    // Mischer 3 auf
+   res << "MZ3";    // Mischer 3 zu
+   res << "FUP3";   // Mischkreispumpe 3 / Kuehlsignal 3
+   res << "ZW3";    // Zusaetzlicher Waermeerzeuger 3
+   res << "SLP";    // Solarladepumpe
+
+   res << "AO1";    // AO1
+   res << "AO2";    // AO2
+
+   // Status Eingaenge ComfortPlatine
+   res << "SWT";  // Schwimmbadthermostat
+
+   res << "AI1";   // AI1
+
+   // berechnete Werte
+   res << "DF";    // Durchfluss Heizkreis
+   res << "SpHz";  // Spreizung Heizkreis
+   res << "SpWQ";  // Spreizung Waermequelle
+   res << "Qh";    // thermische Leistung
+
+   // Werte vom Web-Interface
+   res << "StdVD1"; // Betriebsstunden VD1
+   res << "StdWP";  // Betriebsstunden Waermepumpe
+   res << "StdHz";  // Betriebsstunden Heizung
+   res << "StdBW";  // Betriebsstunden Brauchwasser
+   res << "StdKue"; // Betriebsstunden Kuehlung
+   res << "ImpVD1"; // Impulse VD1
+   res << "WMZ";    // Waermemengenzaehler gesamt
+   res << "WMZHz";  // Waermemengenzaehler Heizung
+   res << "WMZBW";  // Waermemengenzaehler Brauchwasser
+   res << "TAm";    // Mitteltemperatur (aussen)
+
+   // Werte der ComfortPlatine
+   res << "TSS";      // Temperatur Solar Speicher
+   res << "TSK";      // Temperatur Solar Kollektor
+   res << "TFB2";     // Temperatur Fussbodenheizung 2
+   res << "TFB3";     // Temperatur Fussbodenheizung 3
+   res << "TEE";      // Temperatur Externe Energiequelle
+   res << "TMK2soll"; // Soll-Temperatur Mischkreis 2
+   res << "TMK3soll"; // Soll-Temperatur Mischkreis 3
+
+   res << "WMCalc";   // berechnete Waermemenge
+
+   // elektrische Energie
+   res << "Pe1";      // elektrische Leistung Verdichter
+   res << "Pe2";      // elektrische Leistung Steuerung, Pumpen, ...
+   res << "AZ1";      // Arbeitszahl mit Elt1
+   res << "AZ2";      // Arbeitszahl mit Elt1 + Elt2
+   res << "E1";       // elektrische Energie Verdichter
+   res << "E2";       // elektrische Energie Steuerung, Pumpen, ....
+
+   // Felder von DTA2 (ID >= 9000)
+   res << "UEHZ";     // Ueberhitzung
+   res << "UEHzsoll"; // Sollwert Ueberhitzung
+   res << "Asg.VDi";  // Ansaug Verdichter
+   res << "Asg.Vda";  // Ansaug Verdampfer
+   res << "VDHz";     // VD Heizung
+
+   Q_ASSERT( m_fieldCount == res.size());
    return res;
 }
-const QStringList DataFile::m_fieldNamesList = DataFile::initFieldList();
-QStringList DataFile::fieldNames() { return DataFile::m_fieldNamesList;}
+
 QString DataFile::fieldName(const quint16 &index)
 {
-   if(index<m_fieldCount) return m_fieldNamesArray[index];
+   if(index<m_fieldCount) return fieldNames().at(index);
    return QString();
 }
-
-/*---------------------------------------------------------------------------
-* statischer Hash mit Feldnamen und Index im Array
-*---------------------------------------------------------------------------*/
-QHash<QString,quint16> DataFile::initFieldHash()
+quint16 DataFile::fieldIndex(const QString &name)
 {
-   QHash<QString,quint16> res;
-   for(int i=0; i<m_fieldCount; i++)
-      res.insert( m_fieldNamesArray[i], i);
-   return res;
+   return fieldNames().indexOf(name);
 }
-const QHash<QString,quint16> DataFile::m_fieldNamesHash = DataFile::initFieldHash();
-quint16 DataFile::fieldIndex(const QString &name) { return m_fieldNamesHash.value( name, m_fieldCount); }
-
-/*---------------------------------------------------------------------------
-* Feld-Informationen
-*---------------------------------------------------------------------------*/
-const DataFieldInfo DataFile::m_fieldInfoArray[DATA_DS_FIELD_COUNT] = {
-   //
-   // Ausgaenge
-   //
-   {
-      tr("HUP"),
-      tr("Heizungsumw\344lzpumpe"),
-      tr("Ausg\344nge"),
-      false,
-      0.5,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,  0),
-#endif
-   }, // HUP
-   {
-      tr("ZUP"),
-      tr("Zusatzumw\344lzpumpe"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255, 65,  0),
-#endif
-   }, // ZUP
-   {
-      tr("BUP"),
-      tr("Brauswarmwasserumw\344lzpumpe oder Drei-Wege-Ventil auf Brauchwassererw\344rmung"),
-      tr("Ausg\344nge"),
-      false,
-      1.5,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,128),
-#endif
-   }, // BUP
-   {
-      tr("ZW2"),
-      tr("Zus\344tzlicher W\344rmeerzeuger 2 / Sammelstoerung"),
-      tr("Ausg\344nge"),
-      false,
-      2.1,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   }, // ZW2
-   {
-      tr("MA1"),
-      tr("Mischer 1 auf"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,128),
-#endif
-   }, // MA1
-   {
-      tr("MZ1"),
-      tr("Mischer 1 zu"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(160,160,160),
-#endif
-   }, // MZ1
-   {
-      tr("ZIP"),
-      tr("Zirkulationspumpe"),
-      tr("Ausg\344nge"),
-      false,
-      0.7,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(160,  0,160),
-#endif
-   }, // ZIP
-   {
-      tr("VD1"),
-      tr("Verdichter 1"),
-      tr("Ausg\344nge"),
-      false,
-      1.2,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,128),
-#endif
-   }, // VD1
-   {
-      tr("VD2"),
-      tr("Verdichter 2"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,192,192),
-#endif
-   },  // VD2
-   {
-      tr("VENT"),
-      tr("Ventilation des WP Geh\344ses / 2. Stufe des Ventilators"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,255,  0),
-#endif
-   }, // VENT
-   {
-      tr("AV"),
-      tr("Abtauventil (Kreislaufumkehr)"),
-      tr("Ausg\344nge"),
-      false,
-      1.7,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,255),
-#endif
-   }, // AV
-   {
-      tr("VBS"),
-      tr("Ventilator, Brunnen- oder Soleumw\344lzpumpe"),
-      tr("Ausg\344nge"),
-      false,
-      1.1,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   }, // VBS
-   {
-      tr("ZW1"),
-      tr("Zus\344tzlicher W\344rmeerzeuger 1"),
-      tr("Ausg\344nge"),
-      false,
-      2.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,  0),
-#endif
-   }, // ZW1
-
-// Eingaenge
-   {
-      tr("HD"),
-      tr("Hochdruckpressostat"),
-      tr("Eing\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,  0),
-#endif
-   },  // HD_
-   {
-      tr("ND"),
-      tr("Niederdruckpressostat"),
-      tr("Eing\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   },  // ND_
-   {
-      tr("MOT"),
-      tr("Motorschutz"),
-      tr("Eing\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // MOT_
-   {
-      tr("ADS"),
-      tr("Abtau/Soledruck/Durchfluss"),
-      tr("Eing\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,128),
-#endif
-   },  // ASD_
-   {
-      tr("EVU"),
-      tr("EVU Sperre"),
-      tr("Eing\344nge"),
-      false,
-      1.4,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,  0),
-#endif
-   },  // EVU_
-
-// Temperaturen
-   {
-      tr("TFB1 [\260C]"),
-      tr("Temperatur Fu\337bodenheizung 1"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,  0),
-#endif
-   },  // TFB1
-   {
-      tr("TBW [\260C]"),
-      tr("Brauchwasser-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,128),
-#endif
-   },  // TBW
-   {
-      tr("TA [\260C]"),
-      tr("Au\337entemperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,  0),
-#endif
-   },  // TA
-   {
-      tr("TRLext [\260C]"),
-      tr("R\374cklauf-Temperatur (extern)"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,128),
-#endif
-   },  // TRLext
-   {
-      tr("TRL [\260C]"),
-      tr("R\374cklauf-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   },  // TRL
-   {
-      tr("TVL [\260C]"),
-      tr("Vorlauf-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,  0),
-#endif
-   },  // TVL
-   {
-      tr("THG [\260C]"),
-      tr("Hei\337gas-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,  0),
-#endif
-   },  // THG
-   {
-      tr("TWQaus [\260C]"),
-      tr("Temperatur W\344rmequelle Ausgang"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,128),
-#endif
-   },  // TWQaus
-   {
-      tr("TWQein [\260C]"),
-      tr("Temperatur W\344rmequelle Eingang"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-   #ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-   #endif
-   },  // TWQein
-   {
-      tr("TRLsoll [\260C]"),
-      tr("R\374cklauf-Soll-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,255),
-#endif
-   },  // TRLsoll
-   {
-      tr("TMK1soll [\260C]"),
-      tr("Mischkreis1-Soll-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,128),
-#endif
-   },  // TMK1soll
-
-// Ausgaenge ComfortPlatine
-   {
-      tr("AI1DIV"),
-      tr("wenn AI1DIV dann AI1 = AI1/2"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,255,255),
-#endif
-   },  // AI1DIV
-   {
-      tr("SUP"),
-      tr("Schwimmbadumw\344lzpumpe"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,255),
-#endif
-   },  // SUP
-   {
-      tr("FUP2"),
-      tr("Mischkreispumpe 2 / K\374hlsignal 2"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,255,  0),
-#endif
-   },  // FUP2
-   {
-      tr("MA2"),
-      tr("Mischer 2 auf"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // MA2
-   {
-      tr("MZ2"),
-      tr("Mischer 2 zu"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,160,  0),
-#endif
-   },  // MZ2
-   {
-      tr("MA3"),
-      tr("Mischer 3 auf"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,238),
-#endif
-   },  // MA3
-   {
-      tr("MZ3"),
-      tr("Mischer 3 zu"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,160),
-#endif
-   },  // MZ3
-   {
-      tr("FUP3"),
-      tr("Mischkreispumpe 3 / K\374hlsignal 3"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   },  // FUP3
-   {
-      tr("ZW3"),
-      tr("Zus\344tzlicher W\344rmeerzeuger 3"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // ZW3
-   {
-      tr("SLP"),
-      tr("Solarladepumpe"),
-      tr("Ausg\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,128,  0),
-#endif
-   },  // SLP
-
-// ComfortPlatine
-   {
-      tr("AO1 [V]"),
-      tr("analoger Ausgang 1"),
-      tr("Analoge Signale"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   },  // AO1
-   {
-      tr("AO2 [V]"),
-      tr("analoger Ausgang 2"),
-      tr("Analoge Signale"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // AO2
-
-// Eingaenge ComfortPlatine
-   {
-      tr("SWT"),
-      tr("Schwimmbadthermostat"),
-      tr("Eing\344nge"),
-      false,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,255),
-#endif
-   },  // SWT_
-
-   {
-      tr("AI1 [V]"),
-      tr("analoger Eingang 1"),
-      tr("Analoge Signale"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,  0),
-#endif
-   },  // AI1
-
-// Berechnete Werte
-   {
-      tr("DF [l/min]"),
-      tr("Durchfluss Heizkreis"),
-      tr("Berechnete Werte"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // DF
-   {
-      tr("SpHz [K]"),
-      tr("Spreizung Heizkreis"),
-      tr("Berechnete Werte"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,  0),
-#endif
-   },  // SpHz
-   {
-      tr("SpWQ [K]"),
-      tr("Spreizung W\344rmequelle"),
-      tr("Berechnete Werte"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,128),
-#endif
-   },  // SpWQ
-   {
-      tr("Qh [W]"),
-      tr("Heizleistung"),
-      tr("Berechnete Werte"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,  0),
-#endif
-   },  // Qh
-
-
-   //
-   // Werte vom Web-Interface
-   //
-   {
-      tr("BS VD1 [h]"),
-      tr("Betriebsstunden Verdichter 1"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,128),
-#endif
-   },  // StdVD1
-   {
-      tr("BS WP [h]"),
-      tr("Betriebsstunden W\344rmepumpe"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // StdWP
-   {
-      tr("BS Hz [h]"),
-      tr("Betriebsstunden Heizung"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255, 0,  0),
-#endif
-   },  // StdHz
-   {
-      tr("BS BW [h]"),
-      tr("Betriebsstunden Brauchwasser"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,128),
-#endif
-   },  // StdBw
-   {
-      tr("BS K\374 [h]"),
-      tr("Betriebsstunden K\374hlung"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,255),
-#endif
-   },  // StdKue
-   {
-      tr("Imp VD1 []"),
-      tr("Impule Verdichter 1"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,128),
-#endif
-   },  // ImpVD1
-   {
-      tr("WMZ [kWh]"),
-      tr("W\344rmemenge gesamt"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,  0),
-#endif
-   },  // WMZ
-   {
-      tr("WMZ Hz [kWh]"),
-      tr("W\344rmemenge Heizung"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,  0,  0),
-#endif
-   },  // WMZHz
-   {
-      tr("WMZ BW [kWh]"),
-      tr("W\344rmemenge Brauchwasser"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,  0,128),
-#endif
-   },  // WMZBW
-   {
-      tr("TA mittel [\260C]"),
-      tr("Au\337en-Mitteltemperatur"),
-      tr("Web-Interface"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(200,200,  0),
-#endif
-   },  // TAm
-
-   //
-   // Temperaturen Comfortplatine
-   //
-   {
-      tr("TSS [\260C]"),
-      tr("Temperatur Solar Speicher"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255,128,  0),
-#endif
-   },  // TSS
-   {
-      tr("TSK [\260C]"),
-      tr("Temperatur Solar Kollektor"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255, 64,  0),
-#endif
-   },  // TSK
-   {
-      tr("TFB2 [\260C]"),
-      tr("Temperatur Fu\337bodenheizung 2"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,  0),
-#endif
-   },  // TFB2
-   {
-      tr("TFB3 [\260C]"),
-      tr("Temperatur Fu\337bodenheizung 3"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,  0),
-#endif
-   },  // TFB3
-   {
-      tr("TEE [\260C]"),
-      tr("Temperatur externe Energiequelle"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,  0),
-#endif
-   },  // TEE
-   {
-      tr("TMK2soll [\260C]"),
-      tr("Mischkreis2-Soll-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,128),
-#endif
-   },  // TMK2soll
-   {
-      tr("TMK3soll [\260C]"),
-      tr("Mischkreis3-Soll-Temperatur"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,128),
-#endif
-   },  // TMK3soll
-   {
-      tr("WM [kWh]"),
-      tr("berechnete W\344rmemenge pro Verdichter-Start"),
-      tr("Berechnete Werte"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(255, 64,  0),
-#endif
-   },  // WMCalc
-   //
-   // elektrische Energie
-   //
-   {
-      tr("Pe1 [W]"),
-      tr("elektrische Leistung Verdichter"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,128,128),
-#endif
-   },  // Pe1
-   {
-      tr("Pe2 [W]"),
-      tr("elektrische Leistung Steuerung, Pumpen"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(128,128,  0),
-#endif
-   },  // Pe2
-   {
-      tr("AZ1 []"),
-      tr("Arbeitszahl mit Elt1"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0, 64, 64),
-#endif
-   },  // AZ1
-   {
-      tr("AZ2 []"),
-      tr("Arbeitszahl mit Elt1 und Elt2"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor( 64, 64,  0),
-#endif
-   },  // AZ2
-   {
-      tr("E1 [kWh]"),
-      tr("elektrische Energie Verdichter"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,192,192),
-#endif
-   },  // E1
-   {
-      tr("E2 [kWh]"),
-      tr("elektrische Energie Steuerung, Pumpen"),
-      tr("Elektro-Z\344hler"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(192,192,  0),
-#endif
-   },  // E2
-
-   {
-      tr("UEHZ [K]"),
-      tr("\334berhitzung"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // UEHZ
-   {
-      tr("UEHZsoll [K]"),
-      tr("\334berhitzung Sollwert"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // UEHZsoll
-   {
-      tr("Asg.VDi [\260C]"),
-      tr("Ansaug Verdichter"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // Asg.VDi
-   {
-      tr("Asg.VDa [\260C]"),
-      tr("Ansaug Verdampfer"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // Asg.VDa
-   {
-      tr("VDHz [\260C]"),
-      tr("VD Heizung"),
-      tr("Temperaturen"),
-      true,
-      1.0,
-      0.0,
-#ifdef QT_GUI_LIB
-      QColor(  0,  0,192),
-#endif
-   },  // Asg.VDi
-};
-
-const DataFieldInfo DataFile::m_defaultFieldInfo = {
-   tr("XX"),
-   tr("unbekanntes Feld"),
-   tr("Sonstiges"),
-   false,
-   1.0,
-   0.0,
-#ifdef QT_GUI_LIB
-   Qt::white,
-#endif
-};

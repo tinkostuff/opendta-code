@@ -269,7 +269,7 @@ DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
    btnAdd->setIcon(QIcon(":/images/images/add.png"));
    connect( btnAdd, SIGNAL(clicked()), this, SLOT(addPlot()));
 
-   QPushButton *btnDelAll = new QPushButton(tr("Alle Diagramm l\366schen"));
+   QPushButton *btnDelAll = new QPushButton(tr("Alle Diagramme l\366schen"));
    btnDelAll->setIcon(QIcon(":/images/images/remove-all.png"));
    connect( btnDelAll, SIGNAL(clicked()), this, SLOT(clear()));
 
@@ -377,26 +377,26 @@ void DtaPlotFrame::insertFieldsToTree()
    // Felder hinzufuegen
    for( int i=0; i<fields.size(); i++)
    {
-      const DataFieldInfo *info = DataFile::fieldInfo(i);
+      const DataFieldInfo info = DataFile::fieldInfo(i);
 
       QTreeWidgetItem *item = new QTreeWidgetItem(QTreeWidgetItem::Type);
-      item->setText(0, info->prettyName);
-      item->setToolTip(0, info->toolTip);
+      item->setText(0, info.prettyName);
+      item->setToolTip(0, info.toolTip);
       item->setFlags(Qt::ItemIsDragEnabled|Qt::ItemIsSelectable|Qt::ItemIsEnabled);
       item->setData(0, Qt::UserRole, fields.at(i)); // Feldname zum Identifizieren
 
       // Icon erstellen
       QPixmap pixmap(20, 20);
       QPainter p(&pixmap);
-      p.setBrush(info->color);
-      p.setPen(info->color);
+      p.setBrush(info.color);
+      p.setPen(info.color);
       p.drawRect(0,0,20,20);
       p.end();
       QIcon icon(pixmap);
       item->setIcon(0, icon);
 
       // Kategorie suchen und Feld anhaengen
-      QTreeWidgetItem *cat = signalTree->findItems( info->category, Qt::MatchFixedString|Qt::MatchCaseSensitive, 0).first();
+      QTreeWidgetItem *cat = signalTree->findItems( info.category, Qt::MatchFixedString|Qt::MatchCaseSensitive, 0).first();
       cat->insertChild(0,item);
    }
 
@@ -468,13 +468,13 @@ void DtaPlotFrame::replotAll()
 void DtaPlotFrame::addCurveToPlot(DtaPlot *plot, QString field)
 {
    // Feldinformationen
-   const DataFieldInfo *info = DataFile::fieldInfo(field);
+   const DataFieldInfo info = DataFile::fieldInfo(field);
 
    // Daten extrahieren
    QPolygonF curveData = extractCurveData(field);
 
    // Kurve zum Plot hinzufuegen
-   plot->addCurve( field, &curveData, info->color, info->analog, cbSymbols->checkState()==2);
+   plot->addCurve( field, info.prettyName, &curveData, info.color, info.analog, cbSymbols->checkState()==2);
 }
 void DtaPlotFrame::addCurveToPlot(int index, QString field)
 {
@@ -486,7 +486,7 @@ void DtaPlotFrame::addCurveToPlot(int index, QString field)
 QPolygonF DtaPlotFrame::extractCurveData(QString field)
 {
    // Feldinformationen
-   const DataFieldInfo *info = DataFile::fieldInfo(field);
+   const DataFieldInfo info = DataFile::fieldInfo(field);
    quint16 index = DataFile::fieldIndex(field);
 
    QPolygonF result;
@@ -495,7 +495,7 @@ QPolygonF DtaPlotFrame::extractCurveData(QString field)
        DataMap::const_iterator i = data->constBegin();
        do
        {
-          result << QPointF( i.key(), i.value()[index] * info->scale + info->offset);
+          result << QPointF( i.key(), i.value()[index] * info.scale + info.offset);
           i++;
        } while( i != data->constEnd());
    }
@@ -566,6 +566,8 @@ void DtaPlotFrame::dataUpdated()
       // Default Diagramme bauen
       if( QFile::exists("default.session"))
          this->loadSession("default.session");
+      else if (QFile::exists(QCoreApplication::applicationDirPath() + "/default.session"))
+         this->loadSession(QCoreApplication::applicationDirPath() + "/default.session");
       else
          this->loadSession(":/sessions/default.session");
       loadDefaultSession = false;
@@ -944,7 +946,7 @@ void DtaPlotFrame::saveSession()
 void DtaPlotFrame::loadSession()
 {
    QString fileName = QFileDialog::getOpenFileName( this,
-                                                    tr("Sitzung \344ffnen"),
+                                                    tr("Sitzung \366ffnen"),
                                                     lastOpenPathSession,
                                                     tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
    if( fileName != "") this->loadSession(fileName);
@@ -984,7 +986,7 @@ void DtaPlotFrame::loadSession(QString fileName)
       for( int j=0; j<curves; j++)
       {
          // Name der Kurve
-         QString curve = ini->value(QString("diagram%1/curve%2/name").arg(i).arg(j)).toString();
+         QString curve = ini->value(QString("diagram%1/curve%2/name").arg(i).arg(j)).toByteArray();
          if(curveNames.contains(curve))
          {
             this->addCurveToPlot( i, curve);
@@ -1022,7 +1024,10 @@ void DtaPlotFrame::loadSession(QString fileName)
    // die Standard-Sitzung nicht mehr laden
    loadDefaultSession = false;
 
-   // letzten Pfad merken
-   QFileInfo fi(fileName);
-   lastOpenPathSession = fi.absolutePath();
+   // letzten Pfad merken (wenn nicht aus Resource)
+   if (!fileName.startsWith(":"))
+   {
+      QFileInfo fi(fileName);
+      lastOpenPathSession = fi.absolutePath();
+   }
 }

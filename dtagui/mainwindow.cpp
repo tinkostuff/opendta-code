@@ -441,7 +441,7 @@ void MainWindow::on_actionCSVSpeichern_triggered()
    // Kopfzeile
    out << tr("Datum/Uhrzeit") << separator << tr("Zeitstempel");
    for( int i=0; i<DataFile::fieldCount(); i++)
-      out << separator << DataFile::fieldInfo(i)->prettyName;
+      out << separator << DataFile::fieldInfo(i).prettyName;
    out << endl;
 
    // Daten schreiben
@@ -468,4 +468,57 @@ void MainWindow::on_actionCSVSpeichern_triggered()
    fOut.close();
 
    setCursor(Qt::ArrowCursor);
+}
+
+/*---------------------------------------------------------------------------
+* Sprache auswaehlen
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionSprache_triggered()
+{
+   // INI-Datei lesen
+   QSettings cfg(
+            QCoreApplication::applicationDirPath()+"/dtagui.ini",
+            QSettings::IniFormat,
+            this);
+   QString lang = cfg.value( "dtagui/lang", "de").toString();
+
+   // Sprach-Dateien suchen
+   QDir dir(QCoreApplication::applicationDirPath());
+   dir.setNameFilters(QStringList() << "dtagui_*.qm");
+   dir.setFilter(QDir::Files);
+   QStringList files = dir.entryList();
+
+   // Optionen fuer die Auswahlliste erstellen
+   QStringList opts;
+   opts << "de";
+   QStringListIterator iter(files);
+   while(iter.hasNext())
+   {
+      QString s = iter.next();
+      s.remove("dtagui_");
+      s.remove(".qm");
+      opts << s;
+   }
+
+   // Benutzer fragen
+   bool ok;
+   QString sel = QInputDialog::getItem(
+            this,
+            tr("Sprache ausw\344hlen"),
+            tr("Bitte eine Sprache ausw\344hlen.<br>Die Datei 'dtagui_&lt;sprache&gt;.qm' muss im Programmverzeichnis verf\374gbar sein!<br><b>Hinweis:</b> Die \304nderung wird erst nach einem Programmstart wirksam!"),
+            opts,
+            opts.indexOf(lang)==-1 ? 0 : opts.indexOf(lang),
+            true,
+            &ok);
+
+   // Aenderung speichern
+   if( ok && (sel!="") && (sel!=lang))
+   {
+      cfg.setValue("dtagui/lang", sel);
+      QMessageBox::information(
+               this,
+               tr("Anwendung neu starten"),
+               tr("Bitte die Anwendung neu starten, um die \304nderung wirksam zu machen!")
+            );
+   }
 }

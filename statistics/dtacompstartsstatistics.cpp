@@ -86,7 +86,7 @@ const QList<DtaCompStart::CompStartFields> DtaCompStart::m_fieldList = DtaCompSt
 /*---------------------------------------------------------------------------
 * Liste mit Feldnamen
 *---------------------------------------------------------------------------*/
-QStringList DtaCompStart::initFieldNames()
+QStringList DtaCompStart::fieldNames()
 {
    QStringList res;
    res << tr("Start")
@@ -108,12 +108,11 @@ QStringList DtaCompStart::initFieldNames()
        << tr("AZ2 []");
    return res;
 }
-const QStringList DtaCompStart::m_fieldNames = DtaCompStart::initFieldNames();
 
 /*---------------------------------------------------------------------------
 * Liste mit Modi
 *---------------------------------------------------------------------------*/
-QStringList DtaCompStart::initModeStringList()
+QStringList DtaCompStart::modeStringList()
 {
    QStringList res;
    res << tr("Heizung")
@@ -122,7 +121,6 @@ QStringList DtaCompStart::initModeStringList()
        << tr("nach EVU-Sperre");
    return res;
 }
-const QStringList DtaCompStart::m_modeStringList = DtaCompStart::initModeStringList();
 
 /*---------------------------------------------------------------------------
 *---------------------------------------------------------------------------
@@ -520,7 +518,7 @@ const QString DtaCompStartsStatistics::statStr( DtaCompStart::CompStartModes mod
    case DtaCompStart::fPause:
    {
       qint32 i = qRound(value);
-      return QString(tr("%1:%2"))
+      return QString("%1:%2")
                .arg(i/3600)
                .arg(QString("%1").arg((i%3600)/60.0,0,'f',0).rightJustified(2,'0'));
       break;
@@ -528,7 +526,7 @@ const QString DtaCompStartsStatistics::statStr( DtaCompStart::CompStartModes mod
 
    default:
    {
-      return QString(tr("%1")).arg(value,0,'f',1);
+      return QString("%1").arg(value,0,'f',1);
       break;
    }
    } // switch

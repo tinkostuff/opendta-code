@@ -343,7 +343,7 @@ void DtaCompStartsFrame::threadFinished()
    // Tabelle
    //
    cbModus->clear();
-   cbModus->addItem( "alle", -1);
+   cbModus->addItem( tr("alle"), -1);
    for( int i=0; i<DtaCompStart::modeStringList().size(); i++)
       cbModus->addItem( DtaCompStart::modeStringList().at(i), i);
 
@@ -463,99 +463,6 @@ void DtaCompStartsFrame::threadFinished()
 
    table->resizeColumnsToContents();
    table->resizeRowsToContents();
-
-/*
-   //
-   // Tabelle
-   //
-   cbModus->clear();
-   cbModus->addItem( "alle", -1);
-   for( int i=0; i<thread->modeList.size(); i++)
-      cbModus->addItem( thread->modeList.at(i), i);
-
-   QStringList header;
-   header << tr("Start");
-   header << tr("Modus");
-   header << tr("L\344nge\n[min]");
-   header << tr("Pause\n[min]");
-   header << tr("TVL\n[\260C]");
-   header << tr("TRL\n[\260C]");
-   header << tr("SpHZ\n[K]");
-   header << tr("TWQein\n[\260C]");
-   header << tr("TWQaus\n[\260C]");
-   header << tr("SpWQ\n[K]");
-   header << tr("TA\n[\260C]");
-
-   table->setColumnCount(header.size());
-   table->setRowCount(thread->runList.size());
-   table->setHorizontalHeaderLabels(header);
-
-   QTableWidgetItem *item;
-   for( int i=0; i<thread->runList.size(); i++)
-   {
-      const DtaStatsRun *run = &(thread->runList.at(i));
-
-      // Start
-      item = new QTableWidgetItem(QDateTime::fromTime_t(run->start).toString("yyyy-MM-dd hh:mm"));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 0, item);
-
-      // Modus
-      item = new QTableWidgetItem( thread->modeList[run->mode]);
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 1, item);
-
-      // Laenge
-      item = new QTableWidgetItem(QString("%1").arg(run->length/60));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 2, item);
-
-      // Pause
-      if(run->pause > 0) s = QString("%1").arg(run->pause/60);
-      else s = "";
-      item = new QTableWidgetItem(s);
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 3, item);
-
-      // TVL
-      item = new QTableWidgetItem(QString("%1").arg(run->TVL,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 4, item);
-
-      // TRL
-      item = new QTableWidgetItem(QString("%1").arg(run->TRL,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 5, item);
-
-      // SpHZ
-      item = new QTableWidgetItem(QString("%1").arg(run->SpHz,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 6, item);
-
-      // TWQein
-      item = new QTableWidgetItem(QString("%1").arg(run->TWQein,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 7, item);
-
-      // TWQaus
-      item = new QTableWidgetItem(QString("%1").arg(run->TWQaus,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 8, item);
-
-      // SpWQ
-      item = new QTableWidgetItem(QString("%1").arg(run->SpWQ,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 9, item);
-
-      // TA
-      item = new QTableWidgetItem(QString("%1").arg(run->TA,0,'f',1));
-      item->setTextAlignment(Qt::AlignCenter);
-      table->setItem( i, 10, item);
-   }
-
-   table->resizeColumnsToContents();
-   table->resizeRowsToContents();
-*/
 
    delete this->thread;
    this->thread = NULL;
