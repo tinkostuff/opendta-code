@@ -212,8 +212,7 @@
 #ifndef DUMPFILE_H
 #define DUMPFILE_H
 
-#include <QObject>
-#include <QProcess>
+#include <QtCore>
 
 #include "dtafile/datafile.h"
 
@@ -222,11 +221,12 @@
 *---------------------------------------------------------------------------*/
 class DumpFile : public DataFile
 {
+   Q_OBJECT
 public:
    explicit DumpFile(QString fileName, QObject *parent=0);
    ~DumpFile();
 
-   virtual bool open(); // DTA-Datei oeffnen
+   virtual bool open(); // DUMP-Datei oeffnen
    virtual void readDatasets(DataMap *data); // alle Datensaete lesen und in Map speichern
 
 private:

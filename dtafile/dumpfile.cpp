@@ -23,13 +23,6 @@
 * - Klasse zum Lesen und Decodieren von Dump-Dateien
 *---------------------------------------------------------------------------*/
 
-#include <QFile>
-#include <QVarLengthArray>
-#include <QTextStream>
-
-#include <QtGlobal>
-#include <QDebug>
-
 #include "dumpfile.h"
 
 /*---------------------------------------------------------------------------
@@ -37,6 +30,7 @@
 *---------------------------------------------------------------------------*/
 DumpFile::DumpFile(QString fileName, QObject *parent) : DataFile(fileName,parent)
 {
+   qDebug() << "Hallo Welt!";
 }
 
 DumpFile::~DumpFile()
