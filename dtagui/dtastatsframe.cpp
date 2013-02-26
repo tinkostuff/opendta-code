@@ -166,20 +166,23 @@ DtaStatsFrame::~DtaStatsFrame()
 void DtaStatsFrame::dataUpdated()
 {
    textEdit->clear();
-   textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
 
    // Zeitspanne der Eingabefelder aktualisieren
    this->updateTimeRangeEdit();
 
-   // Thread starten
-   this->thread = new DtaStatsThread();
-   this->thread->setData(data);
-   this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
-                                   dteEnd->dateTime().toTime_t());
-   connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
-   connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
-   this->thread->start();
+   if(!data->isEmpty())
+   {
+      textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
 
+      // Thread starten
+      this->thread = new DtaStatsThread();
+      this->thread->setData(data);
+      this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
+                                      dteEnd->dateTime().toTime_t());
+      connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
+      connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
+      this->thread->start();
+   }
 }
 
 /*---------------------------------------------------------------------------

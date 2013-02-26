@@ -199,19 +199,24 @@ void DtaCompStartsFrame::dataUpdated()
    this->cbModus->clear();
    this->table->setRowCount(0);
    this->table->setColumnCount(0);
-   textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
+
+   if(data->isEmpty()) textEdit->insertPlainText("");
+   else textEdit->insertPlainText(tr("Bitte warten! Daten werden ausgewertet."));
 
    // Zeitspanne der Eingabefelder aktualisieren
    this->updateTimeRangeEdit();
 
    // Thread starten
-   this->thread = new DtaCompStartsThread();
-   this->thread->setData(data);
-   this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
-                                   dteEnd->dateTime().toTime_t());
-   connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
-   connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
-   this->thread->start();
+   if(!data->isEmpty())
+   {
+      this->thread = new DtaCompStartsThread();
+      this->thread->setData(data);
+      this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
+                                      dteEnd->dateTime().toTime_t());
+      connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
+      connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
+      this->thread->start();
+   }
 }
 
 /*---------------------------------------------------------------------------
