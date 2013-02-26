@@ -39,189 +39,186 @@
 *  - Drag&Drop von Signalen
 *  - Popup-Menue
 *---------------------------------------------------------------------------*/
-class PlotEventHandler : public QObject
+PlotEventHandler::PlotEventHandler(DtaPlotFrame *plotFrame, QObject *parent)
+   : QObject(parent)
 {
-public:
-   PlotEventHandler(DtaPlotFrame *plotFrame, QObject *parent=0) : QObject(parent) { this->plotFrame = plotFrame; }
-protected:
-   bool eventFilter(QObject *obj, QEvent *event)
+   this->plotFrame = plotFrame;
+}
+
+bool PlotEventHandler::eventFilter(QObject *obj, QEvent *event)
+{
+   Q_UNUSED(obj)
+
+   bool filterEvent = false;
+
+   switch(event->type())
    {
-      Q_UNUSED(obj)
+   //
+   // dragEnterEvent
+   //
+   case QEvent::DragEnter:
+   {
+      // kommen die Daten vom TreeWidget
+      QDragEnterEvent *e = static_cast<QDragEnterEvent *>(event);
+      if( e->mimeData()->formats().contains("application/x-qabstractitemmodeldatalist"))
+         e->acceptProposedAction();
+      break;
+   }
 
-      bool filterEvent = false;
+   //
+   // dropEvent
+   //
+   case QEvent::Drop:
+   {
+      QDropEvent *e = static_cast<QDropEvent *>(event);
 
-      switch(event->type())
+      // Daten extrahieren
+      QByteArray encoded = e->mimeData()->data("application/x-qabstractitemmodeldatalist");
+      QDataStream stream(&encoded, QIODevice::ReadOnly);
+      while (!stream.atEnd())
       {
-      //
-      // dragEnterEvent
-      //
-      case QEvent::DragEnter:
-         {
-            // kommen die Daten vom TreeWidget
-            QDragEnterEvent *e = static_cast<QDragEnterEvent *>(event);
-            if( e->mimeData()->formats().contains("application/x-qabstractitemmodeldatalist"))
-               e->acceptProposedAction();
-            break;
-         }
+         int row, col;
+         QHash<int,  QVariant> roleDataHash;
+         stream >> row >> col >> roleDataHash;
 
-      //
-      // dropEvent
-      //
-      case QEvent::Drop:
-         {
-            QDropEvent *e = static_cast<QDropEvent *>(event);
+         QString field = roleDataHash.value(Qt::UserRole).toString();
 
-            // Daten extrahieren
-            QByteArray encoded = e->mimeData()->data("application/x-qabstractitemmodeldatalist");
-            QDataStream stream(&encoded, QIODevice::ReadOnly);
-            while (!stream.atEnd())
-            {
-                int row, col;
-                QHash<int,  QVariant> roleDataHash;
-                stream >> row >> col >> roleDataHash;
-
-                QString field = roleDataHash.value(Qt::UserRole).toString();
-
-                // Kurve zeichnen
-                DtaPlot *plot = static_cast<DtaPlot *>(obj);
-                plotFrame->addCurveToPlot( plot, field);
-            }
-            e->acceptProposedAction();
-            break;
-         }
-
-      //
-      // mousePress
-      //
-      case QEvent::MouseButtonPress:
-         {
-            QMouseEvent *e = static_cast<QMouseEvent *>(event);
-
-            // Popup-Menue
-            if( e->button()==Qt::RightButton && e->modifiers()==Qt::NoModifier)
-            {
-               showPopupMenu = true;
-               mouseStartPos = e->globalPos();
-            }
-            break;
-         }
-
-      //
-      // mouseMove
-      //
-      case QEvent::MouseMove:
-         {
-            QMouseEvent *e = static_cast<QMouseEvent *>(event);
-            if(showPopupMenu)
-            {
-               // wenn sich die Maus bewegt, dann wird das Popup-Menue nicht gezeigt
-               QPoint p = e->globalPos() - mouseStartPos;
-               if( p.manhattanLength() > 10) showPopupMenu = false;
-            }
-            break;
-         }
-
-      //
-      // mouseRelease
-      //
-      case QEvent::MouseButtonRelease:
-         {
-            QMouseEvent *e = static_cast<QMouseEvent *>(event);
-            // Popup-Menue
-            if(e->button()==Qt::RightButton && e->modifiers()==Qt::NoModifier && showPopupMenu)
-            {
-               DtaPlot *plot = static_cast<DtaPlot *>(obj);
-               QStringList curves = plot->curveNames();
-               curves.sort();
-
-               // Menue erstellen
-               popupMenu = new QMenu(plotFrame);
-               QAction *act;
-
-					// Menueeintraege fuer Diagramme
-               act = new QAction( tr("&Drucken..."), plot);
-               act->setIcon(QIcon(":/images/images/print.png"));
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(printPlot()));
-               popupMenu->addAction(act);
-
-               act = new QAction( tr("Diagramm &l\366schen"), plot);
-               act->setIcon(QIcon(":/images/images/remove.png"));
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(removePlot()));
-               popupMenu->addAction(act);
-
-               // Zoom Menue
-               QMenu *zMenu = popupMenu->addMenu(tr("&Zoom"));
-               zMenu->setIcon(QIcon(":/images/images/zoom-fit.png"));
-               act = new QAction( tr("Volle X-Achse"), plot);
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitX()));
-               zMenu->addAction(act);
-               act = new QAction( tr("Volle Y-Achse"), plot);
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitY()));
-               zMenu->addAction(act);
-               act = new QAction( tr("Volle X- und Y-Achse"), plot);
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitXY()));
-               zMenu->addAction(act);
-
-               // Ticks y-Achse
-               QMenu *tickMenu = popupMenu->addMenu(tr("&y-Achse"));
-               act = new QAction( tr("max. Haupt-Teilung"), plot);
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(maxMajorYTicks()));
-               tickMenu->addAction(act);
-               act = new QAction( tr("max. Unter-Teilung"), plot);
-               connect( act, SIGNAL(triggered()), plotFrame, SLOT(maxMinorYTicks()));
-               tickMenu->addAction(act);
-
-               popupMenu->addSeparator();
-
-               // Menueintraege fuer Kurven erstellen
-               for( int i=0; i<curves.size(); i++)
-               {
-                  QMenu *sigMenu = popupMenu->addMenu(curves.at(i));
-                  generateSignalMenu(sigMenu, curves.at(i), plot);
-               }
-
-               popupMenu->popup(e->globalPos());
-            }
-            break;
-         }
-
-      //
-      // default
-      //
-      default:
-         break;
+         // Kurve zeichnen
+         DtaPlot *plot = static_cast<DtaPlot *>(obj);
+         plotFrame->addCurveToPlot( plot, field);
       }
-
-      return filterEvent;
+      e->acceptProposedAction();
+      break;
    }
-private:
-   void generateSignalMenu(QMenu *parent, QString sigName, DtaPlot *plot)
+
+   //
+   // mousePress
+   //
+   case QEvent::MouseButtonPress:
    {
-      QAction *act;
+      QMouseEvent *e = static_cast<QMouseEvent *>(event);
 
-      act = new QAction(tr("L\366schen"),plot);
-      act->setData(sigName);
-      act->setIcon(QIcon(":/images/images/remove.png"));
-      connect( act, SIGNAL(triggered()), plotFrame, SLOT(removeCurveFromPlot()));
-      parent->addAction(act);
-
-      act = new QAction(tr("Farbe..."),plot);
-      act->setData(sigName);
-      act->setIcon(QIcon(":/images/images/colorselect.png"));
-      connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveColor()));
-      parent->addAction(act);
-
-      act = new QAction(tr("Linienst\344rke..."),plot);
-      act->setData(sigName);
-      act->setIcon(QIcon(":/images/images/linewidth.png"));
-      connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveLineWidth()));
-      parent->addAction(act);
+      // Popup-Menue
+      if( e->button()==Qt::RightButton && e->modifiers()==Qt::NoModifier)
+      {
+         showPopupMenu = true;
+         mouseStartPos = e->globalPos();
+      }
+      break;
    }
-   DtaPlotFrame *plotFrame;
-   QMenu *popupMenu;
-   bool showPopupMenu;
-   QPoint mouseStartPos;
-};
+
+   //
+   // mouseMove
+   //
+   case QEvent::MouseMove:
+   {
+      QMouseEvent *e = static_cast<QMouseEvent *>(event);
+      if(showPopupMenu)
+      {
+         // wenn sich die Maus bewegt, dann wird das Popup-Menue nicht gezeigt
+         QPoint p = e->globalPos() - mouseStartPos;
+         if( p.manhattanLength() > 10) showPopupMenu = false;
+      }
+      break;
+   }
+
+   //
+   // mouseRelease
+   //
+   case QEvent::MouseButtonRelease:
+   {
+      QMouseEvent *e = static_cast<QMouseEvent *>(event);
+      // Popup-Menue
+      if(e->button()==Qt::RightButton && e->modifiers()==Qt::NoModifier && showPopupMenu)
+      {
+         DtaPlot *plot = static_cast<DtaPlot *>(obj);
+         QStringList curves = plot->curveNames();
+         curves.sort();
+
+         // Menue erstellen
+         popupMenu = new QMenu(plotFrame);
+         QAction *act;
+
+         // Menueeintraege fuer Diagramme
+         act = new QAction( tr("&Drucken..."), plot);
+         act->setText(tr("&Drucken..."));
+         act->setIcon(QIcon(":/images/images/print.png"));
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(printPlot()));
+         popupMenu->addAction(act);
+
+         act = new QAction( tr("Diagramm &l\366schen"), plot);
+         act->setIcon(QIcon(":/images/images/remove.png"));
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(removePlot()));
+         popupMenu->addAction(act);
+
+         // Zoom Menue
+         QMenu *zMenu = popupMenu->addMenu(tr("&Zoom"));
+         zMenu->setIcon(QIcon(":/images/images/zoom-fit.png"));
+         act = new QAction( tr("Volle X-Achse"), plot);
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitX()));
+         zMenu->addAction(act);
+         act = new QAction( tr("Volle Y-Achse"), plot);
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitY()));
+         zMenu->addAction(act);
+         act = new QAction( tr("Volle X- und Y-Achse"), plot);
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(plotZoomFitXY()));
+         zMenu->addAction(act);
+
+         // Ticks y-Achse
+         QMenu *tickMenu = popupMenu->addMenu(tr("&y-Achse"));
+         act = new QAction( tr("max. Haupt-Teilung"), plot);
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(maxMajorYTicks()));
+         tickMenu->addAction(act);
+         act = new QAction( tr("max. Unter-Teilung"), plot);
+         connect( act, SIGNAL(triggered()), plotFrame, SLOT(maxMinorYTicks()));
+         tickMenu->addAction(act);
+
+         popupMenu->addSeparator();
+
+         // Menueintraege fuer Kurven erstellen
+         for( int i=0; i<curves.size(); i++)
+         {
+            QMenu *sigMenu = popupMenu->addMenu(curves.at(i));
+            generateSignalMenu(sigMenu, curves.at(i), plot);
+         }
+
+         popupMenu->popup(e->globalPos());
+      }
+      break;
+   }
+
+   //
+   // default
+   //
+   default:
+      break;
+   }
+
+   return filterEvent;
+}
+
+void PlotEventHandler::generateSignalMenu(QMenu *parent, QString sigName, DtaPlot *plot)
+{
+   QAction *act;
+
+   act = new QAction(tr("L\366schen"),plot);
+   act->setData(sigName);
+   act->setIcon(QIcon(":/images/images/remove.png"));
+   connect( act, SIGNAL(triggered()), plotFrame, SLOT(removeCurveFromPlot()));
+   parent->addAction(act);
+
+   act = new QAction(tr("Farbe..."),plot);
+   act->setData(sigName);
+   act->setIcon(QIcon(":/images/images/colorselect.png"));
+   connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveColor()));
+   parent->addAction(act);
+
+   act = new QAction(tr("Linienst\344rke..."),plot);
+   act->setData(sigName);
+   act->setIcon(QIcon(":/images/images/linewidth.png"));
+   connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveLineWidth()));
+   parent->addAction(act);
+}
 
 /*---------------------------------------------------------------------------
 * DtaPlotFrame

@@ -27,15 +27,11 @@
 #ifndef DTAPLOTFRAME_H
 #define DTAPLOTFRAME_H
 
-#include <QFrame>
+#include <QtCore>
+#include <QtGui>
 
 #include "dtaplot/dtaplot.h"
 #include "dtafile/dtafile.h"
-
-QT_FORWARD_DECLARE_CLASS(QPolygonF)
-QT_FORWARD_DECLARE_CLASS(QSplitter)
-QT_FORWARD_DECLARE_CLASS(QTreeWidget)
-QT_FORWARD_DECLARE_CLASS(QCheckBox)
 
 class DtaPlotFrame : public QFrame
 {
@@ -92,6 +88,21 @@ private:
     void alignPlots(); // Diagramme ausrichten
     void replotAll(); // alle Diagramme neu zeichen
     void loadSession(QString fileName); // Sitzung laden
+};
+
+class PlotEventHandler : public QObject
+{
+   Q_OBJECT
+public:
+   explicit PlotEventHandler(DtaPlotFrame *plotFrame, QObject *parent=0);
+protected:
+   bool eventFilter(QObject *obj, QEvent *event);
+private:
+   void generateSignalMenu(QMenu *parent, QString sigName, DtaPlot *plot);
+   DtaPlotFrame *plotFrame;
+   QMenu *popupMenu;
+   bool showPopupMenu;
+   QPoint mouseStartPos;
 };
 
 #endif // DTAPLOTFRAME_H
