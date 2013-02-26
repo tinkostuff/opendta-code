@@ -114,6 +114,10 @@ bool DtaFile::open()
       m_dtaStream >> m_dsCount;
    }
 
+   // DTA-Version als String
+   if (m_dtaVersion==2) m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
+   else  m_dtaVersionStr = QString("DTA %1").arg(header[0]);
+
    return true;
 }
 

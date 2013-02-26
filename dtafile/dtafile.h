@@ -341,6 +341,7 @@ public:
 
     virtual bool open(); // DTA-Datei oeffnen
     virtual void readDatasets(DataMap *data); // alle Datensaete lesen und in Map speichern
+    virtual QString version() {return m_dtaVersionStr;} // Datei-Version
 
 private:
     QFile *m_dtaFile;
@@ -348,6 +349,7 @@ private:
     quint16 m_dsCount;
     quint8 m_dtaVersion;
     quint8 m_dtaSubVersion;
+    QString m_dtaVersionStr;
 
     // Wertetabellen zur Umrechnung
     static const DtaLUTInfo LUT[5];

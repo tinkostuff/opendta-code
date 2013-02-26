@@ -56,13 +56,15 @@ private:
     // Pfad zur zuletzt geoeffneten Datei
     QString lastOpenPathDTA;
 
+    // Liste mit Dateiversionen
+    QStringList fileVersions;
+
     // Zaehler fuer die einzelnen Tab-Arten
     quint16 tabDiagramCount;
     quint16 tabStatisticsCount;
     quint16 tabCompStartsCount;
 
-    void readDtaFiles(QStringList files); // DTA-Dateien lesen
-    void readDumpFiles(QStringList files); // DUMP-Dateien lesen
+    void readDataFiles(QStringList files, bool DTA); // DATA-Dateien lesen
 
     // Dateien per Drag&Dop in der Anwendung laden
     void dragEnterEvent(QDragEnterEvent *event);

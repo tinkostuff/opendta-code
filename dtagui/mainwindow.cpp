@@ -77,9 +77,9 @@ MainWindow::~MainWindow()
 }
 
 /*---------------------------------------------------------------------------
-* DTA-Dateien oeffnen und laden
+* Data-Dateien oeffnen und laden
 *---------------------------------------------------------------------------*/
-void MainWindow::readDtaFiles(QStringList files)
+void MainWindow::readDataFiles(QStringList files, bool DTA)
 {
    setCursor(Qt::WaitCursor);
    for( int i=0; i<files.size(); i++)
@@ -88,57 +88,11 @@ void MainWindow::readDtaFiles(QStringList files)
       statusBar()->showMessage(QString(tr("Lese Datei: %1")).arg(fileName));
       QCoreApplication::processEvents();
 
-      // DTA-Datei einlesen
-      DtaFile *dta = new DtaFile(fileName);
-      if( !dta->open())
-      {
-         QMessageBox::warning(
-               this,
-               tr("Fehler beim \326ffnen der DTA-Datei"),
-               dta->errorMsg);
-      }
-      else
-      {
-         dta->readDatasets(&data);
-      }
-      delete dta;
-   } // for files
-
-   // letzten Pfad merken
-   QFileInfo fi(files.last());
-   lastOpenPathDTA = fi.absolutePath();
-
-   setCursor(Qt::ArrowCursor);
-
-   if(data.isEmpty())
-      statusBar()->showMessage( tr("Datens\344tze: 0"));
-   else
-   {
-      statusBar()->showMessage(
-         QString(tr("Datens\344tze: %1 - Start: %2 - Ende: %3"))
-           .arg(data.size())
-           .arg(QDateTime::fromTime_t(data.keys().first()).toString("yyyy-MM-dd hh:mm"))
-           .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm")));
-   }
-
-   emit dataChanged();
-}
-
-/*---------------------------------------------------------------------------
-* DUMP-Dateien oeffnen und laden
-*---------------------------------------------------------------------------*/
-void MainWindow::readDumpFiles(QStringList files)
-{
-   setCursor(Qt::WaitCursor);
-   for( int i=0; i<files.size(); i++)
-   {
-      QString fileName = files.at(i);
-      statusBar()->showMessage(QString(tr("Lese Datei: %1")).arg(fileName));
-      QCoreApplication::processEvents();
-
-      // DTA-Datei einlesen
-      DumpFile *dump = new DumpFile(fileName);
-      if( !dump->open())
+      // Datei einlesen
+      DataFile *dataFile;
+      if (DTA) dataFile = new DtaFile(fileName);
+      else dataFile = new DumpFile(fileName);
+      if( !dataFile->open())
       {
          QMessageBox::warning(
                this,
@@ -147,28 +101,33 @@ void MainWindow::readDumpFiles(QStringList files)
       }
       else
       {
-         dump->readDatasets(&data);
+         dataFile->readDatasets(&data);
+
+         // Dateiversionen merken
+         if(fileVersions.indexOf(dataFile->version()) == -1)
+            fileVersions << dataFile->version();
       }
-      delete dump;
+      delete dataFile;
    } // for files
 
    // letzten Pfad merken
    QFileInfo fi(files.last());
    lastOpenPathDTA = fi.absolutePath();
 
-   setCursor(Qt::ArrowCursor);
-
+   // StatusBar aktualisieren
    if(data.isEmpty())
       statusBar()->showMessage( tr("Datens\344tze: 0"));
    else
    {
       statusBar()->showMessage(
-         QString(tr("Datens\344tze: %1 - Start: %2 - Ende: %3"))
+         QString(tr("Datens\344tze: %1, Start: %2, Ende: %3, Datei-Version: %4"))
            .arg(data.size())
            .arg(QDateTime::fromTime_t(data.keys().first()).toString("yyyy-MM-dd hh:mm"))
-           .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm")));
+           .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm"))
+           .arg(fileVersions.join(", ")));
    }
 
+   setCursor(Qt::ArrowCursor);
    emit dataChanged();
 }
 
@@ -206,7 +165,7 @@ void MainWindow::dropEvent(QDropEvent *event)
       }
 
       // DTA-Dateien laden
-      if(!dtaFiles.isEmpty()) readDtaFiles(dtaFiles);
+      if(!dtaFiles.isEmpty()) readDataFiles(dtaFiles, true);
    }
 
    if( (sessionFile!="") && (!dtaFiles.isEmpty()))
@@ -288,7 +247,7 @@ void MainWindow::on_actionOeffnen_triggered()
          tr("Eine oder mehrere Dateien ausw\344hlen"),
          lastOpenPathDTA,
          tr("DTA-Dateien (*.dta);;Alle Dateien (*.*)"));
-   if(!files.isEmpty()) readDtaFiles(files);
+   if(!files.isEmpty()) readDataFiles(files, true);
 }
 void MainWindow::on_actionDUMPOeffnen_triggered()
 {
@@ -297,9 +256,8 @@ void MainWindow::on_actionDUMPOeffnen_triggered()
          tr("Eine oder mehrere Dateien ausw\344hlen"),
          lastOpenPathDTA,
          tr("DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)"));
-   if(!files.isEmpty()) readDumpFiles(files);
+   if(!files.isEmpty()) readDataFiles(files, false);
 }
-
 
 /*---------------------------------------------------------------------------
 * Datenarray leeren
@@ -308,6 +266,7 @@ void MainWindow::on_actionZuruecksetzen_triggered()
 {
    // reset Daten
    this->data.clear();
+   this->fileVersions.clear();
    statusBar()->showMessage( tr("Datens\344tze: 0"));
    emit dataChanged();
 }
@@ -481,7 +440,6 @@ void MainWindow::on_actionSprache_triggered()
             QSettings::IniFormat,
             this);
    QString lang = cfg.value( "dtagui/lang", "de").toString();
-
    // Sprach-Dateien suchen
    QDir dir(QCoreApplication::applicationDirPath());
    dir.setNameFilters(QStringList() << "dtagui_*.qm");

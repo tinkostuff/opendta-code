@@ -228,6 +228,7 @@ public:
 
    virtual bool open(); // DUMP-Datei oeffnen
    virtual void readDatasets(DataMap *data); // alle Datensaete lesen und in Map speichern
+   virtual QString version() {return QString("DUMP");} // Datei-Version
 
 private:
    QProcess bzcat;

@@ -89,6 +89,7 @@ public:
    explicit DataFile(QString fileName, QObject *parent = 0);
    virtual bool open(); // Daten-Datei oeffnen
    virtual void readDatasets(DataMap *data); // alle Datensaete lesen und in Map speichern
+   virtual QString version(); // Datei-Version
 
    // Feldnamen
    static QStringList fieldNames(); // Liste mit Feldnamen

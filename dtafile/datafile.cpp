@@ -106,6 +106,14 @@ void DataFile::readDatasets(DataMap *data)
 }
 
 /*---------------------------------------------------------------------------
+* Dateiversion
+*---------------------------------------------------------------------------*/
+QString DataFile::version()
+{
+   return QString("");
+}
+
+/*---------------------------------------------------------------------------
 * Berechnung der Feldwerte aus Array-Werten
 *---------------------------------------------------------------------------*/
 qreal DataFile::fieldValueReal( const DataFieldValues &values, const QString &name)

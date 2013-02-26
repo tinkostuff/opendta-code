@@ -30,7 +30,6 @@
 *---------------------------------------------------------------------------*/
 DumpFile::DumpFile(QString fileName, QObject *parent) : DataFile(fileName,parent)
 {
-   qDebug() << "Hallo Welt!";
 }
 
 DumpFile::~DumpFile()
