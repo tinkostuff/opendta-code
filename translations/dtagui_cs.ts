@@ -133,7 +133,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="178"/>
         <source>HUP</source>
-        <translation>CIČ</translation>
+        <translation>CIČT</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="179"/>
@@ -153,7 +153,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="202"/>
         <source>BUP</source>
-        <translation>VentTUV</translation>
+        <translation>VentilTUV</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="203"/>
@@ -178,7 +178,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="227"/>
         <source>Mischer 1 auf</source>
-        <translation>Třícestný ventil 1 otvírá</translation>
+        <translation>Směšovací ventil 1 otvírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="238"/>
@@ -188,7 +188,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="239"/>
         <source>Mischer 1 zu</source>
-        <translation>Třícestný venti 1 zavírá</translation>
+        <translation>Směšovací ventil 1 zavírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="250"/>
@@ -348,7 +348,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="439"/>
         <source>Rücklauf-Temperatur (extern)</source>
-        <translation>Teplota zpátečky (venkovní)</translation>
+        <translation>Teplota zpátečky (externího zdroje)</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="450"/>
@@ -458,7 +458,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="575"/>
         <source>Mischer 2 auf</source>
-        <translation>Třícestný ventil 2 otvírá</translation>
+        <translation>Směšovací ventil 2 otvírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="586"/>
@@ -468,7 +468,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="587"/>
         <source>Mischer 2 zu</source>
-        <translation>Třícestný ventil 2 zavírá</translation>
+        <translation>Směšovací ventil 2 zavírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="598"/>
@@ -478,7 +478,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="599"/>
         <source>Mischer 3 auf</source>
-        <translation>Třícestný ventil 3 otvírá</translation>
+        <translation>Směšovací ventil 3 otvírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="610"/>
@@ -488,7 +488,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="611"/>
         <source>Mischer 3 zu</source>
-        <translation>Třícestný ventil 3 zavírá</translation>
+        <translation>Směšovací ventil 3 zavírá</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="622"/>
@@ -743,7 +743,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="939"/>
         <source>TEE [°C]</source>
-        <translation>T2Z [°C]</translation>
+        <translation>Text [°C]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="940"/>
@@ -843,7 +843,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="1064"/>
         <source>UEHZ [K]</source>
-        <translation>PŘEH [K]</translation>
+        <translation>PŘE [K]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="1065"/>
@@ -853,7 +853,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="1076"/>
         <source>UEHZsoll [K]</source>
-        <translation>PŘEHpož [K]</translation>
+        <translation>PŘEpož [K]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="1077"/>
@@ -1659,12 +1659,12 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message utf8="true">
         <location filename="../dtagui/mainwindow.ui" line="150"/>
         <source>Über &amp;Qt...</source>
-        <translation>O &amp;Qt...</translation>
+        <translation type="unfinished">O &amp;Qt...</translation>
     </message>
     <message utf8="true">
         <location filename="../dtagui/mainwindow.ui" line="155"/>
         <source>Über Q&amp;wt...</source>
-        <translation>O Q&amp;wt...</translation>
+        <translation type="unfinished">O Q&amp;wt...</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.ui" line="160"/>
