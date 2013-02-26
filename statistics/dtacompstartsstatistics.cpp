@@ -24,11 +24,6 @@
 * statistischen Werten zu diesen Starts
 *---------------------------------------------------------------------------*/
 
-#include <QtCore/qmath.h>
-
-#include <QtGlobal>
-#include <QDebug>
-
 #include "dtacompstartsstatistics.h"
 
 /*---------------------------------------------------------------------------
@@ -123,6 +118,21 @@ QStringList DtaCompStart::modeStringList()
 }
 
 /*---------------------------------------------------------------------------
+* conversion to string
+*---------------------------------------------------------------------------*/
+const QString DtaCompStart::toString()
+{
+   QStringList res;
+   QHashIterator<CompStartFields,QVariant> i(m_data);
+   while(i.hasNext())
+   {
+      i.next();
+      res << QString("%1=%2").arg(fieldName(i.key()).split(" ").at(0)).arg(i.value().toString());
+   }
+   return res.join(" ");
+}
+
+/*---------------------------------------------------------------------------
 *---------------------------------------------------------------------------
 * DtaCompStartsStatistics
 *---------------------------------------------------------------------------
@@ -192,6 +202,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
       qint32 vd1 = DataFile::fieldValueInt( data, "VD1");
       qint32 evu = DataFile::fieldValueInt( data, "EVU");
       qint32 bup = DataFile::fieldValueInt( data, "BUP");
+      qint32 av = DataFile::fieldValueInt( data, "AV");
 
       // aktuellen Zustand ermitteln
       if(vd1==0) state = stateOff;
@@ -257,9 +268,9 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
             {
                inlineRun = true;
                // aktuellen Lauf sichern - operator= funktioniert nicht, warum?
-               for( int i=0; i<DtaCompStart::modeStringList().size(); ++i)
+               for( int i=0; i<DtaCompStart::fieldCount(); ++i)
                   cmprunSave.setValue(DtaCompStart::CompStartFields(i), cmprun.value(DtaCompStart::CompStartFields(i)));
-//               cmprunSave = cmprun; // aktuellen Lauf sichern
+               //cmprunSave = cmprun; // aktuellen Lauf sichern
             }
 
             // Anfang eines neuen Laufes
@@ -278,13 +289,17 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
          else if( ((state==stateHz) || (state==stateBW)) && (state==lastState))
          {
             // Daten des Laufes speichern
-            cmprun.setTA(DataFile::fieldValueReal(data,"TA"));
-            cmprun.setTRL(DataFile::fieldValueReal(data,"TRL"));
-            cmprun.setTVL(DataFile::fieldValueReal(data,"TVL"));
-            cmprun.setSpHz(DataFile::fieldValueReal(data,"SpHz"));
-            cmprun.setTWQein(DataFile::fieldValueReal(data,"TWQein"));
-            cmprun.setTWQaus(DataFile::fieldValueReal(data,"TWQaus"));
-            cmprun.setSpWQ(DataFile::fieldValueReal(data,"SpWQ"));
+            if(av == 0)
+            {
+               // Temperaturen nur merken, wenn nicht abgetaut wird
+               cmprun.setTA(DataFile::fieldValueReal(data,"TA"));
+               cmprun.setTRL(DataFile::fieldValueReal(data,"TRL"));
+               cmprun.setTVL(DataFile::fieldValueReal(data,"TVL"));
+               cmprun.setSpHz(DataFile::fieldValueReal(data,"SpHz"));
+               cmprun.setTWQein(DataFile::fieldValueReal(data,"TWQein"));
+               cmprun.setTWQaus(DataFile::fieldValueReal(data,"TWQaus"));
+               cmprun.setSpWQ(DataFile::fieldValueReal(data,"SpWQ"));
+            }
             cmprun.setDF(DataFile::fieldValueReal(data,"DF"));
             cmprun.setWM(DataFile::fieldValueReal(data,"WMCalc"));
             cmprun.setE1(DataFile::fieldValueReal(data,"E1"));
@@ -342,7 +357,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
                {
                   inlineRunLength = cmprun.length();
                   // aeusseren Lauf wieder herstellen - operator= funktioniert nicht, warum?
-                  for( int i=0; i<DtaCompStart::modeStringList().size(); ++i)
+                  for( int i=0; i<DtaCompStart::fieldCount(); ++i)
                      cmprun.setValue(DtaCompStart::CompStartFields(i), cmprunSave.value(DtaCompStart::CompStartFields(i)));
                   //cmprun = cmprunSave;
                   inlineRun = false;

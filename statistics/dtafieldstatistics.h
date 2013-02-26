@@ -26,11 +26,10 @@
 #ifndef DTAFIELDSTATISTICS_H
 #define DTAFIELDSTATISTICS_H
 
-#include <QObject>
-#include <QVarLengthArray>
-#include <QHash>
+#include <QtCore>
+#include <QtGui>
 
-#include "dtafile/dtafile.h"
+#include "dtafile/datafile.h"
 
 class DtaFieldStatistics : public QObject
 {

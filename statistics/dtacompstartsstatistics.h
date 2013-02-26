@@ -26,12 +26,10 @@
 #ifndef DTACOMPSTARTSSTATISTICS_H
 #define DTACOMPSTARTSSTATISTICS_H
 
-#include <QObject>
-#include <QHash>
-#include <QVariant>
-#include <QStringList>
+#include <QtCore>
+#include <QtGui>
 
-#include "dtafile/dtafile.h"
+#include "dtafile/datafile.h"
 
 #define UNDEFINED_VALUE -1024
 
@@ -55,6 +53,7 @@ public:
    static const int modeCount() { return (int)mAfterEVU+1;}
    inline QVariant value(const CompStartFields &field) const { return m_data[field];}
    inline void setValue(const CompStartFields &field, const QVariant &value) { m_data[field] = value;}
+   const QString toString();
    DtaCompStart operator=(const DtaCompStart &cs);
 
    inline quint32 start() const { return m_data[fStart].toInt();}

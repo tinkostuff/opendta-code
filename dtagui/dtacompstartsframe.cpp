@@ -20,12 +20,6 @@
 * $Id$
 *---------------------------------------------------------------------------*/
 
-#include <QtGui>
-#include <QThread>
-
-#include <QtGlobal>
-#include <QtDebug>
-
 #include "dtacompstartsframe.h"
 #include "statistics/dtacompstartsstatistics.h"
 

@@ -22,7 +22,8 @@
 #ifndef DTACOMPSTARTSFRAME_H
 #define DTACOMPSTARTSFRAME_H
 
-#include <QFrame>
+#include <QtCore>
+#include <QtGui>
 
 #include "dtafile/dtafile.h"
 

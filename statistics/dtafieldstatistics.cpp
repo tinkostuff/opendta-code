@@ -37,11 +37,6 @@
 *     - stdev = Wurzel( Summe( Zeitspanne * (Wert - Mittelwert)^2 ) / Zeitbereich)
 *---------------------------------------------------------------------------*/
 
-#include <QtCore/qmath.h>
-
-#include <QtGlobal>
-#include <QDebug>
-
 #include "dtafieldstatistics.h"
 
 /*---------------------------------------------------------------------------
