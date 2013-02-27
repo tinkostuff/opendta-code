@@ -67,6 +67,7 @@ DtaCompStartsFrame::DtaCompStartsFrame(DataMap *data, QWidget *parent) :
 {
    this->data = data;
    this->thread = NULL;
+   this->m_runs.clear();
 
    //
    // GUI
@@ -130,9 +131,19 @@ DtaCompStartsFrame::DtaCompStartsFrame(DataMap *data, QWidget *parent) :
    QLabel *label = new QLabel(tr("Modus:"), this);
    cbModus = new QComboBox(this);
    cbModus->setMinimumWidth(200);
+
+   frameLine = new QFrame();
+   frameLine->setFrameShape(QFrame::VLine);
+   frameLine->setFrameShadow(QFrame::Sunken);
+
+   QPushButton *btnCSV = new QPushButton( QIcon(":/images/images/csv.png"), tr("Daten als CSV speichern ..."));
+   connect( btnCSV, SIGNAL(clicked()), this, SLOT(saveAsCSV()));
+
    QHBoxLayout *layout1 = new QHBoxLayout();
    layout1->addWidget(label);
    layout1->addWidget(cbModus);
+   layout1->addWidget(frameLine);
+   layout1->addWidget(btnCSV);
    layout1->addStretch();
 
    table = new QTableWidget(this);
@@ -365,13 +376,13 @@ void DtaCompStartsFrame::threadFinished()
    header << tr("AZ2");
 
    table->setColumnCount(header.size());
-   table->setRowCount(stats->runs()->size());
+   table->setRowCount(stats->runs().size());
    table->setHorizontalHeaderLabels(header);
 
    QTableWidgetItem *item;
-   for( int i=0; i<stats->runs()->size(); i++)
+   for( int i=0; i<stats->runs().size(); i++)
    {
-      const DtaCompStart *run = &(stats->runs()->at(i));
+      const DtaCompStart *run = &(stats->runs().at(i));
 
       // Start
       item = new QTableWidgetItem(QDateTime::fromTime_t(run->start()).toString("yyyy-MM-dd hh:mm"));
@@ -463,6 +474,10 @@ void DtaCompStartsFrame::threadFinished()
    table->resizeColumnsToContents();
    table->resizeRowsToContents();
 
+   // Daten kopieren
+   m_runs.clear();
+   m_runs.append(thread->stats->runs());
+
    delete this->thread;
    this->thread = NULL;
 }
@@ -553,4 +568,94 @@ void DtaCompStartsFrame::print()
    QPrintDialog printDialog(printer, this);
    if (printDialog.exec() == QDialog::Accepted)
       textEdit->print(printer);
+}
+
+/*---------------------------------------------------------------------------
+* als CSV speichern
+*---------------------------------------------------------------------------*/
+void DtaCompStartsFrame::saveAsCSV()
+{
+   // Daten vorhanden?
+   if(m_runs.isEmpty())
+   {
+      QMessageBox::warning( this,
+                            tr("keine Daten"),
+                            tr("Z.Z. sind keine Daten vorhanden!<br>Deshalb kann auch nichts gespeichert werden!"));
+      return;
+   }
+
+   // Dateinamen abfragen
+   QString fileName = QFileDialog::getSaveFileName( this,
+                                                    tr("Daten speichern"),
+                                                    ".",
+                                                    tr("CSV-Dateien (*.csv);;Alle Dateien (*.*)"));
+   if( fileName == "") return;
+
+   // Separator wechseln, wenn "," schon Decimal-Separator ist
+   QChar separator = ',';
+   if( QLocale::system().decimalPoint() == ',') separator = ';';
+
+   // Ausgabedatei oeffnen
+   QFile fOut(fileName);
+   if (!fOut.open(QIODevice::WriteOnly | QIODevice::Text))
+   {
+      QMessageBox::critical( this,
+                             tr("Fehler"),
+                             tr("FEHLER: beim \326ffnen der CSV-Datei '%1'!").arg(fileName));
+      return;
+   }
+   QTextStream out(&fOut);
+   out.setCodec("UTF-8");
+   out.setGenerateByteOrderMark(true);
+
+   setCursor(Qt::WaitCursor);
+   QCoreApplication::processEvents();
+
+   // Kopfzeile
+   out << tr("Start") << separator
+       << tr("Modus") << separator
+       << tr("L\344nge [h:min]") << separator
+       << tr("Pause [h:min]") << separator
+       << tr("TVL [\260C]") << separator
+       << tr("TRL [\260C]") << separator
+       << tr("SpHZ [K]") << separator
+       << tr("TWQein [\260C]") << separator
+       << tr("TWQaus [\260C]") << separator
+       << tr("SpWQ [K]") << separator
+       << tr("TA [\260C]") << separator
+       << tr("WM [kWh]") << separator
+       << tr("E1 [kWh]") << separator
+       << tr("E2 [kWh]") << separator
+       << tr("AZ1") << separator
+       << tr("AZ2") << separator
+		 << endl;
+
+   QListIterator<DtaCompStart> i(m_runs);
+   while(i.hasNext())
+   {
+      DtaCompStart run = i.next();
+      out << QDateTime::fromTime_t(run.start()).toString("yyyy-MM-dd hh:mm") << separator;
+      out << run.modeString() << separator;
+      out << QString("%1:%2").arg(run.length()/3600).arg(QString("%1").arg((run.length()%3600)/60).rightJustified(2,'0')) << separator;
+      if(run.pause() > 0) out << QString("%1:%2").arg(run.pause()/3600).arg(QString("%1").arg((run.pause()%3600)/60).rightJustified(2,'0'));
+      out << separator;
+      out << QString("%1").arg(run.TVL(),0,'f',1) << separator;
+      out << QString("%1").arg(run.TRL(),0,'f',1) << separator;
+      out << QString("%1").arg(run.SpHz(),0,'f',1) << separator;
+      out << QString("%1").arg(run.TWQein(),0,'f',1) << separator;
+      out << QString("%1").arg(run.TWQaus(),0,'f',1) << separator;
+      out << QString("%1").arg(run.SpWQ(),0,'f',1) << separator;
+      out << QString("%1").arg(run.TA(),0,'f',1) << separator;
+      out << QString("%1").arg(run.WM(),0,'f',2) << separator;
+      out << QString("%1").arg(run.E1(),0,'f',2) << separator;
+      out << QString("%1").arg(run.E2(),0,'f',2) << separator;
+      out << QString("%1").arg(run.AZ1(),0,'f',2) << separator;
+      out << QString("%1").arg(run.AZ2(),0,'f',2) << separator;
+      out << endl;
+   }
+
+   // Ausgabedatei schliessen
+   fOut.close();
+
+   setCursor(Qt::ArrowCursor);
 }

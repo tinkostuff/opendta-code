@@ -26,6 +26,7 @@
 #include <QtGui>
 
 #include "dtafile/dtafile.h"
+#include "statistics/dtacompstartsstatistics.h"
 
 QT_FORWARD_DECLARE_CLASS(QTextEdit)
 QT_FORWARD_DECLARE_CLASS(QTableWidget)
@@ -52,6 +53,7 @@ public slots:
     void updateRunTable(int index); // Tabelle aktualisieren
     void print(); // Ergebnisse ausdrucken
     void setCompleteTimeRange();
+    void saveAsCSV();
 
 private:
     // GUI
@@ -63,6 +65,7 @@ private:
 
     DtaCompStartsThread *thread; // Thread zur Berechnung
     DataMap *data; // Daten
+    QList<DtaCompStart> m_runs;
 
     void updateTimeRangeEdit(); // Zeitspanne der Eingabefelder aktualisieren
 };

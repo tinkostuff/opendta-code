@@ -129,7 +129,7 @@ public:
     inline quint32 missingSum() const { return m_missingSum;}
 
     // Verdichter Starts
-    inline const QList<DtaCompStart> *runs() const { return &m_runs;}
+    inline const QList<DtaCompStart>& runs() const { return m_runs;}
     inline const int runCount() const { return m_runs.size();}
     inline const int runCount(DtaCompStart::CompStartModes mode) const { return m_runCounts[mode];}
 
