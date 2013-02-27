@@ -175,6 +175,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
    QHash<DtaCompStart::CompStartModes, bool> firstRun;
    QHash<DtaCompStart::CompStartModes, quint32> lastRunEnd;
    bool inlineRun = false;
+   quint32 inlineRunLength = 0;
    bool invalidRun = false;
    quint32 lastEVUEnd = 0;
 
@@ -313,11 +314,11 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
                   ((state==stateHz) && (lastState==stateBW)))
          {
             bool moreRunsToSave = true;
-            quint32 inlineRunLength = 0;
             while(moreRunsToSave)
             {
                // Daten des Laufes speichern
                cmprun.setLength(ts-cmprun.start()-inlineRunLength);
+               inlineRunLength = 0;
                cmprun.setAZ1( cmprun.WM() / cmprun.E1());
                cmprun.setAZ2( cmprun.WM() / (cmprun.E1() + cmprun.E2()));
 
