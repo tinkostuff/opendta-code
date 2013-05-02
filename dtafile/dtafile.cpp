@@ -575,7 +575,9 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [28:29] Ausgaenge 
       m_dtaStream.readRawData( buffer, 20);                                                   // [30:49] unbekannt 
       m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
-      m_dtaStream.readRawData( buffer, 6);                                                    // [52:57] unbekannt             
+      m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
+      m_dtaStream >> valueS; values[40] = valueS/1000.0;                                      // [54:55] AO2
+      m_dtaStream.readRawData( buffer, 2);                                                    // [56:57] unbekannt
       m_dtaStream >> valueS; values[73] = valueS/10.0;                                        // [58:59] Ansaug Verdichter
       m_dtaStream >> valueS; values[74] = valueS/10.0;                                        // [60:61] Ansaug Verdampfer
       m_dtaStream >> valueS; values[75] = valueS/10.0;                                        // [62:63] VD Heizung
