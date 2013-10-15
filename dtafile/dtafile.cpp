@@ -107,9 +107,11 @@ bool DtaFile::open()
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
+
+   // Unterversion definiert die Laenge des Datensatzes
    if( m_dtaVersion==3) {
-      if( header[1] < DTA3_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
-      else m_dtaSubVersion = 2;
+      if( header[1] % 2) m_dtaSubVersion = 2;
+      else m_dtaSubVersion = 1;
    }
 
    // Anzahl der Datensaetze lesen

@@ -319,7 +319,6 @@
 #define DTA2_HEADER_VALUE 0x2328
 #define DTA2_HEADER_VALUE_SUBVERSION 676
 #define DTA3_HEADER_VALUE 0x2329
-#define DTA3_HEADER_VALUE_SUBVERSION 676
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
