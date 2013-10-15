@@ -117,7 +117,6 @@ bool DtaFile::open()
    {
       m_dtaStream >> m_dsCount;
    }
-   qDebug() << m_dtaVersion << m_dtaSubVersion << m_dsCount;
 
    // DTA-Version als String
    if ((m_dtaVersion==2) || (m_dtaVersion==3))
@@ -273,11 +272,6 @@ qreal DtaFile::calcLUTData(const quint16 &value, const DtaLUTInfo &info)
    qint16 x2 = (idx+1) * info.delta + info.offset;
    qint16 y1 = info.data[idx];
    qint16 y2 = info.data[idx+1];
-
-   if(info.delta==20)
-   {
-      qDebug() << value << idx << x1 << y1 << x2 << y2;
-   }
 
    qreal m = qreal(y2-y1)/qreal(x2-x1);
    qreal n = y1 - m*x1;

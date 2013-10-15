@@ -200,7 +200,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
       quint32 ts = iterator.key();
       DataFieldValues data = iterator.value();
 
-      qint32 vd1 = DataFile::fieldValueInt( data, "VD1");
+      qint32 vd1 = (DataFile::fieldValueInt( data, "VD1") + DataFile::fieldValueInt( data, "VD2"));
       qint32 evu = DataFile::fieldValueInt( data, "EVU");
       qint32 bup = DataFile::fieldValueInt( data, "BUP");
       qint32 av = DataFile::fieldValueInt( data, "AV");
