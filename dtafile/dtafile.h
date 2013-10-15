@@ -220,7 +220,7 @@
 * Aufbau der DTA-Dateien (von Firmware Version 2.63):
 *  - die ersten 10 Byte sind ein Datei-Kopf
 *      [0:3]: 0x2329 fuer Version 2.63
-*      [4:7]: unbekannt
+*      [4:7]: Unterversion
 *      [8:9]: Anzahl der Datensaetze in der Datei
 *  - die Byte-Order ist little-endian
 *  - die Datensaetze sind sortiert
@@ -319,6 +319,7 @@
 #define DTA2_HEADER_VALUE 0x2328
 #define DTA2_HEADER_VALUE_SUBVERSION 676
 #define DTA3_HEADER_VALUE 0x2329
+#define DTA3_HEADER_VALUE_SUBVERSION 676
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -359,7 +360,7 @@ private:
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
 
     virtual void readDTA1(DataMap *data); // DAT Version 1.x lesen
-    virtual void readDTA2(DataMap *data); // DAT Version 2.61, 2.6.2 lesen
+    virtual void readDTA2(DataMap *data); // DAT Version 2.61, 2.62 lesen
     virtual void readDTA3(DataMap *data); // DAT Version 2.63 lesen
 };
 

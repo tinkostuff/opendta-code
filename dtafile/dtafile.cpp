@@ -103,8 +103,12 @@ bool DtaFile::open()
    }
 
    // Unter-Version ueberpruefen
-   if( m_dtaVersion == 2) {
+   if( m_dtaVersion==2) {
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
+      else m_dtaSubVersion = 2;
+   }
+   if( m_dtaVersion==3) {
+      if( header[1] < DTA3_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
 
@@ -113,10 +117,13 @@ bool DtaFile::open()
    {
       m_dtaStream >> m_dsCount;
    }
+   qDebug() << m_dtaVersion << m_dtaSubVersion << m_dsCount;
 
    // DTA-Version als String
-   if (m_dtaVersion==2) m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
-   else  m_dtaVersionStr = QString("DTA %1").arg(header[0]);
+   if ((m_dtaVersion==2) || (m_dtaVersion==3))
+      m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
+   else
+      m_dtaVersionStr = QString("DTA %1").arg(header[0]);
 
    return true;
 }
@@ -576,15 +583,18 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream.readRawData( buffer, 20);                                                   // [30:49] unbekannt 
       m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
       m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
-      m_dtaStream >> valueS; values[40] = valueS/1000.0;                                      // [54:55] AO2
-      m_dtaStream.readRawData( buffer, 2);                                                    // [56:57] unbekannt
-      m_dtaStream >> valueS; values[73] = valueS/10.0;                                        // [58:59] Ansaug Verdichter
-      m_dtaStream >> valueS; values[74] = valueS/10.0;                                        // [60:61] Ansaug Verdampfer
-      m_dtaStream >> valueS; values[75] = valueS/10.0;                                        // [62:63] VD Heizung
-      m_dtaStream.readRawData( buffer, 10);                                                   // [64:73] unbekannt T(VD*TA)    
-      m_dtaStream >> valueS; values[71] = valueS/10.0;                                        // [74:75] Ueberhitzung
-      m_dtaStream >> valueS; values[72] = valueS/10.0;                                        // [76:77] Ueberhiztung Sollwert
-      m_dtaStream.readRawData( buffer, 2);                                                    // [78:79] unbekannt             
+
+      if (m_dtaSubVersion > 1) {
+         m_dtaStream >> valueS; values[40] = valueS/1000.0;                                   // [54:55] AO2
+         m_dtaStream.readRawData( buffer, 2);                                                 // [56:57] unbekannt
+         m_dtaStream >> valueS; values[73] = valueS/10.0;                                     // [58:59] Ansaug Verdichter
+         m_dtaStream >> valueS; values[74] = valueS/10.0;                                     // [60:61] Ansaug Verdampfer
+         m_dtaStream >> valueS; values[75] = valueS/10.0;                                     // [62:63] VD Heizung
+         m_dtaStream.readRawData( buffer, 10);                                                // [64:73] unbekannt T(VD*TA)
+         m_dtaStream >> valueS; values[71] = valueS/10.0;                                     // [74:75] Ueberhitzung
+         m_dtaStream >> valueS; values[72] = valueS/10.0;                                     // [76:77] Ueberhiztung Sollwert
+         m_dtaStream.readRawData( buffer, 2);                                                 // [78:79] unbekannt
+      }
 
       //
       // berechnete Felder
