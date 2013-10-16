@@ -309,12 +309,14 @@
 #include "dtafile/datafile.h"
 
 #define DTA_HEADER_LENGTH 8      // bytes
+#define DTA0_DATASET_LENGTH 188  // bytes
 #define DTA1_DATASET_LENGTH 168  // bytes
 #define DTA2_DATASET_LENGTH1 39  // fields
 #define DTA2_DATASET_LENGTH2 26  // fields
 #define DTA3_DATASET_LENGTH 38   // fields
 
 // Header-Werte fuer unterschiedliche Datei-Versionen
+#define DTA0_HEADER_VALUE 0x2010
 #define DTA1_HEADER_VALUE 0x2011
 #define DTA2_HEADER_VALUE 0x2328
 #define DTA2_HEADER_VALUE_SUBVERSION 676

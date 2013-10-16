@@ -36,6 +36,7 @@ DtaFile::DtaFile(QString fileName, QObject *parent) :
 {
    this->m_dtaFile = NULL;
    this->m_dtaVersion = 0;
+   this->m_dtaSubVersion = 0;
 }
 
 /*---------------------------------------------------------------------------
@@ -53,6 +54,7 @@ DtaFile::~DtaFile()
 bool DtaFile::open()
 {
    // gibt es die Daten
+   QFileInfo fi(m_fileName);
    if( !QFile::exists(m_fileName))
    {
       errorMsg = QString(tr("FEHLER: Datei '%1' nicht gefunden!")).arg(m_fileName);
@@ -74,11 +76,11 @@ bool DtaFile::open()
    m_dtaStream >> header[1];
 
    // Kopf pruefen
-   if( (header[0] != DTA1_HEADER_VALUE)
+   if( (header[0] != DTA0_HEADER_VALUE)
+       && (header[0] != DTA1_HEADER_VALUE)
        && (header[0] != DTA2_HEADER_VALUE)
        && (header[0] != DTA3_HEADER_VALUE))
    {
-      QFileInfo fi(m_fileName);
       errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei (incl. CSV-Datei) an opendta@gmx.de schicken."))
                         .arg(header[0])
                         .arg(fi.fileName());
@@ -93,22 +95,32 @@ bool DtaFile::open()
 
    // Groesse der Datei ueberpruefen
    if( m_dtaVersion == 1) {
-      if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % DTA1_DATASET_LENGTH != 0) {
+      // unterschiedliche Groesse fuer 0x2010 und 0x2011
+      quint32 dsSize = DTA0_DATASET_LENGTH;
+      if( header[0] == DTA1_HEADER_VALUE)
+         dsSize = DTA1_DATASET_LENGTH;
+
+      if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % dsSize != 0) {
          errorMsg = QString(tr("FEHLER %1: Unerwartete Dateigroesse!"))
-                            .arg(m_fileName);
+                            .arg(fi.fileName());
          qWarning() << errorMsg;
          return false;
       }
-      m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / DTA1_DATASET_LENGTH;
+      m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / dsSize;
    }
 
    // Unter-Version ueberpruefen
+   if( m_dtaVersion==1)
+   {
+      if( header[0] == DTA0_HEADER_VALUE)
+         m_dtaSubVersion = 1;
+      else
+         m_dtaSubVersion = 2;
+   }
    if( m_dtaVersion==2) {
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
-
-   // Unterversion definiert die Laenge des Datensatzes
    if( m_dtaVersion==3) {
       if( header[1] % 2) m_dtaSubVersion = 2;
       else m_dtaSubVersion = 1;
@@ -204,6 +216,10 @@ void DtaFile::readDTA1(DataMap *data)
       m_dtaStream.readRawData( buffer, 2);                                                    // [162:163]
       m_dtaStream >> value; values[63] = calcLinearData( value, 0.1, 0.0, 10);                // [164:165] - TMK3soll
       m_dtaStream.readRawData( buffer, 2);                                                    // [166:167]
+
+      // unbekannte Daten bei DTA-Version 0x2010
+      if( m_dtaSubVersion == 1 )
+         m_dtaStream.readRawData( buffer, DTA0_DATASET_LENGTH-DTA1_DATASET_LENGTH);           // [168:187]
 
       //
       // berechnete Felder

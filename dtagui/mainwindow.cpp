@@ -96,8 +96,8 @@ void MainWindow::readDataFiles(QStringList files, bool DTA)
       {
          QMessageBox::warning(
                this,
-               tr("Fehler beim \326ffnen der DUMP-Datei"),
-               QString(tr("Fehler beim \326ffnen der DUMP-Datei '%1'!")).arg(fileName));
+               tr("Fehler beim \326ffnen der Daten-Datei"),
+               dataFile->errorMsg);
       }
       else
       {
