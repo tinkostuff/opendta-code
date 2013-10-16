@@ -32,7 +32,8 @@
 *      [0:3]: 0x2011 fuer Version 1.x
 *      [4:7]: unbekannte Funktion
 *  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
-*  - jeder Datensatz ist 168 Byte lang
+*  - jeder Datensatz ist 168 Byte lang (Version 0x2011)
+*  - in Version 0x2010 ist ein Datensatz 188 Byte lang
 *  - die Byte-Order ist little-endian
 *  - die Datensaetze sind nur bedingt sortiert, sie werden in einem
 *    Round-Robin-Verfahren gespeichert (die Schreibposition rueckt mit jedem
