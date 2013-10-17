@@ -27,7 +27,6 @@
 #include <iostream>
 using namespace std;
 
-#include <QtCore/QCoreApplication>
 #include <QtGlobal>
 #include <QDebug>
 #include <QLocale>

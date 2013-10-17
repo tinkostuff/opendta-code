@@ -1,3 +1,19 @@
+---------------------------------------------------------------------------
+Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
+der GNU General Public License, wie von der Free Software Foundation
+veroeffentlicht, weitergeben und/oder modifizieren, entweder gemaess
+Version 3 der Lizenz oder (nach Ihrer Option) jeder spaeteren Version.
+
+Die Veroeffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FUER EINEN
+BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
+
+Sie sollten ein Exemplar der GNU General Public License zusammen mit
+diesem Programm erhalten haben. Falls nicht,
+siehe <http://www.gnu.org/licenses/>.
+---------------------------------------------------------------------------
+
 dta2csv
 - Konvertierung von DTA-Dateien in das CSV-Format
 - Ausgabe-Datei = <DTA-Datei>.csv
@@ -5,5 +21,6 @@ dta2csv
 - Kommandozeile: dta2csv.exe <Liste-mit-DTA-Dateien>
 - Windows: DTA-Dateien markieren und per Drag&Drop auf dta2csv.exe ziehen
 
-Copyright (C) 2011  opendta@gmx.de, http://opendta.sf.net/
+Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/
 GNU General Public License Version 3
+

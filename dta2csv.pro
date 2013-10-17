@@ -25,4 +25,4 @@ HEADERS += \
     dtafile/datafile.h
 
 OTHER_FILES += \
-    dta2csv.txt
+    dta2csv/dta2csv.txt
