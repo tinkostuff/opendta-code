@@ -40,7 +40,7 @@ dtaraw2csv:
 Lizenz:
 =======
 
-Copyright (C) 2012  opendta@gmx.de
+Copyright (C) 2013  opendta@gmx.de
 
 Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation

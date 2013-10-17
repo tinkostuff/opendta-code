@@ -3,9 +3,32 @@ DtaGui
 
 Versions-Geschicht:
 
-Rev 0.04: initiale Veroeffentlichung
-  - Darstellung der Signale in Diagrammen
-  - statistische Auswertung der Signale
+Rev 0.10
+  - Programm kann jetzt übersetzt werden 
+      (Englisch und Tschechisch bereits vorhanden)
+  - Unterstuetzung von "kurzer" DTA Version 9001
+  - Unterstuetzung von DTA Version 8208
+  - Speichern der Verdichter-Starts als CSV
+  - dta2csv aktualisiert
+  - Fehlerbereinigung
+     * Laufzeitberechnung bei HZ/BW Takten
+     * Absturz beim Löschen von Daten
+
+Rev 0.09
+  - Unterstuetzung von DTA Version 9001
+  - Fehler bei der Durchfluss-Berechnung behoben
+  - DUMP-Datei
+    * Felder fuer elektrische Leistung hinzugefuegt
+    * Berechnung der Arbeitszahl hinzugefuegt
+
+Rev 0.08
+  - Unterstuetzung von DTA Version 9000
+
+Rev 0.07:
+  - Umstellung auf QWT 6.0
+
+Rev 0.06:
+  - Unterstuetzung von DUMP-Dateien
 
 Rev 0.05: 
   - Analyse der Kompressor-Starts
@@ -13,18 +36,8 @@ Rev 0.05:
     gleichzeitig geoeffnet werden
   - Eingrenzung der statistische Analyse auf einen bestimmten Zeitbreich
 
-Rev 0.06:
-  - Unterstuetzung von DUMP-Dateien
+Rev 0.04: initiale Veroeffentlichung
+  - Darstellung der Signale in Diagrammen
+  - statistische Auswertung der Signale
 
-Rev 0.07:
-  - Umstellung auf QWT 6.0
 
-Rev 0.08
-  - Unterstuetzung von DTA Version 9000
-
-Rev 0.09
-  - Unterstuetzung von DTA Version 9001
-  - Fehler bei der Durchfluss-Berechnung behoben
-  - DUMP-Datei
-    * Felder fÃ¼r elektrische Leistung hinzugefÃ¼gt
-    * Berechnung der Arbeitszahl hinzugefuegt
