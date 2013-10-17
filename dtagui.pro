@@ -33,6 +33,15 @@ FORMS += \
 RESOURCES += \
     dtagui/dtagui.qrc
 
-OTHER_FILES +=
+OTHER_FILES += \
+   dtagui/doc/hilfe.html \
+   HISTORY \
+   INSTALL \
+   README.txt \
+   doc/dta_format.txt \
+   doc/dump_format.txt \
+   doc/gpl-3.0.txt
 
-TRANSLATION = translations/dtagui_en.ts
+TRANSLATIONS = \
+   translations/dtagui_en.ts \
+   translations/dtagui_cs.ts
