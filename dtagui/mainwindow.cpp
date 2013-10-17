@@ -1,6 +1,6 @@
 /*
 *---------------------------------------------------------------------------
-* Copyright (C) 2011  opendta@gmx.de
+* Copyright (C) 2013  opendta@gmx.de
 *
 * Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 * der GNU General Public License, wie von der Free Software Foundation
@@ -211,7 +211,7 @@ void MainWindow::on_actionUeber_triggered()
       "diesem Programm erhalten haben. Falls nicht, siehe "
       "<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.</p>"
       ""
-      "<p>Copyright (C) 2012 opendta@gmx.de<p>").arg(VERSION_STRING)
+      "<p>Copyright (C) 2013 opendta@gmx.de<p>").arg(VERSION_STRING)
    );
 }
 void MainWindow::on_actionUeberQt_triggered()

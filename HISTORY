@@ -4,7 +4,7 @@ DtaGui
 Versions-Geschicht:
 
 Rev 0.10
-  - Programm kann jetzt übersetzt werden 
+  - Internationalisierung des Programms
       (Englisch und Tschechisch bereits vorhanden)
   - Unterstuetzung von "kurzer" DTA Version 9001
   - Unterstuetzung von DTA Version 8208
