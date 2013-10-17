@@ -1,6 +1,6 @@
 /* 
 *---------------------------------------------------------------------------
-* Copyright (C) 2011  opendta@gmx.de
+* Copyright (C) 2013  opendta@gmx.de
 *
 * Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 * der GNU General Public License, wie von der Free Software Foundation
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
    if(argc==1)
    {
       cout << QObject::tr("dta2csv <Liste-von-DTA-Dateien>").toStdString() << endl;
-      cout << QObject::tr("  Copyright (C) 2011  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
+      cout << QObject::tr("  Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
       cout << QObject::tr("  Version: %1").arg(VERSION_STRING).toStdString() << endl;
       cout << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
       cout << QObject::tr("  powered by Qt framework").toStdString() << endl;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
       DtaFile *dta = new DtaFile(fileName);
       if( !dta->open())
       {
-         qWarning() << QString(QObject::tr("FEHLER: beim \326ffnen der DTA-Datei '%1'!")).arg(fileName);
+         qWarning() << dta->errorMsg;
          delete dta;
          continue;
       }
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
          // Kopfzeile
          out << QObject::tr("Datum") << separator;
          for( int i=0; i<DataFile::fieldCount(); i++)
-            out << DataFile::fieldInfo(i)->prettyName << separator;
+            out << DataFile::fieldInfo(i).prettyName << separator;
          out << endl;
 
          // Daten schreiben
