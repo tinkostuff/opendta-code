@@ -86,10 +86,10 @@ int main(int argc, char *argv[])
          QTextStream out(&fOut);
 
          // Kopfzeile
-         out << QObject::tr("Datum") << separator;
-         for( int i=0; i<DataFile::fieldCount(); i++)
-            out << DataFile::fieldInfo(i).prettyName << separator;
-         out << endl;
+         out << QObject::tr("Datum/Uhrzeit") << separator << QObject::tr("Zeitstempel");
+			for( int i=0; i<DataFile::fieldCount(); i++)
+				out << separator << DataFile::fieldInfo(i).prettyName;
+			out << endl;
 
          // Daten schreiben
          DataMap::const_iterator iterator = data.constBegin();
@@ -99,10 +99,13 @@ int main(int argc, char *argv[])
             DataFieldValues values = iterator.value();
 
             // Datum
-            out << timestamp.toString("yyyy-MM-dd hh:mm:ss") << separator;
+            out << timestamp.toString("yyyy-MM-dd hh:mm:ss") 
+					 << separator
+					 << iterator.key();
+
             // Felder
             for( int i=0; i<values.size(); i++)
-               out << QLocale::system().toString(values[i]) << separator;
+               out << separator << QLocale::system().toString(values[i]);
             out << endl;
 
             // naechster Datensatz
