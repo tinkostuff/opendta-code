@@ -37,35 +37,89 @@ using namespace std;
 
 #include "dtafile/dtafile.h"
 
-int main(int argc, char *argv[])
+/*---------------------------------------------------------------------------
+* Daten in TextStream ausgeben
+*---------------------------------------------------------------------------*/
+void outputData( QIODevice *file, const DataMap *data)
 {
+   if (data->isEmpty()) return;
+
+   QTextStream out(file);
+
    // Separator wechseln, wenn "," schon Decimal-Separator ist
    QChar separator = ',';
    if( QLocale::system().decimalPoint() == ',') separator = ';';
 
-   // usage
-   if(argc==1)
+   // Kopfzeile
+   out << QObject::tr("Datum/Uhrzeit") << separator << QObject::tr("Zeitstempel");
+   for( int i=0; i<DataFile::fieldCount(); i++)
+      out << separator << DataFile::fieldInfo(i).prettyName;
+   out << endl;
+
+   // Daten schreiben
+   DataMap::const_iterator iterator = data->constBegin();
+   do
    {
-      cout << QObject::tr("dta2csv <Liste-von-DTA-Dateien>").toStdString() << endl;
-      cout << QObject::tr("  Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
-      cout << QObject::tr("  Version: %1").arg(VERSION_STRING).toStdString() << endl;
-      cout << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
-      cout << QObject::tr("  powered by Qt framework").toStdString() << endl;
+      QDateTime timestamp = QDateTime::fromTime_t(iterator.key());
+      DataFieldValues values = iterator.value();
+
+      // Datum
+      out << timestamp.toString("yyyy-MM-dd hh:mm:ss")
+          << separator
+          << iterator.key();
+
+      // Felder
+      for( int i=0; i<values.size(); i++)
+         out << separator << QLocale::system().toString(values[i]);
+      out << endl;
+
+      // naechster Datensatz
+      iterator++;
+   } while( iterator != data->constEnd());
+}
+
+/*---------------------------------------------------------------------------
+* MAIN
+*---------------------------------------------------------------------------*/
+int main(int argc, char *argv[])
+{
+   QStringList args;
+   for( int i=1; i<argc; i++) args << argv[i];
+
+   // usage
+   if( (argc==1) || ((argc==2) && (args.at(0)=="--stdout")))
+   {
+      cerr << QObject::tr("dta2csv [--stdout] <Liste-von-DTA-Dateien>").toStdString() << endl;
+      cerr << QObject::tr("  Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
+      cerr << QObject::tr("  Version: %1").arg(VERSION_STRING).toStdString() << endl;
+      cerr << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
+      cerr << QObject::tr("  powered by Qt framework").toStdString() << endl;
       return 0;
    }
 
-   // jede Datei einzeln bearbeiten
-   for( int i=1; i<argc; i++)
+   // globale variablen
+   bool output2stdout = false;
+
+   // Argumente untersuchen
+   if (args.at(0) == "--stdout")
    {
-      DataMap data;
-      QString fileName = argv[i];
-      cout << QObject::tr("konvertiere Datei: ").toStdString() << fileName.toStdString() << endl;
+      cerr << "Ausgabe wird nach stdout umgeleitet!" << endl;
+      output2stdout = true;
+      args.takeFirst();
+   }
+
+   // jede Datei einzeln bearbeiten
+   DataMap data;
+   for( int i=0; i<args.size(); i++)
+   {
+      QString fileName = args.at(i);
+      cerr << QObject::tr("konvertiere Datei: ").toStdString() << fileName.toStdString() << endl;
 
       // Datei oeffnen
       DtaFile *dta = new DtaFile(fileName);
       if( !dta->open())
       {
-         qWarning() << dta->errorMsg;
+         // Fehlertext wird beireits in DtaFile geschrieben
          delete dta;
          continue;
       }
@@ -73,7 +127,7 @@ int main(int argc, char *argv[])
       // Datei einlesen
       dta->readDatasets(&data);
 
-      if( !data.isEmpty())
+      if( !output2stdout && !data.isEmpty())
       {
          // Ausgabedatei oeffnen
          QFile fOut(fileName+".csv");
@@ -83,41 +137,29 @@ int main(int argc, char *argv[])
             delete dta;
             continue;
          }
-         QTextStream out(&fOut);
-
-         // Kopfzeile
-         out << QObject::tr("Datum/Uhrzeit") << separator << QObject::tr("Zeitstempel");
-			for( int i=0; i<DataFile::fieldCount(); i++)
-				out << separator << DataFile::fieldInfo(i).prettyName;
-			out << endl;
 
          // Daten schreiben
-         DataMap::const_iterator iterator = data.constBegin();
-         do
-         {
-            QDateTime timestamp = QDateTime::fromTime_t(iterator.key());
-            DataFieldValues values = iterator.value();
-
-            // Datum
-            out << timestamp.toString("yyyy-MM-dd hh:mm:ss") 
-					 << separator
-					 << iterator.key();
-
-            // Felder
-            for( int i=0; i<values.size(); i++)
-               out << separator << QLocale::system().toString(values[i]);
-            out << endl;
-
-            // naechster Datensatz
-            iterator++;
-         } while( iterator != data.constEnd());
+         outputData( &fOut, &data);
 
          // Ausgabedatei schliessen
          fOut.close();
 
-      } // if !data.isEmpty
+         // Daten loeschen
+         data.clear();
+
+      } // if !output2stdout && !data.isEmpty
 
       delete dta;
    } // foreach file
+
+   // Ausgabe nach stdout
+   if (output2stdout)
+   {
+      cerr << "schreibe Ergebnis" << endl;
+      QFile fOut;
+      fOut.open( stdout, QIODevice::WriteOnly | QIODevice::Text);
+      outputData( &fOut, &data);
+      fOut.close();
+   }
 
 } // main
