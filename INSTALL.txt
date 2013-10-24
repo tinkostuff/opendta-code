@@ -1,0 +1,9 @@
+Bibliotheken:
+  - Qt Version 4.7.0
+  - Qwt Version 6.0
+
+Erstellen:
+  mkdir <build-Verzeichnis>
+  cd <build-Verzeichnis>
+  qmake <Pfad>/dtagui.pro
+  make
