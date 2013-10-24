@@ -71,7 +71,7 @@ void outputData( QIODevice *file, const DataMap *data)
       // Felder
       for( int i=0; i<values.size(); i++)
          out << separator << QLocale::system().toString(values[i]);
-      out << endl;
+      out << "\n"; // nicht endl, da endl alles aus dem Puffer in die Datei schreibt
 
       // naechster Datensatz
       iterator++;
@@ -157,7 +157,8 @@ int main(int argc, char *argv[])
    {
       cerr << "schreibe Ergebnis" << endl;
       QFile fOut;
-      fOut.open( stdout, QIODevice::WriteOnly | QIODevice::Text);
+      //fOut.open( stdout, QIODevice::WriteOnly | QIODevice::Text);
+      fOut.open( stdout, QIODevice::WriteOnly);
       outputData( &fOut, &data);
       fOut.close();
    }
