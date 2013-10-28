@@ -260,15 +260,15 @@
 *        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
 *        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
 *  -   [30:31] unbekannt 
-*  -   [32:33] unbekannt 
-*  -   [34:35] unbekannt 
-*  -   [36:37] unbekannt 
-*  -   [38:39] unbekannt 
-*  -   [40:41] unbekannt 
+*  -   [32:33] TSS  = Temperatur Solar Speicher
+*  -   [34:35] ?? TSK  = Temperatur Solar Kollektor
+*  -   [36:37] TFB2 = Temperatur Fussbodenheizung 2
+*  -   [38:39] TFB3 = Temperatur Fussbodenheizung 3
+*  -   [40:41] ?? TEE  = Temperatur Externe Energiequelle
 *  -   [42:43] unbekannt 
 *  -   [44:45] unbekannt 
-*  -   [46:47] unbekannt T(TA)
-*  -   [48:49] unbekannt 
+*  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
+*  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
 *  -   [50:51] DF
 *  -   [52:53] unbekannt 
 *  -   [54:55] unbekannt

@@ -591,8 +591,16 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream.readRawData( buffer, 2);                                                    // [24:25] unbekannt 
       m_dtaStream >> value; for( int j=0; j<=4; j++) values[13+j]=calcBitData(value,j);       // [26:27] Eingaenge
       values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
-      m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [28:29] Ausgaenge 
-      m_dtaStream.readRawData( buffer, 20);                                                   // [30:49] unbekannt 
+      m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [28:29] Ausgaenge
+      m_dtaStream.readRawData( buffer, 2);                                                    // [30:31] unbekannt
+      m_dtaStream >> valueS; values[57] = valueS/10.0;                                        // [32:33] TSS
+      m_dtaStream >> valueS; values[58] = valueS/10.0;                                        // [34:35] TSK
+      m_dtaStream >> valueS; values[59] = valueS/10.0;                                        // [36:37] TFB2
+      m_dtaStream >> valueS; values[60] = valueS/10.0;                                        // [38:39] TFB3
+      m_dtaStream >> valueS; values[61] = valueS/10.0;                                        // [40:41] TEE
+      m_dtaStream.readRawData( buffer, 4);                                                    // [42:45] unbekannt
+      m_dtaStream >> valueS; values[62] = valueS/10.0;                                        // [46:47] TMK2soll
+      m_dtaStream >> valueS; values[63] = valueS/10.0;                                        // [48:49] TMK3soll
       m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
       m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
 
@@ -602,7 +610,7 @@ void DtaFile::readDTA3(DataMap *data)
          m_dtaStream >> valueS; values[73] = valueS/10.0;                                     // [58:59] Ansaug Verdichter
          m_dtaStream >> valueS; values[74] = valueS/10.0;                                     // [60:61] Ansaug Verdampfer
          m_dtaStream >> valueS; values[75] = valueS/10.0;                                     // [62:63] VD Heizung
-         m_dtaStream.readRawData( buffer, 10);                                                // [64:73] unbekannt T(VD*TA)
+         m_dtaStream.readRawData( buffer, 10);                                                // [64:73] unbekannt
          m_dtaStream >> valueS; values[71] = valueS/10.0;                                     // [74:75] Ueberhitzung
          m_dtaStream >> valueS; values[72] = valueS/10.0;                                     // [76:77] Ueberhiztung Sollwert
          m_dtaStream.readRawData( buffer, 2);                                                 // [78:79] unbekannt
