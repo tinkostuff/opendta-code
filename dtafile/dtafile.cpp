@@ -121,10 +121,7 @@ bool DtaFile::open()
       if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
-   if( m_dtaVersion==3) {
-      if( header[1] % 2) m_dtaSubVersion = 2;
-      else m_dtaSubVersion = 1;
-   }
+   if( m_dtaVersion==3) m_dtaSubVersion = header[1]%4;
 
    // Anzahl der Datensaetze lesen
    if( m_dtaVersion == 3)
@@ -604,16 +601,20 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
       m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
 
-      if (m_dtaSubVersion > 1) {
+      if (m_dtaSubVersion > 0) {
          m_dtaStream >> valueS; values[40] = valueS/1000.0;                                   // [54:55] AO2
          m_dtaStream.readRawData( buffer, 2);                                                 // [56:57] unbekannt
          m_dtaStream >> valueS; values[73] = valueS/10.0;                                     // [58:59] Ansaug Verdichter
          m_dtaStream >> valueS; values[74] = valueS/10.0;                                     // [60:61] Ansaug Verdampfer
          m_dtaStream >> valueS; values[75] = valueS/10.0;                                     // [62:63] VD Heizung
-         m_dtaStream.readRawData( buffer, 10);                                                // [64:73] unbekannt
-         m_dtaStream >> valueS; values[71] = valueS/10.0;                                     // [74:75] Ueberhitzung
-         m_dtaStream >> valueS; values[72] = valueS/10.0;                                     // [76:77] Ueberhiztung Sollwert
-         m_dtaStream.readRawData( buffer, 2);                                                 // [78:79] unbekannt
+         m_dtaStream.readRawData( buffer, 8);                                                 // [64:71] unbekannt
+
+         if (m_dtaSubVersion == 1) {
+            m_dtaStream.readRawData( buffer, 2);                                              // [72:73] unbekannt
+            m_dtaStream >> valueS; values[71] = valueS/10.0;                                  // [74:75] Ueberhitzung
+            m_dtaStream >> valueS; values[72] = valueS/10.0;                                  // [76:77] Ueberhiztung Sollwert
+            m_dtaStream.readRawData( buffer, 2);                                              // [78:79] unbekannt
+         }
       }
 
       //

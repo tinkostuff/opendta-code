@@ -27,9 +27,9 @@
 *---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 1.x):
+* Aufbau der DTA-Dateien Version 0x2010 (8208) und 0x2011 (8209):
 *  - die ersten 8 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2011 fuer Version 1.x
+*      [0:3]: 0x2010 oder 0x2011
 *      [4:7]: unbekannte Funktion
 *  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
 *  - jeder Datensatz ist 168 Byte lang (Version 0x2011)
@@ -124,9 +124,9 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 2.61 und 2.62):
+* Aufbau der DTA-Dateien Version 0x2328 - 9000:
 *  - die ersten 8 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2328 fuer Version 2.61 und 2.62
+*      [0:3]: 0x2328
 *      [4:7]: Unterversion
 *  - die Anzahl der Datensaetze ist nicht bestimmt (es wird bis zum Ende der Datei lesen)
 *  - die Byte-Order ist little-endian
@@ -218,13 +218,20 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 2.63):
+* Aufbau der DTA-Dateien Version 0x2329 - 9001:
 *  - die ersten 10 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2329 fuer Version 2.63
+*      [0:3]: 0x2329
 *      [4:7]: Unterversion
 *      [8:9]: Anzahl der Datensaetze in der Datei
 *  - die Byte-Order ist little-endian
 *  - die Datensaetze sind sortiert
+*
+*  - die Datensatz-Laenge kann variieren
+*      * Unterscheidungskriterium: Unterversion % 4
+*      * 0: 25 Felder + Zeitstempel
+*      * 1: 38 Felder + Zeitstempel
+*      * 2: 34 Felder + Zeitstempel
+*      * 3: noch nicht aufgetaucht
 *
 * Aufbau eines Datensatzes
 *  -   [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)

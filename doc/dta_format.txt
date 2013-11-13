@@ -20,9 +20,9 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 1.x):
+* Aufbau der DTA-Dateien Version 0x2010 (8208) und 0x2011 (8209):
 *  - die ersten 8 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2011 fuer Version 1.x
+*      [0:3]: 0x2010 oder 0x2011
 *      [4:7]: unbekannte Funktion
 *  - dann folgen 2880 Datensaetze (48 Stunden, ein Datensatz pro Minute)
 *  - jeder Datensatz ist 168 Byte lang (Version 0x2011)
@@ -117,9 +117,9 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 2.61 und 2.62):
+* Aufbau der DTA-Dateien Version 0x2328 - 9000:
 *  - die ersten 8 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2328 fuer Version 2.61 und 2.62
+*      [0:3]: 0x2328
 *      [4:7]: Unterversion
 *  - die Anzahl der Datensaetze ist nicht bestimmt (es wird bis zum Ende der Datei lesen)
 *  - die Byte-Order ist little-endian
@@ -211,34 +211,41 @@
 
 /*---------------------------------------------------------------------------
 *
-* Aufbau der DTA-Dateien (von Firmware Version 2.63):
+* Aufbau der DTA-Dateien Version 0x2329 - 9001:
 *  - die ersten 10 Byte sind ein Datei-Kopf
-*      [0:3]: 0x2329 fuer Version 2.63
-*      [4:7]: unbekannt
+*      [0:3]: 0x2329
+*      [4:7]: Unterversion
 *      [8:9]: Anzahl der Datensaetze in der Datei
 *  - die Byte-Order ist little-endian
 *  - die Datensaetze sind sortiert
 *
+*  - die Datensatz-Laenge kann variieren
+*      * Unterscheidungskriterium: Unterversion % 4
+*      * 0: 25 Felder + Zeitstempel
+*      * 1: 38 Felder + Zeitstempel
+*      * 2: 34 Felder + Zeitstempel
+*      * 3: noch nicht aufgetaucht
+*
 * Aufbau eines Datensatzes
 *  -   [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
-*  -   [4 :5 ] TVL 
+*  -   [4 :5 ] TVL
 *  -   [6 :7 ] TRL
-*  -   [8 :9 ] TWQein 
+*  -   [8 :9 ] TWQein
 *  -   [10:11] TWQaus
 *  -   [12:13] THG
-*  -   [14:15] TBW 
-*  -   [16:17] unbekannt 
+*  -   [14:15] TBW
+*  -   [16:17] unbekannt
 *  -   [18:19] TA
-*  -   [20:21] unbekannt 
-*  -   [22:23] TRLsoll 
-*  -   [24:25] unbekannt 
+*  -   [20:21] unbekannt
+*  -   [22:23] TRLsoll
+*  -   [24:25] unbekannt
 *  -   [26:27] Eingaenge
 *        bit 0:  HD   = Hochdruckpressostat
 *        bit 1:  ND   = Niederdruckpressostat
 *        bit 2:  MOT  = Motorschutz
 *        bit 3:  ASD  = Abtau/Soledruck/Durchfluss
 *        bit 4:  EVU_ = EVU Sperre
-*  -   [28:29] Ausgaenge 
+*  -   [28:29] Ausgaenge
 *        bit 0:  HUP  = Heizungsumwaelzpumpe
 *        bit 1:  ZUP  = Zusatzumwaelzpumpe
 *        bit 2:  BUP  = Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
@@ -252,18 +259,18 @@
 *        bit 10: AV   = Abtauventil (Kreislaufumkehr)
 *        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
 *        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
-*  -   [30:31] unbekannt 
-*  -   [32:33] unbekannt 
-*  -   [34:35] unbekannt 
-*  -   [36:37] unbekannt 
-*  -   [38:39] unbekannt 
-*  -   [40:41] unbekannt 
-*  -   [42:43] unbekannt 
-*  -   [44:45] unbekannt 
-*  -   [46:47] unbekannt T(TA)
-*  -   [48:49] unbekannt 
+*  -   [30:31] unbekannt
+*  -   [32:33] TSS  = Temperatur Solar Speicher
+*  -   [34:35] ?? TSK  = Temperatur Solar Kollektor
+*  -   [36:37] TFB2 = Temperatur Fussbodenheizung 2
+*  -   [38:39] TFB3 = Temperatur Fussbodenheizung 3
+*  -   [40:41] ?? TEE  = Temperatur Externe Energiequelle
+*  -   [42:43] unbekannt
+*  -   [44:45] unbekannt
+*  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
+*  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
 *  -   [50:51] DF
-*  -   [52:53] unbekannt 
+*  -   [52:53] unbekannt
 *  -   [54:55] unbekannt
 *  -   [56:57] unbekannt (IOs)
 *  -   [58:59] Ansaug Verdichter
@@ -275,8 +282,8 @@
 *  -   [70:71] unbekannt T(VD)
 *  -   [72:73] unbekannt T(VD)
 *  -   [74:75] Ueberhitzung
-*  -   [76:77] Ueberhiztung Sollwert 
-*  -   [78:79] unbekannt 
+*  -   [76:77] Ueberhiztung Sollwert
+*  -   [78:79] unbekannt
 *
 * Umrechnung der Werte:
 *  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
