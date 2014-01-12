@@ -7,3 +7,4 @@ Erstellen:
   cd <build-Verzeichnis>
   qmake <Pfad>/dtagui.pro
   make
+
