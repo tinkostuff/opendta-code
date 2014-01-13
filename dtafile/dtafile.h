@@ -64,7 +64,7 @@
 *  -   [52:53] TFB1    = Temperatur Fussbodenheizung 1
 *  -   [54:55] TBW     = Temperatur Brauch-Warm-Wasser
 *  -   [56:57] TA      = Aussentemperatur
-*  -   [58:59] TRL     = Temperatur Heizung Ruecklauf extern
+*  -   [58:59] TRLext  = Temperatur Heizung Ruecklauf extern
 *  -   [60:61] TRL     = Temperatur Heizung Ruecklauf
 *  -   [62:63] TVL     = Temperatur Heizung Vorlauf
 *  -   [64:65] THG     = Temperatur Heissgas
@@ -72,7 +72,7 @@
 *  -   [70:71] TWQein  = Temperatur Waermequelle Eintritt
 *  -   [80:81] TRLsoll = Solltemperatur Heizung Ruecklauf
 *  -   [82:83] TRLsoll_highbytes = zwei Extra-Byte fuer TRLsoll (werden nicht ausgelesen)
-*  -   [84:85] TMK1soll= Solltemperatur Mischer Kreis 1
+*  -   [84:85] TMK1soll = Solltemperatur Mischer Kreis 1
 *  -   [86:87] TMK1soll_highbytes = zwei Extra-Byte fuer TMK1soll (werden nicht ausgelesen)
 *  - [128:129] ComfortPlatine: Indikator, ob und welche Erweiterung eingebaut ist
 *  - [132:133] StatusA_CP = Status der Ausgaenge der ComfortPlatine
@@ -235,17 +235,17 @@
 *
 * Aufbau eines Datensatzes
 *  -   [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
-*  -   [4 :5 ] TVL 
-*  -   [6 :7 ] TRL
-*  -   [8 :9 ] TWQein 
-*  -   [10:11] TWQaus
-*  -   [12:13] THG
-*  -   [14:15] TBW 
-*  -   [16:17] unbekannt 
-*  -   [18:19] TA
-*  -   [20:21] unbekannt 
-*  -   [22:23] TRLsoll 
-*  -   [24:25] unbekannt 
+*  -   [4 :5 ] TVL = Temperatur Heizung Vorlauf
+*  -   [6 :7 ] TRL = Temperatur Heizung Ruecklauf
+*  -   [8 :9 ] TWQein = Temperatur Waermequelle Eintritt
+*  -   [10:11] TWQaus = Temperatur Waermequelle Austritt
+*  -   [12:13] THG = Temperatur Heissgas
+*  -   [14:15] TBW = Temperatur Brauch-Warm-Wasser
+*  -   [16:17] TFB1 = Temperatur Fussbodenheizung 1
+*  -   [18:19] TA = Aussentemperatur
+*  -   [20:21] TRLext = Temperatur Heizung Ruecklauf extern
+*  -   [22:23] TRLsoll = Solltemperatur Heizung Ruecklauf
+*  -   [24:25] TMK1soll = Solltemperatur Mischer Kreis 1
 *  -   [26:27] Eingaenge
 *        bit 0:  HD   = Hochdruckpressostat
 *        bit 1:  ND   = Niederdruckpressostat
@@ -276,9 +276,9 @@
 *  -   [44:45] unbekannt 
 *  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
 *  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
-*  -   [50:51] DF
-*  -   [52:53] unbekannt 
-*  -   [54:55] unbekannt
+*  -   [50:51] DF = Durchfluss
+*  -   [52:53] AO1 = ComfortPlatine: Analoger Ausgang 1
+*  -   [54:55] AO2 = ComfortPlatine: Analoger Ausgang 2
 *  -   [56:57] unbekannt (IOs)
 *  -   [58:59] Ansaug Verdichter
 *  -   [60:61] Ansaug Verdampfer

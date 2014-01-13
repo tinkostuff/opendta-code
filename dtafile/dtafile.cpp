@@ -581,11 +581,11 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream >> valueS; values[25] = valueS/10.0;                                        // [10:11] TWQaus
       m_dtaStream >> valueS; values[24] = valueS/10.0;                                        // [12:13] THG
       m_dtaStream >> valueS; values[19] = valueS/10.0;                                        // [14:15] TBW 
-      m_dtaStream.readRawData( buffer, 2);                                                    // [16:17] unbekannt 
+      m_dtaStream >> valueS; values[18] = valueS/10.0;                                        // [16:17] TFB1
       m_dtaStream >> valueS; values[20] = valueS/10.0;                                        // [18:19] TA
-      m_dtaStream.readRawData( buffer, 2);                                                    // [20:21] unbekannt 
+      m_dtaStream >> valueS; values[21] = valueS/10.0;                                        // [20:21] TRLext
       m_dtaStream >> valueS; values[27] = valueS/10.0;                                        // [22:23] TRLsoll 
-      m_dtaStream.readRawData( buffer, 2);                                                    // [24:25] unbekannt 
+      m_dtaStream >> valueS; values[28] = valueS/10.0;                                        // [24:25] TKM1soll
       m_dtaStream >> value; for( int j=0; j<=4; j++) values[13+j]=calcBitData(value,j);       // [26:27] Eingaenge
       values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
       m_dtaStream >> value; for( int j=0; j<=12; j++) values[0+j]=calcBitData(value,j);       // [28:29] Ausgaenge
