@@ -52,6 +52,7 @@
     <addaction name="separator"/>
     <addaction name="actionZuruecksetzen"/>
     <addaction name="actionOeffnen"/>
+    <addaction name="actionDownload"/>
     <addaction name="actionDUMPOeffnen"/>
     <addaction name="actionCSVSpeichern"/>
     <addaction name="separator"/>
@@ -82,6 +83,7 @@
    <addaction name="actionBeenden"/>
    <addaction name="separator"/>
    <addaction name="actionOeffnen"/>
+   <addaction name="actionDownload"/>
    <addaction name="actionDUMPOeffnen"/>
    <addaction name="actionZuruecksetzen"/>
    <addaction name="actionCSVSpeichern"/>
@@ -232,6 +234,18 @@
    </property>
    <property name="toolTip">
     <string>Sprache auswählen (Neustart erforderlich)</string>
+   </property>
+  </action>
+  <action name="actionDownload">
+   <property name="icon">
+    <iconset resource="dtagui.qrc">
+     <normaloff>:/images/images/download.png</normaloff>:/images/images/download.png</iconset>
+   </property>
+   <property name="text">
+    <string>DTA do&amp;wnload...</string>
+   </property>
+   <property name="toolTip">
+    <string>Download DTA (proclog) von Luxtronik 2</string>
    </property>
   </action>
  </widget>

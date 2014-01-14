@@ -19,6 +19,7 @@
         <file>images/race-flag.png</file>
         <file>images/compress.png</file>
         <file>images/csv.png</file>
+        <file>images/download.png</file>
     </qresource>
     <qresource prefix="/sessions">
         <file>default.session</file>

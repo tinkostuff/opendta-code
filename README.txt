@@ -33,10 +33,6 @@ dta2csv:
   - dabei werden die Rohwerte der DAT-Datei (soweit bekannt) in 
     Messwerte umgerechnet
 
-dtaraw2csv:
-  - Konvertierung von DTA-Dateien in das CSV-Tabellen-Format bei der
-    nur die Rohwerte ausgegeben werden
-
 Lizenz:
 =======
 

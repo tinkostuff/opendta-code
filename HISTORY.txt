@@ -3,6 +3,10 @@ DtaGui
 
 Versions-Geschicht:
 
+Rev 0.11
+  - Download DTA hinzugefuegt
+  - Unterstuetzung von DTA Version 9001 verbessert
+
 Rev 0.10
   - Internationalisierung des Programms
       (Englisch und Tschechisch bereits vorhanden)

@@ -1,3 +1,5 @@
+QT += network
+
 CONFIG += qwt
 
 HEADERS += \
@@ -11,7 +13,9 @@ HEADERS += \
     statistics/dtafieldstatistics.h \
     statistics/dtacompstartsstatistics.h \
     dtafile/datafile.h \
-    dtafile/dumpfile.h
+    dtafile/dumpfile.h \
+    dtagui/config.h \
+    dtagui/downloaddta.h
 
 SOURCES += \
     dtagui/mainwindow.cpp \
@@ -25,18 +29,20 @@ SOURCES += \
     statistics/dtafieldstatistics.cpp \
     statistics/dtacompstartsstatistics.cpp \
     dtafile/datafile.cpp \
-    dtafile/dumpfile.cpp
+    dtafile/dumpfile.cpp \
+    dtagui/downloaddta.cpp
 
 FORMS += \
-    dtagui/mainwindow.ui
+    dtagui/mainwindow.ui \
+    dtagui/downloaddta.ui
 
 RESOURCES += \
     dtagui/dtagui.qrc
 
 OTHER_FILES += \
    dtagui/doc/hilfe.html \
-   HISTORY \
-   INSTALL \
+   HISTORY.txt \
+   INSTALL.txt \
    README.txt \
    doc/dta_format.txt \
    doc/dump_format.txt \

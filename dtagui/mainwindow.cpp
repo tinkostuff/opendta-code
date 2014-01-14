@@ -31,9 +31,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "dtagui/config.h"
 #include "dtagui/dtaplotframe.h"
 #include "dtagui/dtastatsframe.h"
 #include "dtagui/dtacompstartsframe.h"
+#include "dtagui/downloaddta.h"
 
 /*---------------------------------------------------------------------------
 * Constructor
@@ -436,8 +438,10 @@ void MainWindow::on_actionSprache_triggered()
 {
    // INI-Datei lesen
    QSettings cfg(
-            QCoreApplication::applicationDirPath()+"/dtagui.ini",
             QSettings::IniFormat,
+            QSettings::UserScope,
+            ORG_NAME,
+            APP_NAME,
             this);
    QString lang = cfg.value( "dtagui/lang", "de").toString();
    // Sprach-Dateien suchen
@@ -479,4 +483,20 @@ void MainWindow::on_actionSprache_triggered()
                tr("Bitte die Anwendung neu starten, um die \304nderung wirksam zu machen!")
             );
    }
+}
+
+/*---------------------------------------------------------------------------
+* DTA Download starten
+*---------------------------------------------------------------------------*/
+void MainWindow::on_actionDownload_triggered()
+{
+   DownloadDTA *diag = new DownloadDTA(this);
+   if(diag->exec())
+   {
+      // Datei oeffnen
+      QStringList files;
+      files << diag->getFileName();
+      readDataFiles( files, true);
+   }
+   delete diag;
 }

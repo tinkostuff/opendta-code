@@ -25,6 +25,8 @@
 #include <QtGui/QApplication>
 #include <QTranslator>
 #include <QSettings>
+
+#include "config.h"
 #include "mainwindow.h"
 
 #include <QDebug>
@@ -35,8 +37,10 @@ int main(int argc, char *argv[])
 
     // Spracheinstellung laden
     QSettings cfg(
-             QCoreApplication::applicationDirPath()+"/dtagui.ini",
              QSettings::IniFormat,
+             QSettings::UserScope,
+             ORG_NAME,
+             APP_NAME,
              0);
     QString lang = cfg.value( "dtagui/lang", "de").toString();
     QString qmFileName = QString("%1/dtagui_%2.qm").arg(QCoreApplication::applicationDirPath()).arg(lang);
