@@ -25,6 +25,6 @@ Option "--stdout":
   - die Daten aller DTA-Dateien werden zusammengefasst
   - die Ergebnis-Ausgabe erfolgt auf die Kommandozeile
 
-Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/
+Copyright (C) 2014  opendta@gmx.de, http://opendta.sf.net/
 GNU General Public License Version 3
 

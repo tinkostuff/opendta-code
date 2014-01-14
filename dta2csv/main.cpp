@@ -1,6 +1,6 @@
 /* 
 *---------------------------------------------------------------------------
-* Copyright (C) 2013  opendta@gmx.de
+* Copyright (C) 2014  opendta@gmx.de
 *
 * Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 * der GNU General Public License, wie von der Free Software Foundation
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
    if( (argc==1) || ((argc==2) && (args.at(0)=="--stdout")))
    {
       cerr << QObject::tr("dta2csv [--stdout] <Liste-von-DTA-Dateien>").toStdString() << endl;
-      cerr << QObject::tr("  Copyright (C) 2013  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
+      cerr << QObject::tr("  Copyright (C) 2014  opendta@gmx.de, http://opendta.sf.net/").toStdString() << endl;
       cerr << QObject::tr("  Version: %1").arg(VERSION_STRING).toStdString() << endl;
       cerr << QObject::tr("  GNU General Public License Version 3").toStdString() << endl;
       cerr << QObject::tr("  powered by Qt framework").toStdString() << endl;
