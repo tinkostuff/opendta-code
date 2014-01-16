@@ -47,8 +47,8 @@ DownloadDTA::DownloadDTA(QWidget *parent) :
             APP_NAME,
             this);
 
-   QString url = cfg.value( "download_dta/url", "http://192.168.2.20").toString();
-   QString downloadDir = cfg.value( "download_dta/dir", QDir::temp().dirName()).toString();
+   QString url = cfg.value( "download_dta/url", "http://192.168.2.20/proclog").toString();
+   QString downloadDir = cfg.value( "download_dta/dir", QDir::temp().absolutePath()).toString();
    bool renameFile = cfg.value("download_dta/rename", true).toBool();
 
    // Dialog initialisieren
@@ -64,7 +64,7 @@ DownloadDTA::DownloadDTA(QWidget *parent) :
 *---------------------------------------------------------------------------*/
 DownloadDTA::~DownloadDTA()
 {
-   delete ui;
+    delete ui;
 }
 
 /*---------------------------------------------------------------------------
@@ -154,6 +154,13 @@ void DownloadDTA::on_buttonBox_accepted()
 
    // OK deaktivieren
    ui->buttonBox->buttons()[0]->setEnabled(false);
+
+   // Sanduhr anzeigen
+   QApplication::setOverrideCursor(Qt::WaitCursor);
+
+   // Progressbar initialisieren
+   ui->progressBar->setValue(0);
+   ui->progressBar->setMaximum(0);
 }
 
 /*---------------------------------------------------------------------------
@@ -173,10 +180,23 @@ void DownloadDTA::fileDownloaded(QNetworkReply* reply)
    // OK aktivieren
    ui->buttonBox->buttons()[0]->setEnabled(true);
 
+   // normaler Cursor
+   QApplication::restoreOverrideCursor();
+
    // Download Fehler?
    if(reply->error() != QNetworkReply::NoError)
    {
       ui->lblStatus->setText(tr("Download Fehler"));
+
+      // Progressbar zuruecksetzen
+      ui->progressBar->setValue(0);
+      ui->progressBar->setMaximum(1);
+
+      // Aufraeumen
+      m_file.close();
+      m_reply->deleteLater();
+      m_reply = NULL;
+
       QMessageBox::critical(
                this,
                tr("Download Fehler"),
