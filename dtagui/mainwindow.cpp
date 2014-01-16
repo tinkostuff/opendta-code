@@ -67,6 +67,13 @@ MainWindow::MainWindow(QWidget *parent) :
    lastOpenPathDTA = ".";
 
    this->setWindowTitle(tr("DtaGui - %1").arg(VERSION_STRING));
+
+   // Support Button
+   QLabel *lbl = new QLabel();
+   lbl->setText("<a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KNJVZ4H9ZZ88W\"><img src=\":/images/images/support.png\" /></a>");
+   lbl->setOpenExternalLinks(true);
+   ui->mainToolBar->addSeparator();
+   ui->mainToolBar->addWidget(lbl);
 }
 
 /*---------------------------------------------------------------------------
