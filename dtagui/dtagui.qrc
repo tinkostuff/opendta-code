@@ -20,7 +20,6 @@
         <file>images/compress.png</file>
         <file>images/csv.png</file>
         <file>images/download.png</file>
-        <file>images/support.png</file>
     </qresource>
     <qresource prefix="/sessions">
         <file>default.session</file>
