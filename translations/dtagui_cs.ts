@@ -133,7 +133,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="186"/>
         <source>HUP</source>
-        <translation>CIČT</translation>
+        <translation>Čtop</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="187"/>
@@ -143,7 +143,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="198"/>
         <source>ZUP</source>
-        <translation>DOČ</translation>
+        <translation>Čdob</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="199"/>
@@ -193,7 +193,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="258"/>
         <source>ZIP</source>
-        <translation>CIČ</translation>
+        <translation>Čcir</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="259"/>
@@ -243,7 +243,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="318"/>
         <source>VBS</source>
-        <translation>VČPRIM</translation>
+        <translation>Čprim</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="319"/>
@@ -433,7 +433,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="558"/>
         <source>SUP</source>
-        <translation>BOČ</translation>
+        <translation>Čbaz</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="559"/>
@@ -443,7 +443,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="570"/>
         <source>FUP2</source>
-        <translation>MIXČ2</translation>
+        <translation>ČMIX2</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="571"/>
@@ -493,7 +493,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="630"/>
         <source>FUP3</source>
-        <translation>MIXČ3</translation>
+        <translation>ČMIX3</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="631"/>
@@ -513,7 +513,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="654"/>
         <source>SLP</source>
-        <translation>SOČ</translation>
+        <translation>Čsol</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="655"/>
@@ -703,7 +703,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="899"/>
         <source>TSS [°C]</source>
-        <translation>TSZ [°C]</translation>
+        <translation>TsolZ [°C]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="900"/>
@@ -713,7 +713,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="911"/>
         <source>TSK [°C]</source>
-        <translation>TSK [°C]</translation>
+        <translation>TsolK [°C]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="912"/>
@@ -743,7 +743,7 @@
     <message>
         <location filename="../dtafile/datafile.cpp" line="947"/>
         <source>TEE [°C]</source>
-        <translation>Text [°C]</translation>
+        <translation>TextZ [°C]</translation>
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="948"/>
@@ -896,114 +896,114 @@
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="57"/>
         <source>Eingabe erforderlich</source>
-        <translation type="unfinished"></translation>
+        <translation>Příkon</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="104"/>
         <source>Verzeichnis exisitiert nicht!</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresář neexistuje!</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="105"/>
         <source>Das Verzeichnis &apos;%1&apos; existiert nicht!</source>
-        <translation type="unfinished"></translation>
+        <translation>V adresáři &apos;%1&apos; neexistuje!</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="124"/>
         <source>Datei überschreiben?</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepsat soubor?</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="125"/>
         <source>Datei &apos;%1&apos; existiert bereits!&lt;br&gt;Soll sie überschrieben werden?</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor &apos;%1&apos; již existuje! &lt;br&gt; Měl by být přepsán?</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="137"/>
         <source>Fehler</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="138"/>
         <source>Fehler beim Öffnen der Datei &apos;%1&apos;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při otevírání souboru &apos;%1&apos;!</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="153"/>
         <source>Download gestartet</source>
-        <translation type="unfinished"></translation>
+        <translation>Start stahování</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="179"/>
         <location filename="../dtagui/downloaddta.cpp" line="182"/>
         <source>Download Fehler</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stahování</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="188"/>
         <source>Datei speichern</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit soubor</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="195"/>
         <source>Einstellungen speichern</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit nastavení</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.cpp" line="206"/>
         <source>Ende</source>
-        <translation type="unfinished"></translation>
+        <translation>Konec</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="14"/>
         <source>Download DTA</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout DTA</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="26"/>
         <source>Adresse der DTA-Datei:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa DTA souboru:</translation>
     </message>
     <message utf8="true">
         <location filename="../dtagui/downloaddta.ui" line="33"/>
         <source>aktuelle Daten der Wärmepumpe: http://&lt;ip-addresse&gt;/proclog</source>
-        <translation type="unfinished"></translation>
+        <translation>aktuální data z tepelného čerpadla: http://&lt;ip-addresse&gt;/proclog</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="36"/>
         <source>http://192.168.2.20/proclog</source>
-        <translation type="unfinished"></translation>
+        <translation>http://192.168.2.20/proclog</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="43"/>
         <source>Download Verzeichnis:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout adresář:</translation>
     </message>
     <message utf8="true">
         <location filename="../dtagui/downloaddta.ui" line="53"/>
         <location filename="../dtagui/downloaddta.cpp" line="228"/>
         <source>Verzeichnis auswählen</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvolit adresář</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="56"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="63"/>
         <source>Datei umbenennen? (Format &apos;JJMMTT_HHMM_proclog.dta&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přejmenovat soubor? (Format &apos;YYMMDD_HHMM_proclog.dta&apos;)</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="81"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stav:</translation>
     </message>
     <message>
         <location filename="../dtagui/downloaddta.ui" line="94"/>
         <source>Eingabe</source>
-        <translation type="unfinished"></translation>
+        <translation>Vstup</translation>
     </message>
 </context>
 <context>
@@ -1727,42 +1727,42 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="297"/>
         <source>Aktiv</source>
-        <translation>Zaplý</translation>
+        <translation>Zapnuto</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="298"/>
         <source>Mittelwert Ein</source>
-        <translation>Průměr (ano)</translation>
+        <translation>Průměr (zap)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="299"/>
         <source>Minimum Ein</source>
-        <translation>Minimální (ano)</translation>
+        <translation>Minimální (zap)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="300"/>
         <source>Maximum Ein</source>
-        <translation>Maximální (ano)</translation>
+        <translation>Maximální (zap)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="301"/>
         <source>Inaktiv</source>
-        <translation>Vyplý</translation>
+        <translation>Vypnuto</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="302"/>
         <source>Mittelwert Aus</source>
-        <translation>Průměr (ne)</translation>
+        <translation>Průměr (vyp)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="303"/>
         <source>Minimum Aus</source>
-        <translation>Minimální (ne)</translation>
+        <translation>Minimální (vyp)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="304"/>
         <source>Maximum Aus</source>
-        <translation>Maximální (ne)</translation>
+        <translation>Maximální (vyp)</translation>
     </message>
     <message>
         <location filename="../dtagui/dtastatsframe.cpp" line="322"/>
@@ -1959,12 +1959,12 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/mainwindow.ui" line="245"/>
         <source>DTA do&amp;wnload...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stahno&amp;ut DTA...</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.ui" line="248"/>
         <source>Download DTA (proclog) von Luxtronik 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnouti DTA (proclog) z Luxtronik 2</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="69"/>
@@ -2015,12 +2015,12 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="101"/>
         <source>Fehler beim Öffnen der Daten-Datei</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se otevřít datový soubor</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="190"/>
         <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2013 opendta@gmx.de&lt;p&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?}</translation>
+        <translation>&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?}</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="221"/>
@@ -2035,7 +2035,7 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="227"/>
         <source>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Česky:&lt;/h4&gt;&lt;p&gt;Tento program je částečně založen na práci projektu Qwt (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Chtěl bych poděkovat Qwt týmu za jejich práci!&lt;/p&gt;</translation>
+        <translation>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;&lt;h4&gt;Česky:&lt;/h4&gt;&lt;p&gt;Tento program je částečně založen na práci projektu Qwt (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Chtěl bych poděkovat Qwt týmu za jejich práci!&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="249"/>
@@ -2101,7 +2101,7 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="381"/>
         <source>CSV-Dateien (*.csv);;Alle Dateien (*.*)</source>
-        <translation>CSV-soubory (*.csv);;Všechny soubory (*.*)</translation>
+        <translation>CSV-soubor(y) (*.csv);;Všechny soubory (*.*)</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="393"/>
