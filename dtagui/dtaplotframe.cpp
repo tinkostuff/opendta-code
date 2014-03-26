@@ -632,7 +632,7 @@ void DtaPlotFrame::scaleDivChanged()
       {
          DtaPlot *plot = plotList.at(i);
          if( plot != senderPlot)
-            plot->setAxisScaleDiv( axisId, *senderPlot->axisScaleDiv(axisId));
+            plot->setAxisScaleDiv( axisId, senderPlot->axisScaleDiv(axisId));
       }
    }
 
@@ -690,12 +690,8 @@ void DtaPlotFrame::alignPlots()
       if( end > maxBorderDistEnd) maxBorderDistEnd = end;
 
       // maximale Breite der Legende
-      QwtLegend *legend = plot->legend();
-      for( int j=0; j<legend->legendItems().size(); j++)
-      {
-         const int width = legend->legendItems().at(j)->sizeHint().width();
-         if( width > maxLegendWidth) maxLegendWidth = width;
-      }
+      QwtLegend *legend = static_cast<QwtLegend*>(plot->legend());
+      maxLegendWidth = legend->contentsWidget()->sizeHint().width();
    }
 
    // neue Masse setzen
@@ -724,7 +720,7 @@ void DtaPlotFrame::alignPlots()
       scaleWidget->setMinBorderDist(maxBorderDistStart,maxBorderDistEnd);
 
       // Legende
-      QwtLegend *legend = plot->legend();
+      QwtLegend *legend = static_cast<QwtLegend*>(plot->legend());
       legend->setMinimumWidth(maxLegendWidth+10);
    }
 }

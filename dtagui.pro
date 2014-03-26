@@ -1,3 +1,5 @@
+include ( $(QWT_ROOT)/features/qwt.prf )
+
 QT += network
 
 CONFIG += qwt

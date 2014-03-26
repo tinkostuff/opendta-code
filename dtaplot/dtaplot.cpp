@@ -32,7 +32,8 @@
 #include <qwt_scale_draw.h>
 #include <qwt_plot_grid.h>
 #include <qwt_legend.h>
-#include <qwt_legend_item.h>
+#include <qwt_legend_label.h>
+#include <qwt_plot_canvas.h>
 #include <qwt_plot_zoomer.h>
 #include <qwt_plot_panner.h>
 #include <qwt_plot_curve.h>
@@ -57,7 +58,7 @@ public:
 class DateTimePlotZoomer: public QwtPlotZoomer
 {
 public:
-   DateTimePlotZoomer( int xAxis, int yAxis, QwtPlotCanvas *canvas): QwtPlotZoomer( xAxis, yAxis, canvas) {}
+   DateTimePlotZoomer( int xAxis, int yAxis, QWidget *canvas): QwtPlotZoomer( xAxis, yAxis, canvas) {}
    virtual QwtText trackerTextF(const QPointF &pos) const
    {
       QwtText label;
@@ -131,8 +132,8 @@ DtaPlot::DtaPlot(QWidget *parent, bool xAxisVisible) :
    QwtPlotGrid *grid = new QwtPlotGrid;
    grid->enableXMin(true);
    grid->enableYMin(true);
-   grid->setMajPen(QPen(Qt::gray, 0, Qt::SolidLine));
-   grid->setMinPen(QPen(Qt::lightGray, 0 , Qt::DotLine));
+   grid->setMajorPen(QPen(Qt::gray, 0, Qt::SolidLine));
+   grid->setMinorPen(QPen(Qt::lightGray, 0 , Qt::DotLine));
    grid->attach(this);
 
    // Scrollen per Drag&Drop
@@ -157,7 +158,7 @@ DtaPlot::DtaPlot(QWidget *parent, bool xAxisVisible) :
 
    // Legende
    DtaLegend *legend = new DtaLegend;
-   legend->setItemMode(QwtLegend::CheckableItem);
+   legend->setDefaultItemMode(QwtLegendData::Checkable);
    insertLegend(legend, QwtPlot::RightLegend);
 
    //
@@ -165,8 +166,8 @@ DtaPlot::DtaPlot(QWidget *parent, bool xAxisVisible) :
    //
 
    // Legende mit Kruven verbinden
-   connect( this, SIGNAL(legendChecked(QwtPlotItem *, bool)),
-            this, SLOT(showCurve(QwtPlotItem *, bool)));
+   connect( legend, SIGNAL(checked(QVariant,bool,int)),
+            this, SLOT(legendChecked(const QVariant&,bool)));
 }
 
 /*---------------------------------------------------------------------------
@@ -180,12 +181,21 @@ DtaPlot::~DtaPlot()
 /*---------------------------------------------------------------------------
 * showCurve - Kurven (un)sichtbar machen
 *---------------------------------------------------------------------------*/
+void DtaPlot::legendChecked(const QVariant &itemInfo, bool on)
+{
+   QwtPlotItem *item = infoToItem(itemInfo);
+   if(item) showCurve( item, on);
+}
 void DtaPlot::showCurve(QwtPlotItem *item, bool on)
 {
    item->setVisible(on);
-   QWidget *w = legend()->find(item);
-   if ( w && w->inherits("QwtLegendItem") )
-      ((QwtLegendItem *)w)->setChecked(on);
+   QwtLegend *lgd = qobject_cast<QwtLegend *>(legend());
+   QList<QWidget*> legendWidgets = lgd->legendWidgets( itemToInfo(item) );
+   if( legendWidgets.size() == 1 )
+   {
+       QwtLegendLabel *legendLabel = qobject_cast<QwtLegendLabel*>( legendWidgets[0] );
+       if(legendLabel) legendLabel->setChecked(on);
+   }
 
    if(allowReplot) replot();
 }
@@ -261,8 +271,8 @@ void DtaPlot::scroll(Directions dir, double steps)
          continue;
 
       // neue Skalierung berechnen
-      const double min = axisScaleDiv(axis)->lowerBound();
-      const double max = axisScaleDiv(axis)->upperBound();
+      const double min = axisScaleDiv(axis).lowerBound();
+      const double max = axisScaleDiv(axis).upperBound();
       double delta = (max-min) * steps * WHEEL_SCROLL_RATIO;
 
       // Skalierung setzen und neu zeichnen
@@ -289,8 +299,8 @@ void DtaPlot::zoom(Directions dir, double steps)
          continue;
 
       // neue Skalierung berechnen
-      const double range = axisScaleDiv(axis)->upperBound() - axisScaleDiv(axis)->lowerBound();
-      const double center = axisScaleDiv(axis)->lowerBound() + range/2;
+      const double range = axisScaleDiv(axis).upperBound() - axisScaleDiv(axis).lowerBound();
+      const double center = axisScaleDiv(axis).lowerBound() + range/2;
       double scale = 1 + WHEEL_ZOOM_RATIO * qAbs(steps);
       double newRange = 0.0;
       if( steps < 0)

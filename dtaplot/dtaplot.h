@@ -83,6 +83,7 @@ public slots:
    // Kurve (un)sichtbar machen
    void showCurve(QwtPlotItem *, bool on);
    void showCurve(QString name, bool on);
+   void legendChecked(const QVariant &itemInfo, bool on);
 
 private:
    QHash<QString,QwtPlotCurve*> curves;
