@@ -227,7 +227,7 @@ void DtaFile::readDTA1(DataMap *data)
       // der Sensor hat "nur" 0.5l/min Aufloesung
       // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
       const quint8 posAI1 = 42;
-      if(values[posAI1]<0.5) values[43] = 0.0;
+      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
       else
          values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
 
