@@ -52,4 +52,5 @@ OTHER_FILES += \
 
 TRANSLATIONS = \
    translations/dtagui_en.ts \
-   translations/dtagui_cs.ts
+   translations/dtagui_cs.ts \
+   translations/dtagui_pl.ts

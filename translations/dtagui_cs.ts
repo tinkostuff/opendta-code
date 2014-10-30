@@ -934,23 +934,23 @@
         <translation>Start stahování</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="179"/>
-        <location filename="../dtagui/downloaddta.cpp" line="182"/>
+        <location filename="../dtagui/downloaddta.cpp" line="189"/>
+        <location filename="../dtagui/downloaddta.cpp" line="202"/>
         <source>Download Fehler</source>
         <translation>Chyba stahování</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="188"/>
+        <location filename="../dtagui/downloaddta.cpp" line="208"/>
         <source>Datei speichern</source>
         <translation>Uložit soubor</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="195"/>
+        <location filename="../dtagui/downloaddta.cpp" line="215"/>
         <source>Einstellungen speichern</source>
         <translation>Uložit nastavení</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="206"/>
+        <location filename="../dtagui/downloaddta.cpp" line="226"/>
         <source>Ende</source>
         <translation>Konec</translation>
     </message>
@@ -981,7 +981,7 @@
     </message>
     <message utf8="true">
         <location filename="../dtagui/downloaddta.ui" line="53"/>
-        <location filename="../dtagui/downloaddta.cpp" line="228"/>
+        <location filename="../dtagui/downloaddta.cpp" line="248"/>
         <source>Verzeichnis auswählen</source>
         <translation>Zvolit adresář</translation>
     </message>
@@ -1536,48 +1536,48 @@ Máteli zájem o podporu, zašlete prosím DTA-soubor (vč. CSV-souboru) na open
         <translation>Tloušťka čáry:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="772"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="768"/>
         <source>max. Haupt-Teilung</source>
         <translation>max. hlavní síť</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="773"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="769"/>
         <source>maximale Anzahl der Haupt-Teilungen:</source>
         <translation>maximální množství čar hlavní mřížky:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="793"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="789"/>
         <source>max. Unter-Teilung</source>
         <translation>max. vedlejší síť</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="794"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="790"/>
         <source>maximale Anzahl der Unter-Teilungen:</source>
         <translation>maximální množství čar vedlejší mřížky:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="903"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="899"/>
         <source>Sitzung speichern</source>
         <translation>Uložit nastavení programu</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="905"/>
-        <location filename="../dtagui/dtaplotframe.cpp" line="948"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="901"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="944"/>
         <source>Sitzungsdateien (*.session);;Alle Dateien (*.*)</source>
         <translation>Soubory nastavení (*.session);;Všechny soubory (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="946"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="942"/>
         <source>Sitzung öffnen</source>
         <translation>Otevřít nastavení programu</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="967"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="963"/>
         <source>Fehler beim Laden der Sitzung</source>
         <translation>Chyba při načítání dat</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="968"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="964"/>
         <source>Fehler beim Laden der Sitzung!
 Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation>Chyba při načítání dat!
@@ -2018,9 +2018,13 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
         <translation>Nepodařilo se otevřít datový soubor</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="190"/>
         <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2013 opendta@gmx.de&lt;p&gt;</source>
-        <translation>&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?}</translation>
+        <translation type="obsolete">&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?}</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/mainwindow.cpp" line="190"/>
+        <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2014 opendta@gmx.de&lt;p&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?} {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2014 ?}</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="221"/>
