@@ -495,7 +495,7 @@ void DtaFile::readDTA2(DataMap *data)
       values[25] = ds[ 3]/10.0; // TWQaus
       values[26] = ds[ 2]/10.0; // TWQein
       values[27] = ds[ 9]/10.0; // TRLsoll
-      values[43] = ds[23]/60.0; // DF (Umrechnung l/h in l/min)
+      values[42] = ds[23]/1000.0; // AI
 
       // Felder, welche nur in Unterversion1 vorhanden sind
       if( m_dtaSubVersion == 1) {
@@ -509,6 +509,15 @@ void DtaFile::readDTA2(DataMap *data)
       //
       // berechnete Felder
       //
+
+      // Durchfluss Heizkreis
+      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
+      // der Sensor hat "nur" 0.5l/min Aufloesung
+      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
+      const quint8 posAI1 = 42;
+      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
+      else
+         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
 
       // Spreizung Heizkreis
       const quint8 posHUP = 0;
@@ -598,7 +607,7 @@ void DtaFile::readDTA3(DataMap *data)
       m_dtaStream.readRawData( buffer, 4);                                                    // [42:45] unbekannt
       m_dtaStream >> valueS; values[62] = valueS/10.0;                                        // [46:47] TMK2soll
       m_dtaStream >> valueS; values[63] = valueS/10.0;                                        // [48:49] TMK3soll
-      m_dtaStream >> valueS; values[43] = valueS/60.0;                                        // [50:51] DF                    
+      m_dtaStream >> valueS; values[42] = valueS/1000.0;                                        // [50:51] AI
       m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
 
       if (m_dtaSubVersion > 0) {
@@ -620,6 +629,15 @@ void DtaFile::readDTA3(DataMap *data)
       //
       // berechnete Felder
       //
+
+      // Durchfluss Heizkreis
+      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
+      // der Sensor hat "nur" 0.5l/min Aufloesung
+      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
+      const quint8 posAI1 = 42;
+      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
+      else
+         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
 
       // Spreizung Heizkreis
       const quint8 posHUP = 0;
