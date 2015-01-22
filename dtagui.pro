@@ -1,8 +1,19 @@
-include ( $(QWT_ROOT)/features/qwt.prf )
+
+#
+# Qwt
+#
+contains(DEFINES,MXE) {
+	# cross compile with MXE
+	# uasge: qmake DEFINES+=MXE
+	QT += svg
+	LIBS += -lqwt
+} else {
+	# normal settings
+	include ( $(QWT_ROOT)/features/qwt.prf )
+	CONFIG += qwt
+}
 
 QT += network
-
-CONFIG += qwt
 
 HEADERS += \
     dtagui/mainwindow.h \
