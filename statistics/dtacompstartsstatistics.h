@@ -47,10 +47,10 @@ public:
    DtaCompStart(const DtaCompStart &cs, QObject *parent=0);
    static QStringList fieldNames();
    static QString fieldName(CompStartFields field) { return fieldNames().at((int)field);}
-   static const int fieldCount() { return (int)fAZ2+1;}
+   static int fieldCount() { return (const int)fAZ2+1;}
    static QStringList modeStringList();
    static QString modeString(CompStartModes mode) { return modeStringList().at((int)mode);}
-   static const int modeCount() { return (int)mAfterEVU+1;}
+   static int modeCount() { return (const int)mAfterEVU+1;}
    inline QVariant value(const CompStartFields &field) const { return m_data[field];}
    inline void setValue(const CompStartFields &field, const QVariant &value) { m_data[field] = value;}
    const QString toString();
@@ -130,15 +130,15 @@ public:
 
     // Verdichter Starts
     inline const QList<DtaCompStart>& runs() const { return m_runs;}
-    inline const int runCount() const { return m_runs.size();}
-    inline const int runCount(DtaCompStart::CompStartModes mode) const { return m_runCounts[mode];}
+    inline int runCount() const { return m_runs.size();}
+    inline int runCount(DtaCompStart::CompStartModes mode) const { return m_runCounts[mode];}
 
     // Statistik der Starts
-    inline const qreal statMin( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMin];}
-    inline const qreal statMax( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMax];}
-    inline const qreal statAvg( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sAvg];}
-    inline const qreal statMedian( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMedian];}
-    inline const qreal statStdev( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sStdev];}
+    inline qreal statMin( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMin];}
+    inline qreal statMax( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMax];}
+    inline qreal statAvg( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sAvg];}
+    inline qreal statMedian( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sMedian];}
+    inline qreal statStdev( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const {return m_statValues[mode][field][sStdev];}
 
     inline const QString statMinStr( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const { return statStr(mode,field,sMin);}
     inline const QString statMaxStr( DtaCompStart::CompStartModes mode, DtaCompStart::CompStartFields field) const { return statStr(mode,field,sMax);}
