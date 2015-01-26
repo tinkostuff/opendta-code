@@ -232,12 +232,10 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
       else
       {
          // Luecken suchen
-         bool missingFound = false;
          if(ts-lastTS > MISSING_DATA_GAP)
          {
             m_missingCount++;
             m_missingSum += ts - lastTS - 60;
-            missingFound = true;
 
             firstRun.insert( DtaCompStart::mHz, true);
             firstRun.insert( DtaCompStart::mBW, true);
@@ -276,7 +274,10 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
 
             // Anfang eines neuen Laufes
             else
+            {
                inlineRun = false;
+               inlineRunLength = 0;
+            }
 
             cmprun.setStart(ts);
             if(state==stateBW)
@@ -317,8 +318,9 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
             while(moreRunsToSave)
             {
                // Daten des Laufes speichern
-               cmprun.setLength(ts-cmprun.start()-inlineRunLength);
-               inlineRunLength = 0;
+               qint32 l = ts - cmprun.start();
+               if(!inlineRun) l = l - inlineRunLength;
+               cmprun.setLength(l);
                cmprun.setAZ1( cmprun.WM() / cmprun.E1());
                cmprun.setAZ2( cmprun.WM() / (cmprun.E1() + cmprun.E2()));
 
@@ -356,7 +358,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
                // inline Lauf auch speichern?
                if(inlineRun)
                {
-                  inlineRunLength = cmprun.length();
+                  inlineRunLength += cmprun.length();
                   // aeusseren Lauf wieder herstellen - operator= funktioniert nicht, warum?
                   for( int i=0; i<DtaCompStart::fieldCount(); ++i)
                      cmprun.setValue(DtaCompStart::CompStartFields(i), cmprunSave.value(DtaCompStart::CompStartFields(i)));
@@ -366,17 +368,7 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
                   moreRunsToSave = (state==stateOff);
                }
                else
-               {
                   moreRunsToSave = false;
-
-                  // Behebung folgender Situaltion:
-                  //  - WP hat angefangen WW zu bereiten
-                  //  - WW ist beendet, aber Kompressor laeuft weiter (Heizen)
-                  //  - dies ist ein ungueltiger Zustand, weil, wenn die WP nur
-                  //    WW bereitet, sie erst einmal ein Pause macht, bevor sie
-                  //    wieder in dem Modus Heizen startet
-                  if(state==stateHz) invalidRun=true;
-               }
             }
          }
 
