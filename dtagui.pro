@@ -65,3 +65,11 @@ TRANSLATIONS = \
    translations/dtagui_en.ts \
    translations/dtagui_cs.ts \
    translations/dtagui_pl.ts
+
+
+### application icon ###
+# reference: http://qt-project.org/doc/qt-4.8/appicon.html
+# windows
+RC_FILE = dtagui/icon/dtagui.rc
+# MacOSX
+ICON = dtagui/icon/dtagui.icns

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>DtaGui</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="dtagui.qrc">
+    <normaloff>:/images/icon/dtagui.png</normaloff>:/images/icon/dtagui.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -39,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>628</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Datei">
