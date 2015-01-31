@@ -66,6 +66,11 @@ TRANSLATIONS = \
    translations/dtagui_cs.ts \
    translations/dtagui_pl.ts
 
+QMAKE_EXTRA_COMPILERS += lrelease
+lrelease.input         = TRANSLATIONS
+lrelease.output        = ${QMAKE_FILE_BASE}.qm
+lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_BASE}.qm
+lrelease.CONFIG       += no_link target_predeps
 
 ### application icon ###
 # reference: http://qt-project.org/doc/qt-4.8/appicon.html
