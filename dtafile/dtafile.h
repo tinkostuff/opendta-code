@@ -276,7 +276,7 @@
 *  -   [44:45] unbekannt 
 *  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
 *  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
-*  -   [50:51] DF = Durchfluss
+*  -   [50:51] AI1 = Analoger Eingang 1
 *  -   [52:53] AO1 = ComfortPlatine: Analoger Ausgang 1
 *  -   [54:55] AO2 = ComfortPlatine: Analoger Ausgang 2
 *  -   [56:57] unbekannt (IOs)

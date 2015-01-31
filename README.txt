@@ -36,7 +36,7 @@ dta2csv:
 Lizenz:
 =======
 
-Copyright (C) 2014  opendta@gmx.de
+Copyright (C) 2015  opendta@gmx.de
 
 Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -50,4 +50,4 @@ BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 diesem Programm erhalten haben. Falls nicht,
-siehe <http://www.gnu.org/licenses/>.
+siehe <http://www.gnu.org/licenses/gpl-3.0>.

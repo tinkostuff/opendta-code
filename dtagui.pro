@@ -61,6 +61,7 @@ OTHER_FILES += \
    doc/dump_format.txt \
    doc/gpl-3.0.txt
 
+### translations ###
 TRANSLATIONS = \
    translations/dtagui_en.ts \
    translations/dtagui_cs.ts \

@@ -211,9 +211,9 @@ void MainWindow::on_actionUeber_triggered()
       "BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.</p>"
       "Sie sollten ein Exemplar der GNU General Public License zusammen mit "
       "diesem Programm erhalten haben. Falls nicht, siehe "
-      "<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.</p>"
+      "<a href=\"http://www.gnu.org/licenses/gpl.html\">http://www.gnu.org/licenses/gpl.html</a>.</p>"
       ""
-      "<p>Copyright (C) 2014 opendta@gmx.de<p>").arg(VERSION_STRING)
+      "<p>Copyright (C) 2015 opendta@gmx.de<p>").arg(VERSION_STRING)
    );
 }
 void MainWindow::on_actionUeberQt_triggered()
@@ -224,8 +224,8 @@ void MainWindow::on_actionUeberQwt_triggered()
 {
    QMessageBox::about( this,
                        tr("\334ber Qwt"),
-                       tr(
-      "<h3>Qwt</h3>"
+                       tr( 
+      "<h3>Qwt %1</h3>"
       "<h4>Deutsch:</h4>"
       "<p>Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes "
       "(<a href=\"http://qwt.sf.net\">http://qwt.sf.net</a>).</p>"
@@ -236,7 +236,7 @@ void MainWindow::on_actionUeberQwt_triggered()
       "<p>Program is based in part on the work of the Qwt project "
       "(<a href=\"http://qwt.sf.net\">http://qwt.sf.net</a>).</p>"
       "<p>I would like to thank the Qwt team for their work!</p>"
-      ));
+      ).arg(QWT_VERSION_STR));
 }
 
 /*---------------------------------------------------------------------------

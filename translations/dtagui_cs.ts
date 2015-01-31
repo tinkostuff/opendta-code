@@ -1812,157 +1812,157 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
         <translation>DtaGui</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="47"/>
+        <location filename="../dtagui/mainwindow.ui" line="51"/>
         <source>&amp;Datei</source>
         <translation>&amp;Soubor</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="65"/>
+        <location filename="../dtagui/mainwindow.ui" line="69"/>
         <source>&amp;Hilfe</source>
         <translation>&amp;Nápověda</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="102"/>
+        <location filename="../dtagui/mainwindow.ui" line="106"/>
         <source>DTA Ö&amp;ffnen...</source>
         <translation>&amp;Otevřít DTA...</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="105"/>
+        <location filename="../dtagui/mainwindow.ui" line="109"/>
         <source>DTA-Datei(en) Öffnen</source>
         <translation>Otevřít soubor(y) DTA</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="108"/>
+        <location filename="../dtagui/mainwindow.ui" line="112"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="117"/>
+        <location filename="../dtagui/mainwindow.ui" line="121"/>
         <source>Daten &amp;zurücksetzen</source>
         <translation>&amp;Smazat data</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="120"/>
+        <location filename="../dtagui/mainwindow.ui" line="124"/>
         <source>Daten zurücksetzen</source>
         <translation>Smazat data</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="123"/>
+        <location filename="../dtagui/mainwindow.ui" line="127"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="132"/>
+        <location filename="../dtagui/mainwindow.ui" line="136"/>
         <source>&amp;Beenden</source>
         <translation>&amp;Ukončit</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="135"/>
+        <location filename="../dtagui/mainwindow.ui" line="139"/>
         <source>Programm beenden</source>
         <translation>Ukončit program</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="138"/>
+        <location filename="../dtagui/mainwindow.ui" line="142"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+U</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="143"/>
+        <location filename="../dtagui/mainwindow.ui" line="147"/>
         <source>Ü&amp;ber...</source>
         <translation>&amp;Oprogramu...</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="152"/>
+        <location filename="../dtagui/mainwindow.ui" line="156"/>
         <source>Über &amp;Qt...</source>
         <translation>O &amp;Qt...</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="157"/>
+        <location filename="../dtagui/mainwindow.ui" line="161"/>
         <source>Über Q&amp;wt...</source>
         <translation>O Q&amp;wt...</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="162"/>
+        <location filename="../dtagui/mainwindow.ui" line="166"/>
         <source>&amp;Hilfe...</source>
         <translation>&amp;Nápověda...</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="165"/>
+        <location filename="../dtagui/mainwindow.ui" line="169"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="174"/>
+        <location filename="../dtagui/mainwindow.ui" line="178"/>
         <source>Neues &amp;Diagrammseite</source>
         <translation>Přidat panel &amp;Diagram</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="177"/>
+        <location filename="../dtagui/mainwindow.ui" line="181"/>
         <source>Neues Diagrammseite einfügen</source>
         <translation>Přidat panel Diagram</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="180"/>
+        <location filename="../dtagui/mainwindow.ui" line="184"/>
         <source>Ctrl+D</source>
         <translation>Ctrl+D</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="189"/>
+        <location filename="../dtagui/mainwindow.ui" line="193"/>
         <source>Neue &amp;Statistikseite</source>
         <translation>Přidat panel &amp;Statistika</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="192"/>
+        <location filename="../dtagui/mainwindow.ui" line="196"/>
         <source>Neue Statistikseite einfügen</source>
         <translation>Přidat panel Statistika</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="201"/>
+        <location filename="../dtagui/mainwindow.ui" line="205"/>
         <source>Neue &amp;Kompressor-Starts-Seite</source>
         <translation>Přidat panel Starty &amp;Kompresoru</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="204"/>
+        <location filename="../dtagui/mainwindow.ui" line="208"/>
         <source>Neue Kompressor-Starts-Seite einfügen</source>
         <translation>Přidat panel Starty kompresoru</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="213"/>
+        <location filename="../dtagui/mainwindow.ui" line="217"/>
         <source>DUMP Öffnen...</source>
         <translation>Otevřít DUMP...</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="216"/>
+        <location filename="../dtagui/mainwindow.ui" line="220"/>
         <source>DUMP-Datei(en) Öffnen</source>
         <translation>Otevřít soubor(y) DUMP</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="225"/>
+        <location filename="../dtagui/mainwindow.ui" line="229"/>
         <source>Daten als CSV &amp;speichern ...</source>
         <translation>&amp;Uložit data ve formátu CSV ...</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="228"/>
+        <location filename="../dtagui/mainwindow.ui" line="232"/>
         <source>Daten im CSV-Format speichern</source>
         <translation>Uložit data ve formátu CSV</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="233"/>
+        <location filename="../dtagui/mainwindow.ui" line="237"/>
         <source>Sprache...</source>
         <translation>Jazyk...</translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="236"/>
+        <location filename="../dtagui/mainwindow.ui" line="240"/>
         <source>Sprache auswählen (Neustart erforderlich)</source>
         <translation>Výběr jazyka (vyžaduje restartování)</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="245"/>
+        <location filename="../dtagui/mainwindow.ui" line="249"/>
         <source>DTA do&amp;wnload...</source>
         <translation>Stahno&amp;ut DTA...</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="248"/>
+        <location filename="../dtagui/mainwindow.ui" line="252"/>
         <source>Download DTA (proclog) von Luxtronik 2</source>
         <translation>Stáhnouti DTA (proclog) z Luxtronik 2</translation>
     </message>
@@ -2024,7 +2024,7 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="190"/>
         <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2014 opendta@gmx.de&lt;p&gt;</source>
-        <translation type="unfinished">&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?} {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2014 ?}</translation>
+        <translation>&lt;h3&gt;&amp;O programu DtaGui&lt;/h3&gt;&lt;p&gt;Autor: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Verze: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Popis&lt;/h4&gt;&lt;p&gt;S DtaGui mohou být statisticky zobrazeny a analyzovány soubory DTA.&lt;/p&gt;&lt;p&gt;DTA soubory jsou generovány dle regulace tepelného čerpadla &lt;i&gt;Luxtronik 2&lt;/i&gt; od dodavatele &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). Tyto soubory obsahují provozní stavy (teplota, vstupní a výstupní signál) z tepelného čerpadla za posledních 48 hodin.&lt;/p&gt;&lt;p&gt;Shodné v ovládání jsou: Siemens Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Licence&lt;/h4&gt;&lt;p&gt;Tento program je volný software: může se šířit a/nebo upravovat podle podmínek GNU General Public License, vydávané Free Software Foundation (Volnou Softwarovou Společností), buď ve verzi 3 licence, nebo (podle vašeho uvážení) kterékoliv pozdější verzi.&lt;/p&gt;&lt;p&gt;Tento program je rozšiřován v naději, že bude užitečný, avšak BEZ JAKÉKOLIV ZÁRUKY; dokonce i bez předpokládané záruky PRODEJNOSTI nebo VHODNOSTI PRO URČITÝ ÚČEL. Pro více informací viz GNU General Public License.&lt;/p&gt;Spolu s tímto programem byste měli obdržet kopii GNU General Public License. Pokud tomu tak není, viz &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2015 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2013 ?} {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2014 ?}</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="221"/>
@@ -2037,9 +2037,13 @@ Není klíč &quot;globální diagramy&quot; nebyly nalezeny!</translation>
         <translation>O projektu Qwt</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="227"/>
         <source>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;&lt;h4&gt;Česky:&lt;/h4&gt;&lt;p&gt;Tento program je částečně založen na práci projektu Qwt (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Chtěl bych poděkovat Qwt týmu za jejich práci!&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;&lt;h4&gt;Česky:&lt;/h4&gt;&lt;p&gt;Tento program je částečně založen na práci projektu Qwt (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Chtěl bych poděkovat Qwt týmu za jejich práci!&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/mainwindow.cpp" line="227"/>
+        <source>&lt;h3&gt;Qwt %1&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Qwt %1&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;&lt;h4&gt;Česky:&lt;/h4&gt;&lt;p&gt;Tento program je částečně založen na práci projektu Qwt (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Chtěl bych poděkovat Qwt týmu za jejich práci!&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="249"/>

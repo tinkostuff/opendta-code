@@ -1,5 +1,5 @@
 #---------------------------------------------------------------------------
-# Copyright (C) 2012  opendta@gmx.de
+# Copyright (C) 2015  opendta@gmx.de
 #
 # Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen 
 # der GNU General Public License, wie von der Free Software Foundation
@@ -13,7 +13,7 @@
 #
 # Sie sollten ein Exemplar der GNU General Public License zusammen mit
 # diesem Programm erhalten haben. Falls nicht, 
-# siehe <http://www.gnu.org/licenses/>. 
+# siehe <http://www.gnu.org/licenses/gpl.html>. 
 #---------------------------------------------------------------------------
 # $Id$
 #---------------------------------------------------------------------------
@@ -269,7 +269,7 @@
 *  -   [44:45] unbekannt
 *  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
 *  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
-*  -   [50:51] DF = Durchfluss
+*  -   [50:51] AI1 = Analoger Eingang
 *  -   [52:53] AO1 = ComfortPlatine: Analoger Ausgang 1
 *  -   [54:55] AO2 = ComfortPlatine: Analoger Ausgang 2
 *  -   [56:57] unbekannt (IOs)

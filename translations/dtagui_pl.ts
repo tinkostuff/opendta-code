@@ -1801,157 +1801,157 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="47"/>
+        <location filename="../dtagui/mainwindow.ui" line="51"/>
         <source>&amp;Datei</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="65"/>
+        <location filename="../dtagui/mainwindow.ui" line="69"/>
         <source>&amp;Hilfe</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="102"/>
+        <location filename="../dtagui/mainwindow.ui" line="106"/>
         <source>DTA Ö&amp;ffnen...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="105"/>
+        <location filename="../dtagui/mainwindow.ui" line="109"/>
         <source>DTA-Datei(en) Öffnen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="108"/>
+        <location filename="../dtagui/mainwindow.ui" line="112"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="117"/>
+        <location filename="../dtagui/mainwindow.ui" line="121"/>
         <source>Daten &amp;zurücksetzen</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="120"/>
+        <location filename="../dtagui/mainwindow.ui" line="124"/>
         <source>Daten zurücksetzen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="123"/>
+        <location filename="../dtagui/mainwindow.ui" line="127"/>
         <source>Ctrl+Z</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="132"/>
+        <location filename="../dtagui/mainwindow.ui" line="136"/>
         <source>&amp;Beenden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="135"/>
+        <location filename="../dtagui/mainwindow.ui" line="139"/>
         <source>Programm beenden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="138"/>
+        <location filename="../dtagui/mainwindow.ui" line="142"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="143"/>
+        <location filename="../dtagui/mainwindow.ui" line="147"/>
         <source>Ü&amp;ber...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="152"/>
+        <location filename="../dtagui/mainwindow.ui" line="156"/>
         <source>Über &amp;Qt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="157"/>
+        <location filename="../dtagui/mainwindow.ui" line="161"/>
         <source>Über Q&amp;wt...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="162"/>
+        <location filename="../dtagui/mainwindow.ui" line="166"/>
         <source>&amp;Hilfe...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="165"/>
+        <location filename="../dtagui/mainwindow.ui" line="169"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="174"/>
+        <location filename="../dtagui/mainwindow.ui" line="178"/>
         <source>Neues &amp;Diagrammseite</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="177"/>
+        <location filename="../dtagui/mainwindow.ui" line="181"/>
         <source>Neues Diagrammseite einfügen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="180"/>
+        <location filename="../dtagui/mainwindow.ui" line="184"/>
         <source>Ctrl+D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="189"/>
+        <location filename="../dtagui/mainwindow.ui" line="193"/>
         <source>Neue &amp;Statistikseite</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="192"/>
+        <location filename="../dtagui/mainwindow.ui" line="196"/>
         <source>Neue Statistikseite einfügen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="201"/>
+        <location filename="../dtagui/mainwindow.ui" line="205"/>
         <source>Neue &amp;Kompressor-Starts-Seite</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="204"/>
+        <location filename="../dtagui/mainwindow.ui" line="208"/>
         <source>Neue Kompressor-Starts-Seite einfügen</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="213"/>
+        <location filename="../dtagui/mainwindow.ui" line="217"/>
         <source>DUMP Öffnen...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="216"/>
+        <location filename="../dtagui/mainwindow.ui" line="220"/>
         <source>DUMP-Datei(en) Öffnen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="225"/>
+        <location filename="../dtagui/mainwindow.ui" line="229"/>
         <source>Daten als CSV &amp;speichern ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="228"/>
+        <location filename="../dtagui/mainwindow.ui" line="232"/>
         <source>Daten im CSV-Format speichern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="233"/>
+        <location filename="../dtagui/mainwindow.ui" line="237"/>
         <source>Sprache...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="../dtagui/mainwindow.ui" line="236"/>
+        <location filename="../dtagui/mainwindow.ui" line="240"/>
         <source>Sprache auswählen (Neustart erforderlich)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="245"/>
+        <location filename="../dtagui/mainwindow.ui" line="249"/>
         <source>DTA do&amp;wnload...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.ui" line="248"/>
+        <location filename="../dtagui/mainwindow.ui" line="252"/>
         <source>Download DTA (proclog) von Luxtronik 2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2003,7 +2003,7 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
     </message>
     <message>
         <location filename="../dtagui/mainwindow.cpp" line="227"/>
-        <source>&lt;h3&gt;Qwt&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
+        <source>&lt;h3&gt;Qwt %1&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
