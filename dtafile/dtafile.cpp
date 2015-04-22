@@ -25,8 +25,10 @@
 #include <qmath.h>
 #include <QStringList>
 #include <QFileInfo>
+#include <QSettings>
 
 #include "dtafile/dtafile.h"
+#include "dtagui/config.h"
 
 /*---------------------------------------------------------------------------
 * Construktor
@@ -34,9 +36,18 @@
 DtaFile::DtaFile(QString fileName, QObject *parent) :
     DataFile(fileName,parent)
 {
-   this->m_dtaFile = NULL;
-   this->m_dtaVersion = 0;
-   this->m_dtaSubVersion = 0;
+    this->m_dtaFile = NULL;
+    this->m_dtaVersion = 0;
+    this->m_dtaSubVersion = 0;
+
+    // INI-Datei lesen
+    QSettings cfg(
+             QSettings::IniFormat,
+             QSettings::UserScope,
+             ORG_NAME,
+             APP_NAME,
+             this);
+    m_ZUPasVD1 = cfg.value( "dtafile/ZUPasVD1", false).toBool();
 }
 
 /*---------------------------------------------------------------------------
@@ -217,6 +228,15 @@ void DtaFile::readDTA1(DataMap *data)
       // unbekannte Daten bei DTA-Version 0x2010
       if( m_dtaSubVersion == 1 )
          m_dtaStream.readRawData( buffer, DTA0_DATASET_LENGTH-DTA1_DATASET_LENGTH);           // [168:187]
+
+      // VD1 mit ZUP ersetzen
+      // es gibt DTA-Dateien, bei denen VD1 nicht gesetzt ist
+      if(m_ZUPasVD1)
+      {
+          const quint8 posZUP = 1;
+          const quint8 posVD1 = 7;
+          values[posVD1] = values[posZUP];
+      }
 
       //
       // berechnete Felder
@@ -506,6 +526,15 @@ void DtaFile::readDTA2(DataMap *data)
         values[75] = ds[30]/10.0; // VDHz
       }
 
+      // VD1 mit ZUP ersetzen
+      // es gibt DTA-Dateien, bei denen VD1 nicht gesetzt ist
+      if(m_ZUPasVD1)
+      {
+          const quint8 posZUP = 1;
+          const quint8 posVD1 = 7;
+          values[posVD1] = values[posZUP];
+      }
+
       //
       // berechnete Felder
       //
@@ -624,6 +653,15 @@ void DtaFile::readDTA3(DataMap *data)
             m_dtaStream >> valueS; values[72] = valueS/10.0;                                  // [76:77] Ueberhiztung Sollwert
             m_dtaStream.readRawData( buffer, 2);                                              // [78:79] unbekannt
          }
+      }
+
+      // VD1 mit ZUP ersetzen
+      // es gibt DTA-Dateien, bei denen VD1 nicht gesetzt ist
+      if(m_ZUPasVD1)
+      {
+          const quint8 posZUP = 1;
+          const quint8 posVD1 = 7;
+          values[posVD1] = values[posZUP];
       }
 
       //

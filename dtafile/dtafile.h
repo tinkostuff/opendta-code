@@ -360,6 +360,7 @@ private:
     quint8 m_dtaVersion;
     quint8 m_dtaSubVersion;
     QString m_dtaVersionStr;
+    bool m_ZUPasVD1;
 
     // Wertetabellen zur Umrechnung
     static const DtaLUTInfo LUT[5];
