@@ -145,6 +145,7 @@ bool DtaFile::open()
       m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
    else
       m_dtaVersionStr = QString("DTA %1").arg(header[0]);
+   if (m_ZUPasVD1) m_dtaVersionStr = QString("%1 %2").arg(m_dtaVersionStr).arg("(ZUPasVD1)");
 
    return true;
 }
