@@ -372,6 +372,7 @@ private:
     virtual void readDTA8209(DataMap *data); // DAT Version 1.x lesen
     virtual void readDTA9000(DataMap *data); // DAT Version 2.61, 2.62 lesen
     virtual void readDTA9001(DataMap *data); // DAT Version 2.63 lesen
+    void calcFields(const quint32 &ts, DataFieldValues *values);
 };
 
 #endif // DTAFILE_H

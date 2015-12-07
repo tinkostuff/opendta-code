@@ -171,10 +171,6 @@ void DtaFile::readDTA8209(DataMap *data)
 {
    quint16 value;
 
-   quint32 lastTS = 0;
-   qreal heatEnergy = 0.0;
-   qreal lastVD1 = 0.0;
-
    // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
    char buffer[50];
 
@@ -239,54 +235,8 @@ void DtaFile::readDTA8209(DataMap *data)
           values[posVD1] = values[posZUP];
       }
 
-      //
       // berechnete Felder
-      //
-
-      // Durchfluss Heizkreis
-      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
-      // der Sensor hat "nur" 0.5l/min Aufloesung
-      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
-      const quint8 posAI1 = 42;
-      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
-      else
-         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
-
-      // Spreizung Heizkreis
-      const quint8 posHUP = 0;
-      const quint8 posTRL = 22;
-      const quint8 posTVL = 23;
-      if(values[posHUP]) values[44] = values[posTVL] - values[posTRL];
-      else values[44] = 0;
-
-      // Spreizung Waermequelle
-      const quint8 posVBS = 11;
-      const quint8 posTWQein = 26;
-      const quint8 posTWQaus = 25;
-      if(values[posVBS]) values[45] = values[posTWQein] - values[posTWQaus];
-      else values[45] = 0;
-
-      // thermische Leistung
-      // Qth = Durchfluss[l/min] * Spreizung[K] / 60 * c[kJ/kg] * Dichte[kg/l]
-      //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
-      //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
-      const quint8 posDF = 43;
-      const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
-
-      //
-      // Berechnung Waermemenge
-      //
-      const quint8 posVD1 = 7;
-      const quint8 posQth = 46;
-      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
-      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
-         heatEnergy = 0.0;
-      else
-         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
-      values[64] = heatEnergy;
-      lastTS = ts;
-      lastVD1 = values[posVD1];
+      calcFields(ts, &values);
 
       // Datensatz in Map einfuegen
       data->insert( ts, values);
@@ -443,9 +393,6 @@ void DtaFile::readDTA9000(DataMap *data)
    if( m_dtaSubVersion == 2) dsLenght = DTA2_DATASET_LENGTH2;
 
    qint32 ds[dsLenght-1]; // Werte des Datensatzes
-   quint32 lastTS = 0;
-   qreal heatEnergy = 0.0;
-   qreal lastVD1 = 0.0;
 
    m_dsCount = 0;
    while(1)
@@ -536,54 +483,8 @@ void DtaFile::readDTA9000(DataMap *data)
           values[posVD1] = values[posZUP];
       }
 
-      //
       // berechnete Felder
-      //
-
-      // Durchfluss Heizkreis
-      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
-      // der Sensor hat "nur" 0.5l/min Aufloesung
-      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
-      const quint8 posAI1 = 42;
-      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
-      else
-         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
-
-      // Spreizung Heizkreis
-      const quint8 posHUP = 0;
-      const quint8 posTRL = 22;
-      const quint8 posTVL = 23;
-      if(values[posHUP]) values[44] = values[posTVL] - values[posTRL];
-      else values[44] = 0;
-
-      // Spreizung Waermequelle
-      const quint8 posVBS = 11;
-      const quint8 posTWQein = 26;
-      const quint8 posTWQaus = 25;
-      if(values[posVBS]) values[45] = values[posTWQein] - values[posTWQaus];
-      else values[45] = 0;
-
-      // thermische Leistung
-      // Qth = Durchfluss[l/min] * Spreizung[K] / 60 * c[kJ/kg] * Dichte[kg/l]
-      //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
-      //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
-      const quint8 posDF = 43;
-      const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
-
-      //
-      // Berechnung Waermemenge
-      //
-      const quint8 posVD1 = 7;
-      const quint8 posQth = 46;
-      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
-      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
-         heatEnergy = 0.0;
-      else
-         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
-      values[64] = heatEnergy;
-      lastTS = ts;
-      lastVD1 = values[posVD1];
+      calcFields(ts,&values);
 
       // Datensatz einfuegen
       data->insert( ts, values);
@@ -598,11 +499,7 @@ void DtaFile::readDTA9001(DataMap *data)
    quint16 value;
    qint16 valueS;
 
-   quint32 lastTS = 0;
-   qreal heatEnergy = 0.0;
-   qreal lastVD1 = 0.0;
-
-   // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
+  // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
    char buffer[50];
 
    // jeden Datensatz lesen
@@ -637,7 +534,7 @@ void DtaFile::readDTA9001(DataMap *data)
       m_dtaStream.readRawData( buffer, 4);                                                    // [42:45] unbekannt
       m_dtaStream >> valueS; values[62] = valueS/10.0;                                        // [46:47] TMK2soll
       m_dtaStream >> valueS; values[63] = valueS/10.0;                                        // [48:49] TMK3soll
-      m_dtaStream >> valueS; values[42] = valueS/1000.0;                                        // [50:51] AI
+      m_dtaStream >> valueS; values[42] = valueS/1000.0;                                      // [50:51] AI
       m_dtaStream >> valueS; values[39] = valueS/1000.0;                                      // [52:53] AO1
 
       if (m_dtaSubVersion > 0) {
@@ -670,56 +567,66 @@ void DtaFile::readDTA9001(DataMap *data)
           values[posVD1] = values[posZUP];
       }
 
-      //
       // berechnete Felder
-      //
-
-      // Durchfluss Heizkreis
-      // Werte fuer Durchflussmesser Grundfoss VFS 5-100
-      // der Sensor hat "nur" 0.5l/min Aufloesung
-      // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
-      const quint8 posAI1 = 42;
-      if( (values[posAI1]<0.5) || (values[posAI1]>5.0)) values[43] = 0.0;
-      else
-         values[43] = calcLinearData( 1, values[posAI1] * 95.0/3.0, -65.0/6.0, 2);
-
-      // Spreizung Heizkreis
-      const quint8 posHUP = 0;
-      const quint8 posTRL = 22;
-      const quint8 posTVL = 23;
-      if(values[posHUP]) values[44] = values[posTVL] - values[posTRL];
-      else values[44] = 0;
-
-      // Spreizung Waermequelle
-      const quint8 posVBS = 11;
-      const quint8 posTWQein = 26;
-      const quint8 posTWQaus = 25;
-      if(values[posVBS]) values[45] = values[posTWQein] - values[posTWQaus];
-      else values[45] = 0;
-
-      // thermische Leistung
-      // Qth = Durchfluss[l/min] * Spreizung[K] / 60 * c[kJ/kg] * Dichte[kg/l]
-      //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
-      //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
-      const quint8 posDF = 43;
-      const quint8 posSpHz = 44;
-      values[46] = qRound( values[posDF]*values[posSpHz]/60.0 * 4.18*0.9956 * 100)/100.0;
-
-      //
-      // Berechnung Waermemenge
-      //
-      const quint8 posVD1 = 7;
-      const quint8 posQth = 46;
-      if( lastVD1==0.0 && values[posVD1]==1) heatEnergy = 0.0;
-      if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
-         heatEnergy = 0.0;
-      else
-         heatEnergy += values[posQth] * (ts-lastTS) / 3600.0;
-      values[64] = heatEnergy;
-      lastTS = ts;
-      lastVD1 = values[posVD1];
+      calcFields(ts,&values);
 
       // Datensatz in Map einfuegen
       data->insert( ts, values);
    }
+}
+
+void DtaFile::calcFields(const quint32 &ts, DataFieldValues *values)
+{
+    static quint32 lastTS = 0;
+    static qreal lastVD1 = 0.0;
+    static qreal heatEnergy = 0.0;
+
+    // Durchfluss Heizkreis
+    // Werte fuer Durchflussmesser Grundfoss VFS 5-100
+    // der Sensor hat "nur" 0.5l/min Aufloesung
+    // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
+    const quint8 posAI1 = 42;
+    if( (values->at(posAI1)<0.5) || (values->at(posAI1)>5.0))
+        values->replace(43, 0.0);
+    else
+       values->replace(43, calcLinearData( 1, values->at(posAI1) * 95.0/3.0, -65.0/6.0, 2));
+
+    // Spreizung Heizkreis
+    const quint8 posHUP = 0;
+    const quint8 posTRL = 22;
+    const quint8 posTVL = 23;
+    if(values->at(posHUP))
+        values->replace(44, values->at(posTVL) - values->at(posTRL));
+    else
+        values->replace(44,0.0);
+
+    // Spreizung Waermequelle
+    const quint8 posVBS = 11;
+    const quint8 posTWQein = 26;
+    const quint8 posTWQaus = 25;
+    if(values->at(posVBS))
+        values->replace(45,values->at(posTWQein) - values->at(posTWQaus));
+    else values->replace(45,0.0);
+
+    // thermische Leistung
+    // Qth = Durchfluss->at(l/min) * Spreizung->at(K) / 60 * c->at(kJ/kg) * Dichte->at(kg/l)
+    //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
+    //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
+    const quint8 posDF = 43;
+    const quint8 posSpHz = 44;
+    values->replace(46,qRound( values->at(posDF)*values->at(posSpHz)/60.0 * 4.18*0.9956 * 100)/100.0);
+
+    //
+    // Berechnung Waermemenge
+    //
+    const quint8 posVD1 = 7;
+    const quint8 posQth = 46;
+    if( lastVD1==0.0 && values->at(posVD1)==1) heatEnergy = 0.0;
+    if(ts-lastTS > MISSING_DATA_GAP) // Luecke gefunden
+       heatEnergy = 0.0;
+    else
+       heatEnergy += values->at(posQth) * (ts-lastTS) / 3600.0;
+    values->replace(64,heatEnergy);
+    lastTS = ts;
+    lastVD1 = values->at(posVD1);
 }
