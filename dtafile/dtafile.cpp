@@ -131,8 +131,12 @@ bool DtaFile::open()
        m_dtaSubVersion = header[1]%4;
 
    // Anzahl der Datensaetze lesen
-   if( m_dtaVersion == DTA9001)
+   if( (m_dtaVersion==DTA9001) || (m_dtaVersion==DTA9003))
       m_dtaStream >> m_dsCount;
+
+   // Feldinformation lesen
+   if( m_dtaVersion == DTA9003)
+       readDTA9003FieldsHeader();
 
    // DTA-Version als String
    if ((m_dtaVersion==DTA9000) || (m_dtaVersion==DTA9001))
@@ -153,13 +157,14 @@ void DtaFile::readDatasets(DataMap *data)
    if( (m_dtaVersion==DTA8209) || (m_dtaVersion==DTA8208)) readDTA8209(data);
    else if( m_dtaVersion == DTA9000) readDTA9000(data);
    else if( m_dtaVersion == DTA9001) readDTA9001(data);
+   else if( m_dtaVersion == DTA9003) readDTA9003(data);
    else {
       qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)!").arg(m_dtaVersion));
    }
 }
 
 /*---------------------------------------------------------------------------
-* DAT Version 1.x lesen
+* DAT Version 8208 und 8209 lesen
 *---------------------------------------------------------------------------*/
 void DtaFile::readDTA8209(DataMap *data)
 {
@@ -379,7 +384,7 @@ const DtaLUTInfo DtaFile::LUT[5] = {
 };
 
 /*---------------------------------------------------------------------------
-* DAT Version 2.61 lesen
+* DAT Version 9000 lesen
 *---------------------------------------------------------------------------*/
 void DtaFile::readDTA9000(DataMap *data)
 {
@@ -486,7 +491,7 @@ void DtaFile::readDTA9000(DataMap *data)
 }
 
 /*---------------------------------------------------------------------------
-* DAT Version 2.63 lesen
+* DAT Version 9001 lesen
 *---------------------------------------------------------------------------*/
 void DtaFile::readDTA9001(DataMap *data)
 {
@@ -569,6 +574,127 @@ void DtaFile::readDTA9001(DataMap *data)
    }
 }
 
+/*---------------------------------------------------------------------------
+* DAT Version 9003 lesen
+*---------------------------------------------------------------------------*/
+void DtaFile::readDTA9003(DataMap *data)
+{
+    // Position von IOs merken
+    QList<int> ioFields;
+    for(int i=0; i<m_dta9003Fields.size(); i++)
+        if(m_dta9003Fields.at(i)=="IO") ioFields << i;
+
+    qint16 valueS;
+
+    // jeden Datensatz lesen
+    for( int i=0; i<m_dsCount; i++)
+    {
+       QVarLengthArray<qint16> temp(m_fieldCount); // Werte-Array
+       for( int j=0; j<m_fieldCount; j++) temp[j] = 0; // initiale Werte
+       quint32 ts; // Zeitstempel
+
+         // Felder einlesen
+       m_dtaStream >> ts; // [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
+       for(int j=0; j<m_dta9003Fields.size(); j++)
+       {
+           m_dtaStream >> valueS;
+           temp[j] = valueS;
+       }
+
+       DataFieldValues values(m_fieldCount); // Werte-Array
+       for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
+
+       // Werte zuordnen
+       dta9003SetField( "TVL",      &temp, &values, 23);
+       dta9003SetField( "TRL",      &temp, &values, 22);
+       dta9003SetField( "TRL_soll", &temp, &values, 27);
+       dta9003SetField( "TA",       &temp, &values, 20);
+       dta9003SetField( "THG",      &temp, &values, 24);
+       dta9003SetField( "TWE",      &temp, &values, 26);
+       dta9003SetField( "TWA",      &temp, &values, 25);
+       dta9003SetField( "TBW",      &temp, &values, 19);
+       dta9003SetField( "TFB1",     &temp, &values, 18);
+       dta9003SetField( "MK1-Soll", &temp, &values, 28);
+       dta9003SetField( "Ansaug VD",&temp, &values, 73);
+       dta9003SetField( "Ansaug Verdampfer", &temp, &values, 74);
+       dta9003SetField( "Ueberhitzung",      &temp, &values, 71);
+       dta9003SetField( "Ueberhitzung Soll", &temp, &values, 72);
+       dta9003SetField( "Durchfluss",        &temp, &values, 43);
+       // Werte ohne Zuordnung
+       // ("Text_VL_Soll", "Text_BW_oben", "Multi1", "Multi2", Temp VDH", "Druck HD", "Druck ND", "Verfluessigungstemp.", "Verdampfungstemp.", "Schrittmotor", "PWM VBO", "PWM HUP", "Text_Freq_VD", "Spr. HUP/ZUP", "Spr. HUP/ZUP Soll", "Spr. VBO", "Spr. VBO Soll", "Mitteltemperatur")
+
+       // IOs zuordnen
+       QList<qint16> ioValues;
+       foreach( int j, ioFields) ioValues << temp.at(j);
+       // Ausgaenge
+       dta9003SetIOField( "HUPout", &ioValues, &values, 0);
+       dta9003SetIOField( "ZUPout", &ioValues, &values, 1);
+       dta9003SetIOField( "BUPout", &ioValues, &values, 2);
+       dta9003SetIOField( "ZW2SSTout", &ioValues, &values, 3);
+       dta9003SetIOField( "MA1out", &ioValues, &values, 4);
+       dta9003SetIOField( "MZ1out", &ioValues, &values, 5);
+       dta9003SetIOField( "ZIPout", &ioValues, &values, 6);
+       dta9003SetIOField( "Verdichter", &ioValues, &values, 7);
+       dta9003SetIOField( "AVout",  &ioValues, &values, 10);
+       dta9003SetIOField( "VBOout", &ioValues, &values, 11);
+       dta9003SetIOField( "ZW1out", &ioValues, &values, 12);
+       // Ausgaenge ohne Zuordnung: "VDHZ", "OUT 7", "OUT 8", "OUT 9", "FP1out"
+
+       // Eingaenge
+       dta9003SetIOField( "HDin", &ioValues, &values, 13, true);
+       dta9003SetIOField( "MOT VD", &ioValues, &values, 14, true); // Feldname: ND
+       dta9003SetIOField( "MOTin", &ioValues, &values, 15, true);
+       dta9003SetIOField( "ASDin", &ioValues, &values, 16, true);
+       dta9003SetIOField( "EVU 1", &ioValues, &values, 17, true);
+       // Eingaenge ohne Zuordnung: "EVU 2", "IN 7"
+
+       // berechnete Felder
+       calcFields(ts,&values);
+
+       // Datensatz in Map einfuegen
+       data->insert( ts, values);
+    }
+}
+
+/*---------------------------------------------------------------------------
+* DTA9003 Werte dem Datensatz zuordnen
+*---------------------------------------------------------------------------*/
+inline void DtaFile::dta9003SetField(const QString &key,
+                                     QVarLengthArray<qint16> *source,
+                                     DataFieldValues *target, const int &index)
+{
+    int srcIndex = m_dta9003Fields.indexOf(key);
+    if(srcIndex >= 0)
+        target->replace(index, source->at(srcIndex)/10.0);
+}
+
+/*---------------------------------------------------------------------------
+* DTA9003 IO Werte dem Datensatz zuordnen
+*---------------------------------------------------------------------------*/
+void DtaFile::dta9003SetIOField(const QString &key,
+                                QList<qint16> *source,
+                                DataFieldValues *target, const int &index,
+                                bool invert)
+{
+    for( int i=0; i<m_dta9003IOs.size(); i++)
+    {
+        QStringList ioNames = m_dta9003IOs.at(i);
+        int pos = ioNames.indexOf(key);
+        if(pos >= 0)
+        {
+            qint16 value = source->at(i);
+            qreal res = qreal((value >> pos) & 1);
+            if(invert) res = res==0.0 ? res=1.0 : 0.0;
+            target->replace(index,res);
+            return;
+        }
+    }
+}
+
+
+/*---------------------------------------------------------------------------
+* Felder im Datensatz berechnen
+*---------------------------------------------------------------------------*/
 void DtaFile::calcFields(const quint32 &ts, DataFieldValues *values)
 {
     static quint32 lastTS = 0;
@@ -580,10 +706,14 @@ void DtaFile::calcFields(const quint32 &ts, DataFieldValues *values)
     // der Sensor hat "nur" 0.5l/min Aufloesung
     // alle Werte unter 0,5V sind als Durchfluss=0.0l/min zu werten
     const quint8 posAI1 = 42;
-    if( (values->at(posAI1)<0.5) || (values->at(posAI1)>5.0))
-        values->replace(43, 0.0);
-    else
-       values->replace(43, calcLinearData( 1, values->at(posAI1) * 95.0/3.0, -65.0/6.0, 2));
+    const quint8 posDF = 43;
+    if( values->at(posDF) == 0.0) // DTA9003 setzt Durchfluss direkt
+    {
+        if( (values->at(posAI1)<0.5) || (values->at(posAI1)>5.0))
+            values->replace(posDF, 0.0);
+        else
+           values->replace(posDF, calcLinearData( 1, values->at(posAI1) * 95.0/3.0, -65.0/6.0, 2));
+    }
 
     // Spreizung Heizkreis
     const quint8 posHUP = 0;
@@ -606,7 +736,6 @@ void DtaFile::calcFields(const quint32 &ts, DataFieldValues *values)
     // Qth = Durchfluss->at(l/min) * Spreizung->at(K) / 60 * c->at(kJ/kg) * Dichte->at(kg/l)
     //   c(Wasser) = 4.18kJ/kg bei 30 Grad C
     //   Dichte = 1.0044^-1 kg/l bei 30 Grad C
-    const quint8 posDF = 43;
     const quint8 posSpHz = 44;
     values->replace(46,qRound( values->at(posDF)*values->at(posSpHz)/60.0 * 4.18*0.9956 * 100)/100.0);
 
@@ -623,4 +752,81 @@ void DtaFile::calcFields(const quint32 &ts, DataFieldValues *values)
     values->replace(64,heatEnergy);
     lastTS = ts;
     lastVD1 = values->at(posVD1);
+}
+
+/*---------------------------------------------------------------------------
+* Feldinformation aus DTA9003 lesen
+*---------------------------------------------------------------------------*/
+void DtaFile::readDTA9003FieldsHeader()
+{
+   // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
+   char buffer[50];
+
+   // unbekannte Daten
+   m_dtaStream.readRawData( buffer, 3);
+   readString(); // "Text_Grundplatine"
+
+   quint8 fieldType;
+   m_dtaStream >> fieldType;
+   while(true)
+   {
+       if(fieldType%4 == 2)
+       {
+           // IO Feld
+           QStringList ioFields = readDTA9003IOFieldsHeader();
+           m_dta9003IOs.append(ioFields);
+           m_dta9003Fields << "IO";
+           // Ende mit 0xC2
+           if(fieldType==0xC2) break;
+           // 0xFF lesen (Trenner)
+           m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
+       } else {
+           // "normales Feld"
+           QString fn = readString();
+           m_dtaStream.readRawData( buffer, 3); // unbekannte Daten
+           m_dta9003Fields << fn;
+       }
+       m_dtaStream >> fieldType;
+   }
+   m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
+
+   //qDebug() << m_dta9003Fields;
+   //qDebug() << m_dta9003IOs;
+}
+
+/*---------------------------------------------------------------------------
+* Inhalt eines IO-Feldes auslesen
+*---------------------------------------------------------------------------*/
+QStringList DtaFile::readDTA9003IOFieldsHeader()
+{
+    QStringList res;
+    char buffer[10];
+    // Anzahl der Felder
+    quint8 count;
+    m_dtaStream >> count;
+    m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
+    while(count>0)
+    {
+       m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
+       res << readString();
+       m_dtaStream.readRawData( buffer, 2); // unbekannte Daten
+       count--;
+    }
+    return res;
+}
+
+/*---------------------------------------------------------------------------
+* String von DTA lesen (bis 0x0)
+*---------------------------------------------------------------------------*/
+QString DtaFile::readString()
+{
+    QString res;
+    quint8 c;
+    m_dtaStream >> c;
+    while(c!=0)
+    {
+        res.append(char(c));
+        m_dtaStream >> c;
+    }
+    return res;
 }

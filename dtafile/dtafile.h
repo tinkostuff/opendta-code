@@ -373,7 +373,16 @@ private:
     virtual void readDTA8209(DataMap *data); // DAT Version 1.x lesen
     virtual void readDTA9000(DataMap *data); // DAT Version 2.61, 2.62 lesen
     virtual void readDTA9001(DataMap *data); // DAT Version 2.63 lesen
+    virtual void readDTA9003(DataMap *data); // DAT Version 3.7x lesen
     void calcFields(const quint32 &ts, DataFieldValues *values);
+
+    void readDTA9003FieldsHeader();
+    QStringList readDTA9003IOFieldsHeader();
+    inline void dta9003SetField(const QString &key, QVarLengthArray<qint16> *source, DataFieldValues *target, const int &index);
+    void dta9003SetIOField(const QString &key, QList<qint16> *source, DataFieldValues *target, const int &index, bool invert=false);
+    QString readString();
+    QStringList m_dta9003Fields;
+    QList<QStringList> m_dta9003IOs;
 };
 
 #endif // DTAFILE_H
