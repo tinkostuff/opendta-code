@@ -51,7 +51,6 @@ public slots:
 
 private slots:
    void threadFinished();  // Thread wurde normal beendet
-   void threadTerminated(); // Thread wurde abgebrochen
    void print(); // Ergebnisse ausdrucken
    void setCompleteTimeRange();
 

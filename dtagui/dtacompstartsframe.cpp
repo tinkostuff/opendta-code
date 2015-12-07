@@ -20,6 +20,24 @@
 * $Id$
 *---------------------------------------------------------------------------*/
 
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QFrame>
+#include <QLabel>
+#include <QDateTimeEdit>
+#include <QComboBox>
+#include <QTableWidget>
+#include <QTextEdit>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QPrinter>
+#include <QPrintDialog>
+
+#include <QHeaderView>
+
 #include "dtacompstartsframe.h"
 #include "statistics/dtacompstartsstatistics.h"
 
@@ -219,20 +237,8 @@ void DtaCompStartsFrame::dataUpdated()
       this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
                                       dteEnd->dateTime().toTime_t());
       connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
-      connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
       this->thread->start();
    }
-}
-
-/*---------------------------------------------------------------------------
-* Thread wurde abgebrochen
-*---------------------------------------------------------------------------*/
-void DtaCompStartsFrame::threadTerminated()
-{
-   textEdit->clear();
-   textEdit->insertPlainText(tr("Fehler beim Auswerten der Daten!"));
-   delete this->thread;
-   this->thread = NULL;
 }
 
 /*---------------------------------------------------------------------------
@@ -247,6 +253,7 @@ void DtaCompStartsFrame::threadFinished()
    textEdit->clear();
    if(data==NULL || data->size()==0)
    {
+      textEdit->insertPlainText(tr("Fehler beim Auswerten der Daten!"));
       delete this->thread;
       this->thread = NULL;
       return;
@@ -273,7 +280,7 @@ void DtaCompStartsFrame::threadFinished()
    html << tr("<h1>Allgemeine Informationen</h1>");
    html << "<table cellpadding=\"2\" cellspacing=\"1\" border=\"0\">";
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Datens\344tze"))
+                        .arg(tr("Datensätze"))
                         .arg(stats->datasets());
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Start"))
@@ -291,14 +298,14 @@ void DtaCompStartsFrame::threadFinished()
                         .arg(tr("Zeitraum"))
                         .arg(s);
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Anzahl Aufzeichnungsl\374cken"))
+                        .arg(tr("Anzahl Aufzeichnungslücken"))
                         .arg(stats->missingCount());
    s = QString(tr("%1 Tage %2 Stunden %3 Minuten"))
                         .arg(stats->missingSum()/86400)
                         .arg((stats->missingSum()%86400)/3600)
                         .arg((stats->missingSum()%3600)/60);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Summe Aufzeichnungsl\374cken"))
+                        .arg(tr("Summe Aufzeichnungslücken"))
                         .arg(s);
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Komporessor Starts"))
@@ -309,7 +316,7 @@ void DtaCompStartsFrame::threadFinished()
    {
       DtaCompStart::CompStartModes mode = (DtaCompStart::CompStartModes)i;
 
-      html << QString(tr("<h1>Statistik f\374r Modus %1 (%2 Starts)</h1>")).arg(DtaCompStart::modeString(mode)).arg(stats->runCount(mode));
+      html << QString(tr("<h1>Statistik für Modus %1 (%2 Starts)</h1>")).arg(DtaCompStart::modeString(mode)).arg(stats->runCount(mode));
 
       html << "<table cellpadding=\"2\" cellspacing=\"0\" border=\"1\">";
       html << QString("<tr><th align=left>%1</th><th align=center>%2</th><th align=center>%3</th><th align=center>%4</th><th align=center>%5</th><th align=center>%6</th></tr>")
@@ -360,15 +367,15 @@ void DtaCompStartsFrame::threadFinished()
    QStringList header;
    header << tr("Start");
    header << tr("Modus");
-   header << tr("L\344nge\n[h:min]");
+   header << tr("Länge\n[h:min]");
    header << tr("Pause\n[h:min]");
-   header << tr("TVL\n[\260C]");
-   header << tr("TRL\n[\260C]");
+   header << tr("TVL\n[°C]");
+   header << tr("TRL\n[°C]");
    header << tr("SpHZ\n[K]");
-   header << tr("TWQein\n[\260C]");
-   header << tr("TWQaus\n[\260C]");
+   header << tr("TWQein\n[°C]");
+   header << tr("TWQaus\n[°C]");
    header << tr("SpWQ\n[K]");
-   header << tr("TA\n[\260C]");
+   header << tr("TA\n[°C]");
    header << tr("WM\n[kWh]");
    header << tr("E1\n[kWh]");
    header << tr("E2\n[kWh]");
@@ -601,7 +608,7 @@ void DtaCompStartsFrame::saveAsCSV()
    {
       QMessageBox::critical( this,
                              tr("Fehler"),
-                             tr("FEHLER: beim \326ffnen der CSV-Datei '%1'!").arg(fileName));
+                             tr("FEHLER: beim öffnen der CSV-Datei '%1'!").arg(fileName));
       return;
    }
    QTextStream out(&fOut);
@@ -614,15 +621,15 @@ void DtaCompStartsFrame::saveAsCSV()
    // Kopfzeile
    out << tr("Start") << separator
        << tr("Modus") << separator
-       << tr("L\344nge [h:min]") << separator
+       << tr("Länge [h:min]") << separator
        << tr("Pause [h:min]") << separator
-       << tr("TVL [\260C]") << separator
-       << tr("TRL [\260C]") << separator
+       << tr("TVL [°C]") << separator
+       << tr("TRL [°C]") << separator
        << tr("SpHZ [K]") << separator
-       << tr("TWQein [\260C]") << separator
-       << tr("TWQaus [\260C]") << separator
+       << tr("TWQein [°C]") << separator
+       << tr("TWQaus [°C]") << separator
        << tr("SpWQ [K]") << separator
-       << tr("TA [\260C]") << separator
+       << tr("TA [°C]") << separator
        << tr("WM [kWh]") << separator
        << tr("E1 [kWh]") << separator
        << tr("E2 [kWh]") << separator

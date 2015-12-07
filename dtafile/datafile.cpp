@@ -133,12 +133,12 @@ QStringList DataFile::fieldCategories()
 {
    QStringList res;
    res << tr("Temperaturen");
-   res << tr("Ausg\344nge");
-   res << tr("Eing\344nge");
+   res << tr("Ausgänge");
+   res << tr("Eingänge");
    res << tr("Analoge Signale");
    res << tr("Berechnete Werte");
    res << tr("Web-Interface");
-   res << tr("Elektro-Z\344hler");
+   res << tr("Elektro-Zähler");
    res << tr("Sonstiges");
    return res;
 }
@@ -184,8 +184,8 @@ const DataFieldInfoList DataFile::fieldInfos()
    //
    res << DataFieldInfo(
              tr("HUP"),
-             tr("Heizungsumw\344lzpumpe"),
-             tr("Ausg\344nge"),
+             tr("Heizungsumwälzpumpe"),
+             tr("Ausgänge"),
              false,
              0.5,
              0.0,
@@ -196,8 +196,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              ); // HUP
    res << DataFieldInfo(
              tr("ZUP"),
-             tr("Zusatzumw\344lzpumpe"),
-             tr("Ausg\344nge"),
+             tr("Zusatzumwälzpumpe"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -208,8 +208,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              ); // ZUP
    res << DataFieldInfo(
              tr("BUP"),
-             tr("Brauswarmwasserumw\344lzpumpe oder Drei-Wege-Ventil auf Brauchwassererw\344rmung"),
-             tr("Ausg\344nge"),
+             tr("Brauswarmwasserumwälzpumpe oder Drei-Wege-Ventil auf Brauchwassererwärmung"),
+             tr("Ausgänge"),
              false,
              1.5,
              0.0,
@@ -220,8 +220,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              ); // BUP
    res << DataFieldInfo(
              tr("ZW2"),
-             tr("Zus\344tzlicher W\344rmeerzeuger 2 / Sammelstoerung"),
-             tr("Ausg\344nge"),
+             tr("Zusätzlicher Wärmeerzeuger 2 / Sammelstoerung"),
+             tr("Ausgänge"),
              false,
              2.1,
              0.0,
@@ -233,7 +233,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MA1"),
              tr("Mischer 1 auf"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -245,7 +245,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MZ1"),
              tr("Mischer 1 zu"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -257,7 +257,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("ZIP"),
              tr("Zirkulationspumpe"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              0.7,
              0.0,
@@ -269,7 +269,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("VD1"),
              tr("Verdichter 1"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.2,
              0.0,
@@ -281,7 +281,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("VD2"),
              tr("Verdichter 2"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -292,8 +292,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // VD2
    res << DataFieldInfo(
              tr("VENT"),
-             tr("Ventilation des WP Geh\344ses / 2. Stufe des Ventilators"),
-             tr("Ausg\344nge"),
+             tr("Ventilation des WP Gehäses / 2. Stufe des Ventilators"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -305,7 +305,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("AV"),
              tr("Abtauventil (Kreislaufumkehr)"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.7,
              0.0,
@@ -316,8 +316,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              ); // AV
    res << DataFieldInfo(
              tr("VBS"),
-             tr("Ventilator, Brunnen- oder Soleumw\344lzpumpe"),
-             tr("Ausg\344nge"),
+             tr("Ventilator, Brunnen- oder Soleumwälzpumpe"),
+             tr("Ausgänge"),
              false,
              1.1,
              0.0,
@@ -328,8 +328,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              ); // VBS
    res << DataFieldInfo(
              tr("ZW1"),
-             tr("Zus\344tzlicher W\344rmeerzeuger 1"),
-             tr("Ausg\344nge"),
+             tr("Zusätzlicher Wärmeerzeuger 1"),
+             tr("Ausgänge"),
              false,
              2.0,
              0.0,
@@ -345,7 +345,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("HD"),
              tr("Hochdruckpressostat"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.0,
              0.0,
@@ -357,7 +357,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("ND"),
              tr("Niederdruckpressostat"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.0,
              0.0,
@@ -369,7 +369,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MOT"),
              tr("Motorschutz"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.0,
              0.0,
@@ -381,7 +381,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("ASD"),
              tr("Abtau/Soledruck/Durchfluss"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.0,
              0.0,
@@ -393,7 +393,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("EVU"),
              tr("EVU Sperre"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.4,
              0.0,
@@ -407,8 +407,8 @@ const DataFieldInfoList DataFile::fieldInfos()
    // Temperaturen
    //
    res << DataFieldInfo(
-             tr("TFB1 [\260C]"),
-             tr("Temperatur Fu\337bodenheizung 1"),
+             tr("TFB1 [°C]"),
+             tr("Temperatur Fußbodenheizung 1"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -419,7 +419,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TFB1
    res << DataFieldInfo(
-             tr("TBW [\260C]"),
+             tr("TBW [°C]"),
              tr("Brauchwasser-Temperatur"),
              tr("Temperaturen"),
              true,
@@ -431,8 +431,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TBW
    res << DataFieldInfo(
-             tr("TA [\260C]"),
-             tr("Au\337entemperatur"),
+             tr("TA [°C]"),
+             tr("Außentemperatur"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -443,8 +443,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TA
    res << DataFieldInfo(
-             tr("TRLext [\260C]"),
-             tr("R\374cklauf-Temperatur (extern)"),
+             tr("TRLext [°C]"),
+             tr("Rücklauf-Temperatur (extern)"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -455,8 +455,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TRLext
    res << DataFieldInfo(
-             tr("TRL [\260C]"),
-             tr("R\374cklauf-Temperatur"),
+             tr("TRL [°C]"),
+             tr("Rücklauf-Temperatur"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -467,7 +467,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TRL
    res << DataFieldInfo(
-             tr("TVL [\260C]"),
+             tr("TVL [°C]"),
              tr("Vorlauf-Temperatur"),
              tr("Temperaturen"),
              true,
@@ -479,8 +479,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TVL
    res << DataFieldInfo(
-             tr("THG [\260C]"),
-             tr("Hei\337gas-Temperatur"),
+             tr("THG [°C]"),
+             tr("Heißgas-Temperatur"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -491,8 +491,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // THG
    res << DataFieldInfo(
-             tr("TWQaus [\260C]"),
-             tr("Temperatur W\344rmequelle Ausgang"),
+             tr("TWQaus [°C]"),
+             tr("Temperatur Wärmequelle Ausgang"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -503,8 +503,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TWQaus
    res << DataFieldInfo(
-             tr("TWQein [\260C]"),
-             tr("Temperatur W\344rmequelle Eingang"),
+             tr("TWQein [°C]"),
+             tr("Temperatur Wärmequelle Eingang"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -515,8 +515,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TWQein
    res << DataFieldInfo(
-             tr("TRLsoll [\260C]"),
-             tr("R\374cklauf-Soll-Temperatur"),
+             tr("TRLsoll [°C]"),
+             tr("Rücklauf-Soll-Temperatur"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -527,7 +527,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TRLsoll
    res << DataFieldInfo(
-             tr("TMK1soll [\260C]"),
+             tr("TMK1soll [°C]"),
              tr("Mischkreis1-Soll-Temperatur"),
              tr("Temperaturen"),
              true,
@@ -545,7 +545,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("AI1DIV"),
              tr("wenn AI1DIV dann AI1 = AI1/2"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -556,8 +556,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // AI1DIV
    res << DataFieldInfo(
              tr("SUP"),
-             tr("Schwimmbadumw\344lzpumpe"),
-             tr("Ausg\344nge"),
+             tr("Schwimmbadumwälzpumpe"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -568,8 +568,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // SUP
    res << DataFieldInfo(
              tr("FUP2"),
-             tr("Mischkreispumpe 2 / K\374hlsignal 2"),
-             tr("Ausg\344nge"),
+             tr("Mischkreispumpe 2 / Kühlsignal 2"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -581,7 +581,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MA2"),
              tr("Mischer 2 auf"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -593,7 +593,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MZ2"),
              tr("Mischer 2 zu"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -605,7 +605,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MA3"),
              tr("Mischer 3 auf"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -617,7 +617,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("MZ3"),
              tr("Mischer 3 zu"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -628,8 +628,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // MZ3
    res << DataFieldInfo(
              tr("FUP3"),
-             tr("Mischkreispumpe 3 / K\374hlsignal 3"),
-             tr("Ausg\344nge"),
+             tr("Mischkreispumpe 3 / Kühlsignal 3"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -640,8 +640,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // FUP3
    res << DataFieldInfo(
              tr("ZW3"),
-             tr("Zus\344tzlicher W\344rmeerzeuger 3"),
-             tr("Ausg\344nge"),
+             tr("Zusätzlicher Wärmeerzeuger 3"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -653,7 +653,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("SLP"),
              tr("Solarladepumpe"),
-             tr("Ausg\344nge"),
+             tr("Ausgänge"),
              false,
              1.0,
              0.0,
@@ -693,7 +693,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("SWT"),
              tr("Schwimmbadthermostat"),
-             tr("Eing\344nge"),
+             tr("Eingänge"),
              false,
              1.0,
              0.0,
@@ -745,7 +745,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // SpHz
    res << DataFieldInfo(
              tr("SpWQ [K]"),
-             tr("Spreizung W\344rmequelle"),
+             tr("Spreizung Wärmequelle"),
              tr("Berechnete Werte"),
              true,
              1.0,
@@ -785,7 +785,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // StdVD1
    res << DataFieldInfo(
              tr("BS WP [h]"),
-             tr("Betriebsstunden W\344rmepumpe"),
+             tr("Betriebsstunden Wärmepumpe"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -820,8 +820,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // StdBw
    res << DataFieldInfo(
-             tr("BS K\374 [h]"),
-             tr("Betriebsstunden K\374hlung"),
+             tr("BS Kü [h]"),
+             tr("Betriebsstunden Kühlung"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -845,7 +845,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // ImpVD1
    res << DataFieldInfo(
              tr("WMZ [kWh]"),
-             tr("W\344rmemenge gesamt"),
+             tr("Wärmemenge gesamt"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -857,7 +857,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // WMZ
    res << DataFieldInfo(
              tr("WMZ Hz [kWh]"),
-             tr("W\344rmemenge Heizung"),
+             tr("Wärmemenge Heizung"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -869,7 +869,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // WMZHz
    res << DataFieldInfo(
              tr("WMZ BW [kWh]"),
-             tr("W\344rmemenge Brauchwasser"),
+             tr("Wärmemenge Brauchwasser"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -880,8 +880,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // WMZBW
    res << DataFieldInfo(
-             tr("TA mittel [\260C]"),
-             tr("Au\337en-Mitteltemperatur"),
+             tr("TA mittel [°C]"),
+             tr("Außen-Mitteltemperatur"),
              tr("Web-Interface"),
              true,
              1.0,
@@ -896,7 +896,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    // Temperaturen Comfortplatine
    //
    res << DataFieldInfo(
-             tr("TSS [\260C]"),
+             tr("TSS [°C]"),
              tr("Temperatur Solar Speicher"),
              tr("Temperaturen"),
              true,
@@ -908,7 +908,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TSS
    res << DataFieldInfo(
-             tr("TSK [\260C]"),
+             tr("TSK [°C]"),
              tr("Temperatur Solar Kollektor"),
              tr("Temperaturen"),
              true,
@@ -920,8 +920,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TSK
    res << DataFieldInfo(
-             tr("TFB2 [\260C]"),
-             tr("Temperatur Fu\337bodenheizung 2"),
+             tr("TFB2 [°C]"),
+             tr("Temperatur Fußbodenheizung 2"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -932,8 +932,8 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TFB2
    res << DataFieldInfo(
-             tr("TFB3 [\260C]"),
-             tr("Temperatur Fu\337bodenheizung 3"),
+             tr("TFB3 [°C]"),
+             tr("Temperatur Fußbodenheizung 3"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -944,7 +944,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TFB3
    res << DataFieldInfo(
-             tr("TEE [\260C]"),
+             tr("TEE [°C]"),
              tr("Temperatur externe Energiequelle"),
              tr("Temperaturen"),
              true,
@@ -956,7 +956,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TEE
    res << DataFieldInfo(
-             tr("TMK2soll [\260C]"),
+             tr("TMK2soll [°C]"),
              tr("Mischkreis2-Soll-Temperatur"),
              tr("Temperaturen"),
              true,
@@ -968,7 +968,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // TMK2soll
    res << DataFieldInfo(
-             tr("TMK3soll [\260C]"),
+             tr("TMK3soll [°C]"),
              tr("Mischkreis3-Soll-Temperatur"),
              tr("Temperaturen"),
              true,
@@ -981,7 +981,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // TMK3soll
    res << DataFieldInfo(
              tr("WM [kWh]"),
-             tr("berechnete W\344rmemenge pro Verdichter-Start"),
+             tr("berechnete Wärmemenge pro Verdichter-Start"),
              tr("Berechnete Werte"),
              true,
              1.0,
@@ -998,7 +998,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("Pe1 [W]"),
              tr("elektrische Leistung Verdichter"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1010,7 +1010,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("Pe2 [W]"),
              tr("elektrische Leistung Steuerung, Pumpen"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1022,7 +1022,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("AZ1 []"),
              tr("Arbeitszahl mit Elt1"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1034,7 +1034,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("AZ2 []"),
              tr("Arbeitszahl mit Elt1 und Elt2"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1046,7 +1046,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("E1 [kWh]"),
              tr("elektrische Energie Verdichter"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1058,7 +1058,7 @@ const DataFieldInfoList DataFile::fieldInfos()
    res << DataFieldInfo(
              tr("E2 [kWh]"),
              tr("elektrische Energie Steuerung, Pumpen"),
-             tr("Elektro-Z\344hler"),
+             tr("Elektro-Zähler"),
              true,
              1.0,
              0.0,
@@ -1070,7 +1070,7 @@ const DataFieldInfoList DataFile::fieldInfos()
 
    res << DataFieldInfo(
              tr("UEHZ [K]"),
-             tr("\334berhitzung"),
+             tr("Überhitzung"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -1082,7 +1082,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              );  // UEHZ
    res << DataFieldInfo(
              tr("UEHZsoll [K]"),
-             tr("\334berhitzung Sollwert"),
+             tr("Überhitzung Sollwert"),
              tr("Temperaturen"),
              true,
              1.0,
@@ -1093,7 +1093,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // UEHZsoll
    res << DataFieldInfo(
-             tr("Asg.VDi [\260C]"),
+             tr("Asg.VDi [°C]"),
              tr("Ansaug Verdichter"),
              tr("Temperaturen"),
              true,
@@ -1105,7 +1105,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // Asg.VDi
    res << DataFieldInfo(
-             tr("Asg.VDa [\260C]"),
+             tr("Asg.VDa [°C]"),
              tr("Ansaug Verdampfer"),
              tr("Temperaturen"),
              true,
@@ -1117,7 +1117,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // Asg.VDa
    res << DataFieldInfo(
-             tr("VDHz [\260C]"),
+             tr("VDHz [°C]"),
              tr("VD Heizung"),
              tr("Temperaturen"),
              true,

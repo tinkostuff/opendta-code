@@ -28,7 +28,10 @@
 #define DTAPLOTFRAME_H
 
 #include <QtCore>
-#include <QtGui>
+#include <QSplitter>
+#include <QTreeWidget>
+#include <QCheckBox>
+#include <QMenu>
 
 #include "dtaplot/dtaplot.h"
 #include "dtafile/dtafile.h"

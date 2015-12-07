@@ -23,8 +23,10 @@
 #define DOWNLOADDTA_H
 
 #include <QtCore>
-#include <QtGui>
-#include <QtNetwork>
+#include <QDialog>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QFile>
 
 namespace Ui {
     class DownloadDTA;

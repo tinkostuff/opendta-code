@@ -23,7 +23,7 @@
 #define DTACOMPSTARTSFRAME_H
 
 #include <QtCore>
-#include <QtGui>
+#include <QFrame>
 
 #include "dtafile/dtafile.h"
 #include "statistics/dtacompstartsstatistics.h"
@@ -49,7 +49,6 @@ public slots:
 
  private slots:
     void threadFinished(); // Thread beendet
-    void threadTerminated(); // thread abgebrochen
     void updateRunTable(int index); // Tabelle aktualisieren
     void print(); // Ergebnisse ausdrucken
     void setCompleteTimeRange();

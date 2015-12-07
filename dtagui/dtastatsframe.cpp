@@ -26,10 +26,18 @@
 *    verrichtet
 *  - 'threadFinished()' sammelt die Ergebnisse ein und stellt sie dar
 *---------------------------------------------------------------------------*/
-#include <QtGui>
 #include <QThread>
-
 #include <QtGlobal>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QDateTimeEdit>
+#include <QTextEdit>
+#include <QPrinter>
+#include <QPrintDialog>
+
 #include <QtDebug>
 
 #include "dtastatsframe.h"
@@ -180,21 +188,8 @@ void DtaStatsFrame::dataUpdated()
       this->thread->setDateTimeRange( dteStart->dateTime().toTime_t(),
                                       dteEnd->dateTime().toTime_t());
       connect( thread, SIGNAL(finished()), this, SLOT(threadFinished()));
-      connect( thread, SIGNAL(terminated()), this, SLOT(threadTerminated()));
       this->thread->start();
    }
-}
-
-/*---------------------------------------------------------------------------
-* Thread wurde abgebrochen
-*---------------------------------------------------------------------------*/
-void DtaStatsFrame::threadTerminated()
-{
-   textEdit->clear();
-   textEdit->insertPlainText(tr("Fehler beim Auswerten der Daten!"));
-
-   delete this->thread;
-   this->thread = NULL;
 }
 
 /*---------------------------------------------------------------------------
@@ -206,6 +201,7 @@ void DtaStatsFrame::threadFinished()
    textEdit->clear();
    if(data==NULL || data->size()==0)
    {
+       textEdit->insertPlainText(tr("Fehler beim Auswerten der Daten!"));
       delete this->thread;
       this->thread = NULL;
       return;
@@ -232,7 +228,7 @@ void DtaStatsFrame::threadFinished()
    html << tr("<h1>Allgemeine Informationen</h1>");
    html << "<table cellpadding=\"2\" cellspacing=\"1\" border=\"0\">";
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Datens\344tze"))
+                        .arg(tr("Datensätze"))
                         .arg(stats->datasets());
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
                         .arg(tr("Daten Start"))
@@ -250,14 +246,14 @@ void DtaStatsFrame::threadFinished()
                         .arg(tr("Zeitraum"))
                         .arg(s);
    html << QString("<tr bgcolor=\"#FFFFFF\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Anzahl Aufzeichnungsl\374cken"))
+                        .arg(tr("Anzahl Aufzeichnungslücken"))
                         .arg(stats->missingCount());
    s = QString(tr("%1 Tage %2 Stunden %3 Minuten"))
                         .arg(stats->missingSum()/86400)
                         .arg((stats->missingSum()%86400)/3600)
                         .arg((stats->missingSum()%3600)/60);
    html << QString("<tr bgcolor=\"#E5E5E5\"><td>%1</td><td>%2</td></tr>")
-                        .arg(tr("Summe Aufzeichnungsl\374cken"))
+                        .arg(tr("Summe Aufzeichnungslücken"))
                         .arg(s);
    html << "</table>";
 

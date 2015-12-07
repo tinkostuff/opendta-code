@@ -23,8 +23,9 @@
 *  Hauptfenster
 *---------------------------------------------------------------------------*/
 
-#include <QtGui>
+#include <QTextBrowser>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QCoreApplication>
 #include <QLocale>
@@ -99,7 +100,7 @@ void MainWindow::readDataFiles(QStringList files, bool DTA)
       {
          QMessageBox::warning(
                this,
-               tr("Fehler beim \326ffnen der Daten-Datei"),
+               tr("Fehler beim öffnen der Daten-Datei"),
                dataFile->errorMsg);
       }
       else
@@ -119,11 +120,11 @@ void MainWindow::readDataFiles(QStringList files, bool DTA)
 
    // StatusBar aktualisieren
    if(data.isEmpty())
-      statusBar()->showMessage( tr("Datens\344tze: 0"));
+      statusBar()->showMessage( tr("Datensätze: 0"));
    else
    {
       statusBar()->showMessage(
-         QString(tr("Datens\344tze: %1, Start: %2, Ende: %3, Datei-Version: %4"))
+         QString(tr("Datensätze: %1, Start: %2, Ende: %3, Datei-Version: %4"))
            .arg(data.size())
            .arg(QDateTime::fromTime_t(data.keys().first()).toString("yyyy-MM-dd hh:mm"))
            .arg(QDateTime::fromTime_t(data.keys().last()).toString("yyyy-MM-dd hh:mm"))
@@ -187,7 +188,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::on_actionUeber_triggered()
 {
    QMessageBox::about( this,
-                       tr("\334ber DtaGui"),
+                       tr("Über DtaGui"),
                        tr(
       "<h3>&Uuml;ber DtaGui</h3>"
       "<p>Author: opendta@gmx.de, <a href=\"http://opendta.sf.net\">http://opendta.sf.net</a></p>"
@@ -219,12 +220,12 @@ void MainWindow::on_actionUeber_triggered()
 }
 void MainWindow::on_actionUeberQt_triggered()
 {
-   QMessageBox::aboutQt( this, tr("\334ber Qt"));
+   QMessageBox::aboutQt( this, tr("Über Qt"));
 }
 void MainWindow::on_actionUeberQwt_triggered()
 {
    QMessageBox::about( this,
-                       tr("\334ber Qwt"),
+                       tr("Über Qwt"),
                        tr( 
       "<h3>Qwt %1</h3>"
       "<h4>Deutsch:</h4>"
@@ -247,7 +248,7 @@ void MainWindow::on_actionOeffnen_triggered()
 {
    QStringList files = QFileDialog::getOpenFileNames(
          this,
-         tr("Eine oder mehrere Dateien ausw\344hlen"),
+         tr("Eine oder mehrere Dateien auswählen"),
          lastOpenPathDTA,
          tr("DTA-Dateien (*.dta);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDataFiles(files, true);
@@ -256,7 +257,7 @@ void MainWindow::on_actionDUMPOeffnen_triggered()
 {
    QStringList files = QFileDialog::getOpenFileNames(
          this,
-         tr("Eine oder mehrere Dateien ausw\344hlen"),
+         tr("Eine oder mehrere Dateien auswählen"),
          lastOpenPathDTA,
          tr("DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDataFiles(files, false);
@@ -270,7 +271,7 @@ void MainWindow::on_actionZuruecksetzen_triggered()
    // reset Daten
    this->data.clear();
    this->fileVersions.clear();
-   statusBar()->showMessage( tr("Datens\344tze: 0"));
+   statusBar()->showMessage( tr("Datensätze: 0"));
    emit dataChanged();
 }
 
@@ -392,7 +393,7 @@ void MainWindow::on_actionCSVSpeichern_triggered()
    {
       QMessageBox::critical( this,
                              tr("Fehler"),
-                             tr("FEHLER: beim \326ffnen der CSV-Datei '%1'!").arg(fileName));
+                             tr("FEHLER: beim öffnen der CSV-Datei '%1'!").arg(fileName));
       return;
    }
    QTextStream out(&fOut);
@@ -467,8 +468,8 @@ void MainWindow::on_actionSprache_triggered()
    bool ok;
    QString sel = QInputDialog::getItem(
             this,
-            tr("Sprache ausw\344hlen"),
-            tr("Bitte eine Sprache ausw\344hlen.<br>Die Datei 'dtagui_&lt;sprache&gt;.qm' muss im Programmverzeichnis verf\374gbar sein!<br><b>Hinweis:</b> Die \304nderung wird erst nach einem Programmstart wirksam!"),
+            tr("Sprache auswählen"),
+            tr("Bitte eine Sprache auswählen.<br>Die Datei 'dtagui_&lt;sprache&gt;.qm' muss im Programmverzeichnis verfügbar sein!<br><b>Hinweis:</b> Die Änderung wird erst nach einem Programmstart wirksam!"),
             opts,
             opts.indexOf(lang)==-1 ? 0 : opts.indexOf(lang),
             true,
@@ -481,7 +482,7 @@ void MainWindow::on_actionSprache_triggered()
       QMessageBox::information(
                this,
                tr("Anwendung neu starten"),
-               tr("Bitte die Anwendung neu starten, um die \304nderung wirksam zu machen!")
+               tr("Bitte die Anwendung neu starten, um die Änderung wirksam zu machen!")
             );
    }
 }

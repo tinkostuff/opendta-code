@@ -3,17 +3,17 @@
 # Qwt
 #
 contains(DEFINES,MXE) {
-	# cross compile with MXE
-	# uasge: qmake DEFINES+=MXE
-	QT += svg
-	LIBS += -lqwt
+    # cross compile with MXE
+    # usage: qmake DEFINES+=MXE
+    QT += svg
+    LIBS += -lqwt
 } else {
-	# normal settings
-	include ( $(QWT_ROOT)/features/qwt.prf )
-	CONFIG += qwt
+    # normal settings
+    include ( $(QWT_ROOT)/features/qwt.prf )
 }
 
 QT += network
+QT += printsupport
 
 HEADERS += \
     dtagui/mainwindow.h \

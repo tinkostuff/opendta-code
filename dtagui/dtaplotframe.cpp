@@ -24,7 +24,23 @@
 *  - Verwaltung aller Diagramme
 *  - Baum mit verfuegbaren Signalen
 *---------------------------------------------------------------------------*/
-#include <QtGui>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
+#include <QScrollArea>
+#include <QPushButton>
+#include <QTextBrowser>
+#include <QInputDialog>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMouseEvent>
+#include <QInputDialog>
+#include <QColorDialog>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QLabel>
 
 #include <qwt_scale_widget.h>
 #include <qwt_scale_draw.h>
@@ -146,7 +162,7 @@ bool PlotEventHandler::eventFilter(QObject *obj, QEvent *event)
          connect( act, SIGNAL(triggered()), plotFrame, SLOT(printPlot()));
          popupMenu->addAction(act);
 
-         act = new QAction( tr("Diagramm &l\366schen"), plot);
+         act = new QAction( tr("Diagramm &löschen"), plot);
          act->setIcon(QIcon(":/images/images/remove.png"));
          connect( act, SIGNAL(triggered()), plotFrame, SLOT(removePlot()));
          popupMenu->addAction(act);
@@ -201,7 +217,7 @@ void PlotEventHandler::generateSignalMenu(QMenu *parent, QString sigName, DtaPlo
 {
    QAction *act;
 
-   act = new QAction(tr("L\366schen"),plot);
+   act = new QAction(tr("Löschen"),plot);
    act->setData(sigName);
    act->setIcon(QIcon(":/images/images/remove.png"));
    connect( act, SIGNAL(triggered()), plotFrame, SLOT(removeCurveFromPlot()));
@@ -213,7 +229,7 @@ void PlotEventHandler::generateSignalMenu(QMenu *parent, QString sigName, DtaPlo
    connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveColor()));
    parent->addAction(act);
 
-   act = new QAction(tr("Linienst\344rke..."),plot);
+   act = new QAction(tr("Linienstärke..."),plot);
    act->setData(sigName);
    act->setIcon(QIcon(":/images/images/linewidth.png"));
    connect( act, SIGNAL(triggered()), plotFrame, SLOT(setCurveLineWidth()));
@@ -262,15 +278,15 @@ DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
    signalTree->setHeaderHidden(true);
 
    // Buttons
-   QPushButton *btnAdd = new QPushButton(tr("Diagramm hinzuf\374gen"));
+   QPushButton *btnAdd = new QPushButton(tr("Diagramm hinzufügen"));
    btnAdd->setIcon(QIcon(":/images/images/add.png"));
    connect( btnAdd, SIGNAL(clicked()), this, SLOT(addPlot()));
 
-   QPushButton *btnDelAll = new QPushButton(tr("Alle Diagramme l\366schen"));
+   QPushButton *btnDelAll = new QPushButton(tr("Alle Diagramme löschen"));
    btnDelAll->setIcon(QIcon(":/images/images/remove-all.png"));
    connect( btnDelAll, SIGNAL(clicked()), this, SLOT(clear()));
 
-   QPushButton *btnSessionOpen = new QPushButton(tr("Sitzung \366ffnen..."));
+   QPushButton *btnSessionOpen = new QPushButton(tr("Sitzung öffnen..."));
    btnSessionOpen->setIcon(QIcon(":/images/images/open.png"));
    connect( btnSessionOpen, SIGNAL(clicked()), this, SLOT(loadSession()));
 
@@ -282,7 +298,7 @@ DtaPlotFrame::DtaPlotFrame(DataMap *data, QWidget *parent) :
    btnPrint->setIcon(QIcon(":/images/images/print.png"));
    connect( btnPrint, SIGNAL(clicked()), this, SLOT(printAll()));
 
-   QPushButton *btnZoom = new QPushButton(tr("Ansicht zur\374cksetzen"));
+   QPushButton *btnZoom = new QPushButton(tr("Ansicht zurücksetzen"));
    btnZoom->setIcon(QIcon(":/images/images/zoom-fit.png"));
    connect( btnZoom, SIGNAL(clicked()), this, SLOT(plotZoomFitAllPlots()));
 
@@ -532,8 +548,8 @@ void DtaPlotFrame::setCurveLineWidth()
    if( width == 0) width = 1;
    bool ok;
    width = QInputDialog::getInt( this,
-                                 tr("Linienst\344rke"),
-                                 tr("Linienst\344rke:"),
+                                 tr("Linienstärke"),
+                                 tr("Linienstärke:"),
                                  width,
                                  0,
                                  100,
@@ -939,7 +955,7 @@ void DtaPlotFrame::saveSession()
 void DtaPlotFrame::loadSession()
 {
    QString fileName = QFileDialog::getOpenFileName( this,
-                                                    tr("Sitzung \366ffnen"),
+                                                    tr("Sitzung öffnen"),
                                                     lastOpenPathSession,
                                                     tr("Sitzungsdateien (*.session);;Alle Dateien (*.*)"));
    if( fileName != "") this->loadSession(fileName);
@@ -961,7 +977,7 @@ void DtaPlotFrame::loadSession(QString fileName)
       QMessageBox::warning(
             this,
             tr("Fehler beim Laden der Sitzung"),
-            QString(tr("Fehler beim Laden der Sitzung!\nSchl\374ssel 'global/diagrams' nicht gefunden!")));
+            QString(tr("Fehler beim Laden der Sitzung!\nSchlüssel 'global/diagrams' nicht gefunden!")));
       return;
    }
 
@@ -986,7 +1002,7 @@ void DtaPlotFrame::loadSession(QString fileName)
 
             // Farbe und Linienstaerke
             qint32 width = ini->value(QString("diagram%1/curve%2/linewidth").arg(i).arg(j),1).toInt();
-            QColor color = ini->value(QString("diagram%1/curve%2/color").arg(i).arg(j),Qt::red).value<QColor>();
+            QColor color = ini->value(QString("diagram%1/curve%2/color").arg(i).arg(j),QColor(Qt::red)).value<QColor>();
             QPen pen;
             pen.setColor(color);
             pen.setWidth(width);

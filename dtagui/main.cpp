@@ -22,7 +22,7 @@
 /*---------------------------------------------------------------------------
 * Hauptprogramm
 *---------------------------------------------------------------------------*/
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QTranslator>
 #include <QSettings>
 

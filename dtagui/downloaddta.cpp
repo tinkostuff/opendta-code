@@ -20,6 +20,9 @@
 * $Id$
 *---------------------------------------------------------------------------*/
 
+#include <QMessageBox>
+#include <QFileDialog>
+
 #include <QDebug>
 
 #include "downloaddta.h"
@@ -121,8 +124,8 @@ void DownloadDTA::on_buttonBox_accepted()
    {
       int res = QMessageBox::question(
                this,
-               tr("Datei \374berschreiben?"),
-               tr("Datei '%1' existiert bereits!<br>Soll sie \374berschrieben werden?").arg(m_fileName),
+               tr("Datei Überschreiben?"),
+               tr("Datei '%1' existiert bereits!<br>Soll sie Überschrieben werden?").arg(m_fileName),
                QMessageBox::Yes,
                QMessageBox::No);
       if(res != QMessageBox::Yes) return;
@@ -135,7 +138,7 @@ void DownloadDTA::on_buttonBox_accepted()
       QMessageBox::critical(
                this,
                tr("Fehler"),
-               tr("Fehler beim \326ffnen der Datei '%1'!").arg(m_fileName));
+               tr("Fehler beim öffnen der Datei '%1'!").arg(m_fileName));
       return;
    }
 
@@ -245,7 +248,7 @@ void DownloadDTA::on_btnDir_clicked()
 {
    QString dir = QFileDialog::getExistingDirectory(
             this,
-            tr("Verzeichnis ausw\344hlen"),
+            tr("Verzeichnis auswählen"),
             ui->editDir->text());
    if( dir != "") ui->editDir->setText(dir);
 }
