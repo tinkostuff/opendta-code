@@ -324,11 +324,12 @@
 #define DTA3_DATASET_LENGTH 38   // fields
 
 // Header-Werte fuer unterschiedliche Datei-Versionen
-#define DTA0_HEADER_VALUE 0x2010
-#define DTA1_HEADER_VALUE 0x2011
-#define DTA2_HEADER_VALUE 0x2328
-#define DTA2_HEADER_VALUE_SUBVERSION 676
-#define DTA3_HEADER_VALUE 0x2329
+#define DTA8208 0x2010
+#define DTA8209 0x2011
+#define DTA9000 0x2328
+#define DTA9000_SUBVERSION 676
+#define DTA9001 0x2329
+#define DTA9003 0x232B
 
 // Struktur mit Informationen einer Wertetabelle
 typedef struct
@@ -357,7 +358,7 @@ private:
     QFile *m_dtaFile;
     QDataStream m_dtaStream;
     quint16 m_dsCount;
-    quint8 m_dtaVersion;
+    quint32 m_dtaVersion;
     quint8 m_dtaSubVersion;
     QString m_dtaVersionStr;
     bool m_ZUPasVD1;

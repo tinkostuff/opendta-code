@@ -87,10 +87,9 @@ bool DtaFile::open()
    m_dtaStream >> header[1];
 
    // Kopf pruefen
-   if( (header[0] != DTA0_HEADER_VALUE)
-       && (header[0] != DTA1_HEADER_VALUE)
-       && (header[0] != DTA2_HEADER_VALUE)
-       && (header[0] != DTA3_HEADER_VALUE))
+   QList<quint32> validHeaders;
+   validHeaders << DTA8208 << DTA8209 << DTA9000 << DTA9001 << DTA9003;
+   if( !validHeaders.contains(header[0]))
    {
       errorMsg = QString(tr("FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!\nBei Interesse bitte die DTA-Datei (incl. CSV-Datei) an opendta@gmx.de schicken."))
                         .arg(header[0])
@@ -100,15 +99,13 @@ bool DtaFile::open()
    }
 
    // Version der DTA-Datei festhalten
-   if( header[0] <= DTA1_HEADER_VALUE) m_dtaVersion = 1;
-   else if( header[0] == DTA2_HEADER_VALUE) m_dtaVersion = 2;
-   else if( header[0] >= DTA3_HEADER_VALUE) m_dtaVersion = 3;
+   m_dtaVersion = header[0];
 
    // Groesse der Datei ueberpruefen
-   if( m_dtaVersion == 1) {
+   if( (m_dtaVersion==DTA8209) || (m_dtaVersion==DTA8208)) {
       // unterschiedliche Groesse fuer 0x2010 und 0x2011
       quint32 dsSize = DTA0_DATASET_LENGTH;
-      if( header[0] == DTA1_HEADER_VALUE)
+      if( header[0] == DTA8209)
          dsSize = DTA1_DATASET_LENGTH;
 
       if( (m_dtaFile->size() - DTA_HEADER_LENGTH) % dsSize != 0) {
@@ -118,30 +115,27 @@ bool DtaFile::open()
          return false;
       }
       m_dsCount = (m_dtaFile->size() - DTA_HEADER_LENGTH) / dsSize;
+      // Unterversion
+      if(m_dtaVersion==DTA8208)
+          m_dtaSubVersion = 1;
+      else
+          m_dtaSubVersion = 2;
    }
 
    // Unter-Version ueberpruefen
-   if( m_dtaVersion==1)
-   {
-      if( header[0] == DTA0_HEADER_VALUE)
-         m_dtaSubVersion = 1;
-      else
-         m_dtaSubVersion = 2;
-   }
-   if( m_dtaVersion==2) {
-      if( header[1] < DTA2_HEADER_VALUE_SUBVERSION) m_dtaSubVersion = 1;
+   if( m_dtaVersion==DTA9000) {
+      if( header[1] < DTA9000_SUBVERSION) m_dtaSubVersion = 1;
       else m_dtaSubVersion = 2;
    }
-   if( m_dtaVersion==3) m_dtaSubVersion = header[1]%4;
+   if( m_dtaVersion==DTA9001)
+       m_dtaSubVersion = header[1]%4;
 
    // Anzahl der Datensaetze lesen
-   if( m_dtaVersion == 3)
-   {
+   if( m_dtaVersion == DTA9001)
       m_dtaStream >> m_dsCount;
-   }
 
    // DTA-Version als String
-   if ((m_dtaVersion==2) || (m_dtaVersion==3))
+   if ((m_dtaVersion==DTA9000) || (m_dtaVersion==DTA9001))
       m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
    else
       m_dtaVersionStr = QString("DTA %1").arg(header[0]);
@@ -156,9 +150,9 @@ bool DtaFile::open()
 void DtaFile::readDatasets(DataMap *data)
 {
    // DTA in Abhaengigkeit von Version lesen
-   if( m_dtaVersion == 1) readDTA8209(data);
-   else if( m_dtaVersion == 2) readDTA9000(data);
-   else if( m_dtaVersion == 3) readDTA9001(data);
+   if( (m_dtaVersion==DTA8209) || (m_dtaVersion==DTA8208)) readDTA8209(data);
+   else if( m_dtaVersion == DTA9000) readDTA9000(data);
+   else if( m_dtaVersion == DTA9001) readDTA9001(data);
    else {
       qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)!").arg(m_dtaVersion));
    }
