@@ -156,9 +156,9 @@ bool DtaFile::open()
 void DtaFile::readDatasets(DataMap *data)
 {
    // DTA in Abhaengigkeit von Version lesen
-   if( m_dtaVersion == 1) readDTA1(data);
-   else if( m_dtaVersion == 2) readDTA2(data);
-   else if( m_dtaVersion == 3) readDTA3(data);
+   if( m_dtaVersion == 1) readDTA8209(data);
+   else if( m_dtaVersion == 2) readDTA9000(data);
+   else if( m_dtaVersion == 3) readDTA9001(data);
    else {
       qWarning() << QString(tr("FEHLER: unbekannt DTA Version (%1)!").arg(m_dtaVersion));
    }
@@ -167,7 +167,7 @@ void DtaFile::readDatasets(DataMap *data)
 /*---------------------------------------------------------------------------
 * DAT Version 1.x lesen
 *---------------------------------------------------------------------------*/
-void DtaFile::readDTA1(DataMap *data)
+void DtaFile::readDTA8209(DataMap *data)
 {
    quint16 value;
 
@@ -437,7 +437,7 @@ const DtaLUTInfo DtaFile::LUT[5] = {
 /*---------------------------------------------------------------------------
 * DAT Version 2.61 lesen
 *---------------------------------------------------------------------------*/
-void DtaFile::readDTA2(DataMap *data)
+void DtaFile::readDTA9000(DataMap *data)
 {
    quint16 dsLenght = DTA2_DATASET_LENGTH1;
    if( m_dtaSubVersion == 2) dsLenght = DTA2_DATASET_LENGTH2;
@@ -593,7 +593,7 @@ void DtaFile::readDTA2(DataMap *data)
 /*---------------------------------------------------------------------------
 * DAT Version 2.63 lesen
 *---------------------------------------------------------------------------*/
-void DtaFile::readDTA3(DataMap *data)
+void DtaFile::readDTA9001(DataMap *data)
 {
    quint16 value;
    qint16 valueS;
@@ -648,13 +648,18 @@ void DtaFile::readDTA3(DataMap *data)
          m_dtaStream >> valueS; values[75] = valueS/10.0;                                     // [62:63] VD Heizung
          m_dtaStream.readRawData( buffer, 8);                                                 // [64:71] unbekannt
 
-         if (m_dtaSubVersion == 1) {
+         if ((m_dtaSubVersion == 1) || (m_dtaSubVersion == 3)) {
             m_dtaStream.readRawData( buffer, 2);                                              // [72:73] unbekannt
             m_dtaStream >> valueS; values[71] = valueS/10.0;                                  // [74:75] Ueberhitzung
             m_dtaStream >> valueS; values[72] = valueS/10.0;                                  // [76:77] Ueberhiztung Sollwert
             m_dtaStream.readRawData( buffer, 2);                                              // [78:79] unbekannt
          }
+
+         if (m_dtaSubVersion == 3) {
+            m_dtaStream.readRawData( buffer, 18);                                             // [80:97] unbekannt
+         }
       }
+
 
       // VD1 mit ZUP ersetzen
       // es gibt DTA-Dateien, bei denen VD1 nicht gesetzt ist

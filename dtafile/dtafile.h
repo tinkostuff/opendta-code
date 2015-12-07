@@ -369,9 +369,9 @@ private:
     static inline qreal calcBitData( const quint16 &value, const quint8 &pos);
     static inline qreal calcBitDataInv( const quint16 &value, const quint8 &pos);
 
-    virtual void readDTA1(DataMap *data); // DAT Version 1.x lesen
-    virtual void readDTA2(DataMap *data); // DAT Version 2.61, 2.62 lesen
-    virtual void readDTA3(DataMap *data); // DAT Version 2.63 lesen
+    virtual void readDTA8209(DataMap *data); // DAT Version 1.x lesen
+    virtual void readDTA9000(DataMap *data); // DAT Version 2.61, 2.62 lesen
+    virtual void readDTA9001(DataMap *data); // DAT Version 2.63 lesen
 };
 
 #endif // DTAFILE_H
