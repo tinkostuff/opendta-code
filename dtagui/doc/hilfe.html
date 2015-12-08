@@ -1,259 +1,260 @@
 <html>
 <head>
-	<style type="text/css">
-		p{ font-family: ,sans-serif; font-size: medium;}
-		li{ font-family: ,sans-serif; font-size: medium;}
-		td{ font-family: ,sans-serif; font-size: medium; padding-left: 7px; padding-right: 7px;}
-		th{ font-family: ,sans-serif; font-size: medium; font-weight: bold; padding-left: 7px; padding-right: 7px;}
-		h1{ font-family: ,sans-serif; font-size: xx-large; margin-top: 20px; margin-bottom: 5px;}
-		h2{ font-family: ,sans-serif; font-size: x-large; margin-top: 20px; margin-bottom: 5px;}
-		h3{ font-family: ,sans-serif; font-size: large; margin-top: 20px; margin-bottom: 5px;}
-	</style>
+    <style type="text/css">
+        p{ font-family: ,sans-serif; font-size: medium;}
+        li{ font-family: ,sans-serif; font-size: medium;}
+        td{ font-family: ,sans-serif; font-size: medium; padding-left: 7px; padding-right: 7px;}
+        th{ font-family: ,sans-serif; font-size: medium; font-weight: bold; padding-left: 7px; padding-right: 7px;}
+        h1{ font-family: ,sans-serif; font-size: xx-large; margin-top: 20px; margin-bottom: 5px;}
+        h2{ font-family: ,sans-serif; font-size: x-large; margin-top: 20px; margin-bottom: 5px;}
+        h3{ font-family: ,sans-serif; font-size: large; margin-top: 20px; margin-bottom: 5px;}
+    </style>
 </head>
 <body>
-	<h1>DtaGui</h1>
-	<h2>Inhalt</h2>
-	<ul>
-		<li><a href="#einleitung">Einleitung</a></li>
-		<li><a href="#allgemeines">Allgemeines</a></li>
-		<ul>
-			<li><a href="#dtadateien">DTA-Dateien</a></li>
-			<li><a href="#dumpdateien">DUMP-Dateien</a></li>
-			<li><a href="#Darstellung">Darstellung</a></li>
-		</ul>
-		<li><a href="#diagramme">Diagramme</a></li>
-		<ul>
-			<li><a href="#hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</a></li>
-			<li><a href="#kurven">Kurven</a></li>
-			<li><a href="#zoomen">Zoomen</a></li>
-			<li><a href="#scrollen">Scrollen</a></li>
-			<li><a href="#achseneinteilung">Achseneinteilung</a></li>
-			<li><a href="#sitzungen">Sitzungen</a></li>
-		</ul>
-		<li><a href="#statistik">Statistik</a></li>
-		<ul>
-			<li><a href="#analogeSignale">Analoge Signale</a></li>
-			<li><a href="#digitaleSignale">Digitale Signale</a></li>
-		</ul>
-		<li><a href="#kompStart">Verdichter-Starts</a></li>
-		<li><a href="#sonstiges">Sonstiges</a></li>
-		<ul>
-			<li><a href="#history">Versionsgeschichte</a></li>
-			<li><a href="#author">Author</a></li>
-			<li><a href="#lizenz">Lizenz</a></li>
-		</ul>
-	</ul>
-	<h2><a name="einleitung">Einleitung</a></h2>
-	<p>Mit DtaGui k&ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.</p>
-	<p>DTA-Dateien werden von der W&auml;rmepumpensteuerung <i>Luxtronik 2</i> der Firma
-	   <i>AlphaInnotec (C)</i> erzeugt. Sie enhalten den Betriebszustand (Temperaturen, 
-		Eingangs- und Ausgangssignale) der W&auml;rmepumpe der letzten 48h.</p>
-	<p>Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?</p>
+    <h1>DtaGui</h1>
+    <h2>Inhalt</h2>
+    <ul>
+        <li><a href="#einleitung">Einleitung</a></li>
+        <li><a href="#allgemeines">Allgemeines</a></li>
+        <ul>
+            <li><a href="#dtadateien">DTA-Dateien</a></li>
+            <li><a href="#dumpdateien">DUMP-Dateien</a></li>
+            <li><a href="#Darstellung">Darstellung</a></li>
+        </ul>
+        <li><a href="#diagramme">Diagramme</a></li>
+        <ul>
+            <li><a href="#hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</a></li>
+            <li><a href="#kurven">Kurven</a></li>
+            <li><a href="#zoomen">Zoomen</a></li>
+            <li><a href="#scrollen">Scrollen</a></li>
+            <li><a href="#achseneinteilung">Achseneinteilung</a></li>
+            <li><a href="#sitzungen">Sitzungen</a></li>
+        </ul>
+        <li><a href="#statistik">Statistik</a></li>
+        <ul>
+            <li><a href="#analogeSignale">Analoge Signale</a></li>
+            <li><a href="#digitaleSignale">Digitale Signale</a></li>
+        </ul>
+        <li><a href="#kompStart">Verdichter-Starts</a></li>
+        <li><a href="#sonstiges">Sonstiges</a></li>
+        <ul>
+            <li><a href="#history">Versionsgeschichte</a></li>
+            <li><a href="#author">Author</a></li>
+            <li><a href="#lizenz">Lizenz</a></li>
+        </ul>
+    </ul>
+    <h2><a name="einleitung">Einleitung</a></h2>
+    <p>Mit DtaGui k&ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.</p>
+    <p>DTA-Dateien werden von der W&auml;rmepumpensteuerung <i>Luxtronik 2</i> der Firma
+       <i>AlphaInnotec (C)</i> erzeugt. Sie enhalten den Betriebszustand (Temperaturen,
+        Eingangs- und Ausgangssignale) der W&auml;rmepumpe der letzten 48h.</p>
+    <p>Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?</p>
 
-	<h2><a name="allgemeines">Allgemeines</a></h2>
-	<h3><a name="dtadateien">DTA-Dateien</a></h3>
-	<ul>
-		<li>Es k&ouml;nnen mehrere DTA-Dateien gleichzeitig ge&ouml;ffnet werden. Die
-		Reihenfolge spielt dabei keine Rolle. Es k&ouml;nnen auch nachtr&auml;glich 
-		noch DTA-Datei ge&ouml;ffnet werden. Sind Daten f&uuml;r bestimmte Zeitpunkte
-		mehrfach in vorhanden (&Uuml;berlappung der DTA-Dateien), so wird der zuletzt
-		geladene Datenpunkt verwendet.</li>
-		<li>DTA-Dateien k&ouml;nnen per Drag&amp;Drop in das Programm gezogen werden.</li>
-		<li>Mit <i>Datei / Neu</i> werden alle geladenen Daten aus dem Speicher entfernt.</li>
-		<li>Mit <i>Datei / DTA download</i> kann eine DAT-Datei - z.B. von der Luxtronik2 - herunter geladen werden
-		<ul>
-			<li>Die Adresse f&uuml;r die aktuellen Daten der Luxtronik2 lautet: http://&lt;ip-adresse-der-wp&gt;/proclog</li>
-			<li>Das Zielverzeichnis f&uuml;r den Download kann bestimmt werden.</li>
-			<li>Die Datei kann automatisch mit Datum und Uhrzeit umbenannt werden.</li>
-		</ul></li>
-	</ul>
-	<h3><a name="dumpdateien">DUMP-Dateien</a></h3>
-	<p>DUMP-Dateien beinhalten die Daten der W&auml;rmepumpe, wie sie &uuml;ber das 
-	Web-Interface der Luxtronik 2 ausgelesen werden k&ouml;nnen. DUMP-Dateien haben
-	folgendes Format:</p>
-	<ul>
-		<li>DUMP-Dateien sind Textdateien, die mit dem BZIP2-Algorithmus komprimiert sind.</li>
-		<li>Jede Zeile enth&auml;lt einen Datensatz.</li>
-		<li>Daten innerhalb eines Datensatzes sind nach dem Schema <code>Index=Wert,Index=Wert,...</code> abgelegt.</li>
-		<li>Der erste Datensatz muss alle Indizes enhalten.</li>
-		<li>Alle weiteren Datens&auml;tze m&uuml;ssen nur die Indizes enhalten, die sich zum vorhergehenden Datensatz ge&auml;ndert haben.</li>
-	</ul>
-	<p>Die Daten von DUMP-Dateien f&uuml;gen sich nahtlos in das Datenformat 
-	von DtaGui ein. D.h. es kann auch eine Mischung aus DTA- und DUMP-Dateien
-	ge&ouml;ffnet werden.</p>
-	<h3><a name="darstellung">Darstellung</a></h3>
-	<ul>
-		<li>zur Darstellung der Daten stehen verschiedene "Seiten" zur Verf&uuml;gung:</li>
-		<ul>
-			<li><b>Diagramme</b> zur grafischen Darstellung der Daten</li>
-			<li><b>Statistik</b>seiten zur statistischen Auswertung der Daten</li>
-			<li><b>Kompressor-Starts</b>-Seiten zur Analyse der einzelnen Kompressor Starts</li>
-		</ul>
-		<li>die Seiten werden &uuml;ber das <i>Datei</i>-Men&uuml; aufgerufen</li>
-		<li>es k&ouml;nnen mehrere Seiten von einem Typ angezeigt werden</li>
-		<li>die Seiten k&ouml;nnen mit Hilfe von <i>Drag&amp;Drop</i> in ihrer Reihenfolge ver&auml;ndert werden</li>
-	</ul>
+    <h2><a name="allgemeines">Allgemeines</a></h2>
+    <h3><a name="dtadateien">DTA-Dateien</a></h3>
+    <ul>
+        <li>Es k&ouml;nnen mehrere DTA-Dateien gleichzeitig ge&ouml;ffnet werden. Die
+        Reihenfolge spielt dabei keine Rolle. Es k&ouml;nnen auch nachtr&auml;glich
+        noch DTA-Datei ge&ouml;ffnet werden. Sind Daten f&uuml;r bestimmte Zeitpunkte
+        mehrfach in vorhanden (&Uuml;berlappung der DTA-Dateien), so wird der zuletzt
+        geladene Datenpunkt verwendet.</li>
+        <li>DTA-Dateien k&ouml;nnen per Drag&amp;Drop in das Programm gezogen werden.</li>
+        <li>Mit <i>Datei / Neu</i> werden alle geladenen Daten aus dem Speicher entfernt.</li>
+        <li>Mit <i>Datei / DTA download</i> kann eine DAT-Datei - z.B. von der Luxtronik2 - herunter geladen werden
+        <ul>
+            <li>Die Adresse f&uuml;r die aktuellen Daten der Luxtronik2 lautet: http://&lt;ip-adresse-der-wp&gt;/proclog</li>
+            <li>Das Zielverzeichnis f&uuml;r den Download kann bestimmt werden.</li>
+            <li>Die Datei kann automatisch mit Datum und Uhrzeit umbenannt werden.</li>
+        </ul></li>
+    </ul>
+    <h3><a name="dumpdateien">DUMP-Dateien</a></h3>
+    <p>DUMP-Dateien beinhalten die Daten der W&auml;rmepumpe, wie sie &uuml;ber das
+    Web-Interface der Luxtronik 2 ausgelesen werden k&ouml;nnen. DUMP-Dateien haben
+    folgendes Format:</p>
+    <ul>
+        <li>DUMP-Dateien sind Textdateien, die mit dem BZIP2-Algorithmus komprimiert sind.</li>
+        <li>Jede Zeile enth&auml;lt einen Datensatz.</li>
+        <li>Daten innerhalb eines Datensatzes sind nach dem Schema <code>Index=Wert,Index=Wert,...</code> abgelegt.</li>
+        <li>Der erste Datensatz muss alle Indizes enhalten.</li>
+        <li>Alle weiteren Datens&auml;tze m&uuml;ssen nur die Indizes enhalten, die sich zum vorhergehenden Datensatz ge&auml;ndert haben.</li>
+    </ul>
+    <p>Die Daten von DUMP-Dateien f&uuml;gen sich nahtlos in das Datenformat
+    von DtaGui ein. D.h. es kann auch eine Mischung aus DTA- und DUMP-Dateien
+    ge&ouml;ffnet werden.</p>
+    <h3><a name="darstellung">Darstellung</a></h3>
+    <ul>
+        <li>zur Darstellung der Daten stehen verschiedene "Seiten" zur Verf&uuml;gung:</li>
+        <ul>
+            <li><b>Diagramme</b> zur grafischen Darstellung der Daten</li>
+            <li><b>Statistik</b>seiten zur statistischen Auswertung der Daten</li>
+            <li><b>Kompressor-Starts</b>-Seiten zur Analyse der einzelnen Kompressor Starts</li>
+        </ul>
+        <li>die Seiten werden &uuml;ber das <i>Datei</i>-Men&uuml; aufgerufen</li>
+        <li>es k&ouml;nnen mehrere Seiten von einem Typ angezeigt werden</li>
+        <li>die Seiten k&ouml;nnen mit Hilfe von <i>Drag&amp;Drop</i> in ihrer Reihenfolge ver&auml;ndert werden</li>
+    </ul>
 
-	<h2><a name="diagramme">Diagramme</a></h2>
-	<h3><a name="hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</a></h3>
-	<ul>
-		<li>ein Diagramm hinzuf&uuml;gen: <i>Diagramme / Hinzuf&uuml;gen</i></li>
-		<li>alle Diagramme l&ouml;schen: <i>Diagramme / Alle l&ouml;schen</i></li>
-		<li>ein Diagramm l&ouml;schen: rechte Maustaste auf das Diagramm und <i>Diagramm l&ouml;schen</i></li>
-	</ul>
-	<h3><a name="kurven">Kurven</a></h3>
-	<ul>
-		<li>Kurven einem Diagramm hinzuf&uuml;gen:
-		<ul>
-			<li>ein oder mehrere Signale in der Signal-Liste ausw&auml;hlen</li>
-			<li>per Drag&amp;Drop Signale in das Diagramm ziehen</li>
-		</ul>
-		</li>
-		<li>eine Kurve l&ouml;schen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / L&ouml;schen</i></li>
-		<li>Farbe einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Farbe...</i></li>
-		<li>Linienst&auml;rke einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Linienst&auml;rke...</i></li>
-		<li>Mit der Check-Box <i>Datenpunkte anzeigen</i> kann auf jeden Datenpunkt ein Kreuz gezeichnet werden. Dies ist n&uuml;tzlich,
-			um Aufzeichnungsl&uuml;cken zu erkennen. <b>Achtung:</b> die Verlangsamt die Darstellung von gro&szlig;en Datenmengen erheblich.</li>
-	</ul>
-	<h3><a name="zoomen">Zoomen</a></h3>
-	<table cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="#FFFFFF"><td align=left>rechte Maustaste + ziehen</td><td align=left>Fenster</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Shift + Rechtsclick</td><td align=left>Fensterzoom eine Stufe r&uuml;ckg&auml;ngig machen</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Strg + Rechtsclick</td><td align=left>Fensterzoom alle Stufen r&uuml;ckg&auml;ngig machen</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Strg + Mausrad</td><td align=left>x- und y-Achse</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Strg + Shift + Mausrad</td><td align=left>nur x-Achse</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Strg + Alt + Mausrad</td><td align=left>nur y-Achse</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Strg + Meta + Mausrad</td><td align=left>nur y-Achse</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>x-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x- und y-Achse</td><td align=left>x- und y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
-	</table>
-	<h3><a name="scrollen">Scrollen</a></h3>
-	<table cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="#FFFFFF"><td align=left>Strg + linke Maustaste + ziehen</td><td align=left>x- und y-Achse</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Mausrad vertikal</td><td align=left>y-Achse</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Mausrad horizontal</td><td align=left>x-Achse</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Shift + Mausrad vertikal</td><td align=left>x-Achse</td></tr>
-	</table>
-	<h3><a name="achseneinteilung">Achseneinteilung</a></h3>
-	<ul>
-		<li>Die Einteilung der x-Achse kann nicht ver&auml;ndert werden.</li>
-		<li>Die Anzahl der Haupt- und Unter-Teilungen der y-Achse kann im Popup-Men&uuml;
-		des Diagramms eingestellt werden (rechte Maustauste auf das Diagramm, <i>y-Achse</i>).</li>
-	</ul>
-	<h3><a name="sitzungen">Sitzungen</a></h3>
-	<ul>
-		<li>Als <i>Sitzung</i> wird eine Zusammenstellung von Diagrammen und den darin enthaltenen Kurven bezeichnet.</li>
-		<li>Bei dem ersten &Ouml;ffnen einer DTA-Datei wird eine Standard-Sitzung geladen.
-		    Das Aussehen der Standard-Sitzung wird mit folgender Priorit&auml;t festgelegt:
-		<ul>
-			<li>durch die Datei <i>default.session</i> im aktuellen Verzeichnis</li>
-			<li>durch die Datei <i>default.session</i> im Programmverzeichnis</li>
-			<li>durch die intern abgelegte Standard-Sitzung</li> 
-		</ul>
-		</li>
-		<li>Sitzung speichern: <i>Diagramme / Sitzung speichern...</i></li>
-		<li>Sitzung laden: <i>Diagramme / Sitzung &ouml;ffnen...</i></li>
-		<li>In einer Siztung werden gespeichert:
-		<ul>
-			<li>die Anzahl der Diagramme</li>
-			<li>die Kurven in den Diagrammen</li>
-			<li>Farbe und Linienst&auml;rke der Kurven</li>
-			<li>Anzahl der Achsenteilungen der y-Achse f&uuml;r jedes Diagramm</li>
-		</ul>
-		</li>
-	</ul>
+    <h2><a name="diagramme">Diagramme</a></h2>
+    <h3><a name="hinzufuegen">Hinzuf&uuml;gen / L&ouml;schen</a></h3>
+    <ul>
+        <li>ein Diagramm hinzuf&uuml;gen: <i>Diagramme / Hinzuf&uuml;gen</i></li>
+        <li>alle Diagramme l&ouml;schen: <i>Diagramme / Alle l&ouml;schen</i></li>
+        <li>ein Diagramm l&ouml;schen: rechte Maustaste auf das Diagramm und <i>Diagramm l&ouml;schen</i></li>
+    </ul>
+    <h3><a name="kurven">Kurven</a></h3>
+    <ul>
+        <li>Kurven einem Diagramm hinzuf&uuml;gen:
+        <ul>
+            <li>ein oder mehrere Signale in der Signal-Liste ausw&auml;hlen</li>
+            <li>per Drag&amp;Drop Signale in das Diagramm ziehen</li>
+        </ul>
+        </li>
+        <li>eine Kurve l&ouml;schen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / L&ouml;schen</i></li>
+        <li>Farbe einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Farbe...</i></li>
+        <li>Linienst&auml;rke einstellen: rechte Maustaste auf das Diagramm, <i>&lt;Kurvenname&gt; / Linienst&auml;rke...</i></li>
+        <li>Mit der Check-Box <i>Datenpunkte anzeigen</i> kann auf jeden Datenpunkt ein Kreuz gezeichnet werden. Dies ist n&uuml;tzlich,
+            um Aufzeichnungsl&uuml;cken zu erkennen. <b>Achtung:</b> die Verlangsamt die Darstellung von gro&szlig;en Datenmengen erheblich.</li>
+    </ul>
+    <h3><a name="zoomen">Zoomen</a></h3>
+    <table cellpadding="2" cellspacing="0" border="1">
+        <tr bgcolor="#FFFFFF"><td align=left>rechte Maustaste + ziehen</td><td align=left>Fenster</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Shift + Rechtsclick</td><td align=left>Fensterzoom eine Stufe r&uuml;ckg&auml;ngig machen</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Strg + Rechtsclick</td><td align=left>Fensterzoom alle Stufen r&uuml;ckg&auml;ngig machen</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Strg + Mausrad</td><td align=left>x- und y-Achse</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Strg + Shift + Mausrad</td><td align=left>nur x-Achse</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Strg + Alt + Mausrad</td><td align=left>nur y-Achse</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Strg + Meta + Mausrad</td><td align=left>nur y-Achse</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>x-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Popup-Menu / Zoom / Volle x-Achse</td><td align=left>y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Popup-Menu / Zoom / Volle x- und y-Achse</td><td align=left>x- und y-Achse so skalieren, dass alle Daten dargestellt werden</td></tr>
+    </table>
+    <h3><a name="scrollen">Scrollen</a></h3>
+    <table cellpadding="2" cellspacing="0" border="1">
+        <tr bgcolor="#FFFFFF"><td align=left>Strg + linke Maustaste + ziehen</td><td align=left>x- und y-Achse</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Mausrad vertikal</td><td align=left>y-Achse</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Mausrad horizontal</td><td align=left>x-Achse</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Shift + Mausrad vertikal</td><td align=left>x-Achse</td></tr>
+    </table>
+    <h3><a name="achseneinteilung">Achseneinteilung</a></h3>
+    <ul>
+        <li>Die Einteilung der x-Achse kann nicht ver&auml;ndert werden.</li>
+        <li>Die Anzahl der Haupt- und Unter-Teilungen der y-Achse kann im Popup-Men&uuml;
+        des Diagramms eingestellt werden (rechte Maustauste auf das Diagramm, <i>y-Achse</i>).</li>
+    </ul>
+    <h3><a name="sitzungen">Sitzungen</a></h3>
+    <ul>
+        <li>Als <i>Sitzung</i> wird eine Zusammenstellung von Diagrammen und den darin enthaltenen Kurven bezeichnet.</li>
+        <li>Bei dem ersten &Ouml;ffnen einer DTA-Datei wird eine Standard-Sitzung geladen.
+            Das Aussehen der Standard-Sitzung wird mit folgender Priorit&auml;t festgelegt:
+        <ul>
+            <li>durch die Datei <i>default.session</i> im aktuellen Verzeichnis</li>
+            <li>durch die Datei <i>default.session</i> im Programmverzeichnis</li>
+            <li>durch die intern abgelegte Standard-Sitzung</li>
+        </ul>
+        </li>
+        <li>Sitzung speichern: <i>Diagramme / Sitzung speichern...</i></li>
+        <li>Sitzung laden: <i>Diagramme / Sitzung &ouml;ffnen...</i></li>
+        <li>In einer Siztung werden gespeichert:
+        <ul>
+            <li>die Anzahl der Diagramme</li>
+            <li>die Kurven in den Diagrammen</li>
+            <li>Farbe und Linienst&auml;rke der Kurven</li>
+            <li>Anzahl der Achsenteilungen der y-Achse f&uuml;r jedes Diagramm</li>
+        </ul>
+        </li>
+    </ul>
 
-	<h2><a name="statistik"/>Statistik</a></h2>
-	<p>Es wird zwischen <i>analogen</i> (Temperaturen, Spreizung, Durchfluss,
-	Leistung) und <i>digitalen Signalen</i> (Ein- und Ausg&auml;nge) 
-	unterschieden. Signale, deren Wert sich nicht &auml;ndert, werden als 
-	<i>statische Signale</i> aufgef&uuml;hrt.</p>
-	<p>Die f&uuml;r die statistische Analyse zu betrachtende Zeitspanne kann 
-	durch die Eingabefelder eingegrenzt werden.</p>
-	<h3><a name="analogeSignale">Analoge Signale</a></h3>
-	<table cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="#FFFFFF"><th align=left>Name</th><th align=left>Beschreibung</th></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Signalname</td><td align=left>Names des Signals (Einheit in [])</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Minimum</td><td align=left>absoluter Minimalwert</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Maximum</td><td align=left>absoluter Maximalwert</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Mittelwert</td><td align=left>arithmetisches Mittel der Messwerte</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Median</td><td align=left>auch Zentralwert oder 0,5-Quantil genannt</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Standardabweichung</td><td align=left>Ma&szlig; f&uuml;r die Streuung der Messwerte</td></tr>
-	</table>
-	<h3><a name="digitaleSignale">Digitale Signale</a></h3>
-	<table cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="#FFFFFF"><th align=left>Name</th><th align=left>Beschreibung</th></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Impulse</td><td align=left>Anzahl der steigenden Flanken des Signals</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Aktiv</td><td align=left>Anteil der Zeit im gesamten Zeitraum, in dem das Signal eingeschalten war</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Mittelwert Ein</td><td align=left>Mittelwert der Zeitspannen in dem das Signal eingeschalten war</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Minimum Ein</td><td align=left>k&uuml;rzeste Einschalt-Dauer des Signals</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Maximum Ein</td><td align=left>l&auml;ngste Einschalt-Dauer des Signals</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Aktiv</td><td align=left>Anteil der Zeit im gesamten Zeitraum, in dem das Signal ausgeschalten war</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Mittelwert Ein</td><td align=left>Mittelwert der Zeitspannen in dem das Signal ausgeschalten war</td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>Minimum Ein</td><td align=left>k&uuml;rzeste Ausschalt-Dauer des Signals</td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>Maximum Ein</td><td align=left>l&auml;ngste Ausschalt-Dauer des Signals</td></tr>
-	</table>
-	<p>Zeitangaben in der Tabelle der digitalen Signale sind als 
-	<i>Stunden:Minuten</i> zu verstehen.</p>
-	<p>F&uuml;r die Berechnung der Ein- und Ausschalt-Dauern werden nur die 
-	Impulse benutzt, die zwischen zwei Flanken liegen und nicht durch eine
-	Aufzeichnungsl&uuml;cke unterbrochen wurden. Deshalb kann es sein, dass
-	zwar die Anzahl der Impulse gr&ouml;&szlig;er als Null ist, jedoch keine
-	Werte f&uuml;r die mittlere/minimale/maximale Ein-/Ausschalt-Dauer 
-	angegeben werden. </p>
+    <h2><a name="statistik"/>Statistik</a></h2>
+    <p>Es wird zwischen <i>analogen</i> (Temperaturen, Spreizung, Durchfluss,
+    Leistung) und <i>digitalen Signalen</i> (Ein- und Ausg&auml;nge)
+    unterschieden. Signale, deren Wert sich nicht &auml;ndert, werden als
+    <i>statische Signale</i> aufgef&uuml;hrt.</p>
+    <p>Die f&uuml;r die statistische Analyse zu betrachtende Zeitspanne kann
+    durch die Eingabefelder eingegrenzt werden.</p>
+    <h3><a name="analogeSignale">Analoge Signale</a></h3>
+    <table cellpadding="2" cellspacing="0" border="1">
+        <tr bgcolor="#FFFFFF"><th align=left>Name</th><th align=left>Beschreibung</th></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Signalname</td><td align=left>Names des Signals (Einheit in [])</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Minimum</td><td align=left>absoluter Minimalwert</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Maximum</td><td align=left>absoluter Maximalwert</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Mittelwert</td><td align=left>arithmetisches Mittel der Messwerte</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Median</td><td align=left>auch Zentralwert oder 0,5-Quantil genannt</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Standardabweichung</td><td align=left>Ma&szlig; f&uuml;r die Streuung der Messwerte</td></tr>
+    </table>
+    <h3><a name="digitaleSignale">Digitale Signale</a></h3>
+    <table cellpadding="2" cellspacing="0" border="1">
+        <tr bgcolor="#FFFFFF"><th align=left>Name</th><th align=left>Beschreibung</th></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Impulse</td><td align=left>Anzahl der steigenden Flanken des Signals</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Aktiv</td><td align=left>Anteil der Zeit im gesamten Zeitraum, in dem das Signal eingeschalten war</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Mittelwert Ein</td><td align=left>Mittelwert der Zeitspannen in dem das Signal eingeschalten war</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Minimum Ein</td><td align=left>k&uuml;rzeste Einschalt-Dauer des Signals</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Maximum Ein</td><td align=left>l&auml;ngste Einschalt-Dauer des Signals</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Aktiv</td><td align=left>Anteil der Zeit im gesamten Zeitraum, in dem das Signal ausgeschalten war</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Mittelwert Ein</td><td align=left>Mittelwert der Zeitspannen in dem das Signal ausgeschalten war</td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>Minimum Ein</td><td align=left>k&uuml;rzeste Ausschalt-Dauer des Signals</td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>Maximum Ein</td><td align=left>l&auml;ngste Ausschalt-Dauer des Signals</td></tr>
+    </table>
+    <p>Zeitangaben in der Tabelle der digitalen Signale sind als
+    <i>Stunden:Minuten</i> zu verstehen.</p>
+    <p>F&uuml;r die Berechnung der Ein- und Ausschalt-Dauern werden nur die
+    Impulse benutzt, die zwischen zwei Flanken liegen und nicht durch eine
+    Aufzeichnungsl&uuml;cke unterbrochen wurden. Deshalb kann es sein, dass
+    zwar die Anzahl der Impulse gr&ouml;&szlig;er als Null ist, jedoch keine
+    Werte f&uuml;r die mittlere/minimale/maximale Ein-/Ausschalt-Dauer
+    angegeben werden. </p>
 
-	<h2><a name="kompStart">Verdichter Starts</a></h2>
-	<p>Die Seite <i>Verdichter-Starts</i> stellt alle Starts des Kompressors im 
-	Daten-Zeitraum dar. Am Ende eines Verdichter-Starts werden die Temperaturen
-	des Heiz- sowie des W&auml;rmequellenkreises gespeichert.</p>
-	<p>Das Feld <i>Pause</i> stellt die Ruhezeit des Verdichters vor dem aktuellen
-	Lauf dar. Diese wird nur berechnet, wenn keine Aufzeichnungsl&uuml;cken in dem
-	Zeitraum vorhanden sind, und der letzte Lauf nicht vom EVU unterbrocken wurde. </p>
-	<p>Die ermittelten Verdichter-Starts werden in folgende Modi unterteilt:
-		<table cellpadding="2" cellspacing="0" border="1">
-			<tr bgcolor="#FFFFFF"><td align=left>Heizung</td><td align=left>Erw&auml;rmung von Heizungswasser</td></tr>
-			<tr bgcolor="#E5E5E5"><td align=left>Brauchwasser</td><td align=left>Erw&auml;rmung von Brauchwasser</td></tr>
-			<tr bgcolor="#FFFFFF"><td align=left>von EVU unterbrochen</td><td align=left>der Verdichter-Lauf wurde vom EVU unterbrochen</td></tr>
-			<tr bgcolor="#E5E5E5"><td align=left>nach EVU-Sperre</td><td align=left>der Verdichter-Lauf fand direkt nach einer EVU-Sperre statt</td></tr>
-		</table>
-	</p>
-	<p>Mit Hilfe der ComboBox kann die Tabelle nach Starts mit dem ausgew&auml;hlten Modus gefilters werden.</p>
-	
-	<h2><a name="sonstiges">Sonstiges</a></h2>
-	<h3><a name="history">Versionsgeschichte</a></h3>
-	<table cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="#FFFFFF"><th align=left>Version</th><th align=left>Beschreibung</th></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>v0.12</td><td align=left><ul><li>Anwendungs-Icon hinzugef&uuml;gt</li><li>Fehlerbereinigung</li></ul></td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>v0.11</td><td align=left><ul><li>DTA Download hinzugef&uuml;gt</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li></ul></td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>v0.10</td><td align=left><ul><li>Internationalisierung</li><li>Unterst&uuml;tzung von DTA Version 8208 und "kurzen" 9001</li><li>Speichern der Verdichter-Starts als CSV</li></ul></td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>v0.09</td><td align=left><ul><li>Unterst&uuml;tzung von DTA Version 9001</li><li>Berechnung der Arbeitszahl hinzugef&uuml;gt</li></ul></td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>v0.08</td><td align=left><ul><li>rudiment&auml;re Unterst&uuml;ung von DTA Version 9000</li></ul></td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>v0.07</td><td align=left><ul><li>Umstellung auf QWT 6.0</li></ul></td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>v0.06</td><td align=left><ul><li>Unterst&uuml;tzung von DUMP-Dateien hinzugef&uuml;gt</li></ul></td></tr>
-		<tr bgcolor="#FFFFFF"><td align=left>v0.05</td><td align=left><ul><li>Analyse der Kompressor-Starts</li><li>mehrere Diagramm-, Statistik- und Kompressor-Starts-Seiten k&ouml;nnen gleichzeitig angezeigt werden</li><li>Eingrenzung der statistische Analyse auf einen bestimmten Zeitbreich</li></ul></td></tr>
-		<tr bgcolor="#E5E5E5"><td align=left>v0.04</td><td align=left><ul><li>initiale Ver&ouml;ffentlichung</li></ul></td></tr>
-	</table>
-	<h3><a name="author">Author</a></h3>
-	<p>Author: opendta@gmx.de, 
-	<!-- hier keine Referenz, da QTextBrowser das nicht versteht
-	<a href="http://opendta.sf.net">http://opendta.sf.net</a> -->
-	http://opendta.sf.net</p>
-	<h3><a name="lizenz">Lizenz</a></h3>
-	<p>Dieses Programm ist freie Software. Sie k&ouml;nnen es unter den Bedingungen 
-	der GNU General Public License, wie von der Free Software Foundation 
-	ver&ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&auml;&szlig;
-	Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&auml;teren Version.</p>
-	<p>Die Ver&ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
-	Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die 
-	implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&Uuml;R EINEN BESTIMMTEN 
-	ZWECK. Details finden Sie in der GNU General Public License.</p>
-	<p>Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem
-	Programm erhalten haben. Falls nicht, siehe
-	<!-- hier keine Referenzen, da QTextBrowser das nicht versteht
-	<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>-->
-	http://www.gnu.org/licenses/gpl.html.</p>
+    <h2><a name="kompStart">Verdichter Starts</a></h2>
+    <p>Die Seite <i>Verdichter-Starts</i> stellt alle Starts des Kompressors im
+    Daten-Zeitraum dar. Am Ende eines Verdichter-Starts werden die Temperaturen
+    des Heiz- sowie des W&auml;rmequellenkreises gespeichert.</p>
+    <p>Das Feld <i>Pause</i> stellt die Ruhezeit des Verdichters vor dem aktuellen
+    Lauf dar. Diese wird nur berechnet, wenn keine Aufzeichnungsl&uuml;cken in dem
+    Zeitraum vorhanden sind, und der letzte Lauf nicht vom EVU unterbrocken wurde. </p>
+    <p>Die ermittelten Verdichter-Starts werden in folgende Modi unterteilt:
+        <table cellpadding="2" cellspacing="0" border="1">
+            <tr bgcolor="#FFFFFF"><td align=left>Heizung</td><td align=left>Erw&auml;rmung von Heizungswasser</td></tr>
+            <tr bgcolor="#E5E5E5"><td align=left>Brauchwasser</td><td align=left>Erw&auml;rmung von Brauchwasser</td></tr>
+            <tr bgcolor="#FFFFFF"><td align=left>von EVU unterbrochen</td><td align=left>der Verdichter-Lauf wurde vom EVU unterbrochen</td></tr>
+            <tr bgcolor="#E5E5E5"><td align=left>nach EVU-Sperre</td><td align=left>der Verdichter-Lauf fand direkt nach einer EVU-Sperre statt</td></tr>
+        </table>
+    </p>
+    <p>Mit Hilfe der ComboBox kann die Tabelle nach Starts mit dem ausgew&auml;hlten Modus gefilters werden.</p>
 
-	<p>Copyright (C) 2015 opendta@gmx.de</a>
+    <h2><a name="sonstiges">Sonstiges</a></h2>
+    <h3><a name="history">Versionsgeschichte</a></h3>
+    <table cellpadding="2" cellspacing="0" border="1">
+        <tr bgcolor="#E5E5E5"><th align=left>Version</th><th align=left>Beschreibung</th></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.13</td><td align=left><ul><li>Unterst&uuml;tzung von DTA Version 9003</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li><li>Umstellung auf Qt5.5</li></ul></td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>v0.12</td><td align=left><ul><li>Anwendungs-Icon hinzugef&uuml;gt</li><li>Fehlerbereinigung</li></ul></td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.11</td><td align=left><ul><li>DTA Download hinzugef&uuml;gt</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li></ul></td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>v0.10</td><td align=left><ul><li>Internationalisierung</li><li>Unterst&uuml;tzung von DTA Version 8208 und "kurzen" 9001</li><li>Speichern der Verdichter-Starts als CSV</li></ul></td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.09</td><td align=left><ul><li>Unterst&uuml;tzung von DTA Version 9001</li><li>Berechnung der Arbeitszahl hinzugef&uuml;gt</li></ul></td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>v0.08</td><td align=left><ul><li>rudiment&auml;re Unterst&uuml;ung von DTA Version 9000</li></ul></td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.07</td><td align=left><ul><li>Umstellung auf QWT 6.0</li></ul></td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>v0.06</td><td align=left><ul><li>Unterst&uuml;tzung von DUMP-Dateien hinzugef&uuml;gt</li></ul></td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.05</td><td align=left><ul><li>Analyse der Kompressor-Starts</li><li>mehrere Diagramm-, Statistik- und Kompressor-Starts-Seiten k&ouml;nnen gleichzeitig angezeigt werden</li><li>Eingrenzung der statistische Analyse auf einen bestimmten Zeitbreich</li></ul></td></tr>
+        <tr bgcolor="#E5E5E5"><td align=left>v0.04</td><td align=left><ul><li>initiale Ver&ouml;ffentlichung</li></ul></td></tr>
+    </table>
+    <h3><a name="author">Author</a></h3>
+    <p>Author: opendta@gmx.de,
+    <!-- hier keine Referenz, da QTextBrowser das nicht versteht
+    <a href="http://opendta.sf.net">http://opendta.sf.net</a> -->
+    http://opendta.sf.net</p>
+    <h3><a name="lizenz">Lizenz</a></h3>
+    <p>Dieses Programm ist freie Software. Sie k&ouml;nnen es unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation
+    ver&ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&auml;&szlig;
+    Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&auml;teren Version.</p>
+    <p>Die Ver&ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es
+    Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+    implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&Uuml;R EINEN BESTIMMTEN
+    ZWECK. Details finden Sie in der GNU General Public License.</p>
+    <p>Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Falls nicht, siehe
+    <!-- hier keine Referenzen, da QTextBrowser das nicht versteht
+    <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>-->
+    http://www.gnu.org/licenses/gpl.html.</p>
+
+    <p>Copyright (C) 2015 opendta@gmx.de</a>
 </body>
 </html>

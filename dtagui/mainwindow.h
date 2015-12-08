@@ -1,4 +1,4 @@
-/*  
+/*
 *---------------------------------------------------------------------------
 * Copyright (C) 2014  opendta@gmx.de
 *
@@ -22,13 +22,14 @@
 /*---------------------------------------------------------------------------
 * Hauptfenster
 *---------------------------------------------------------------------------*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 
 #include "dtafile/dtafile.h"
-#include "dtafile/dumpfile.h" 
+#include "dtafile/dumpfile.h"
 
 #define VERSION_STRING "$Rev$"
 

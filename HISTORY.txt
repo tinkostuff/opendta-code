@@ -3,6 +3,11 @@ DtaGui
 
 Versions-Geschicht:
 
+Rev 0.13
+  - Unterstuetzung von DTA Version 9003 hinzugefuegt
+  - Unterstuetzung von DTA Version 9001 verbessert
+  - Umstellung auf Qt5.5
+
 Rev 0.12
   - Anwendungs-Icon hinzugefuegt
   - Fehlerbereinigung
@@ -22,7 +27,7 @@ Rev 0.10
   - dta2csv aktualisiert
   - Fehlerbereinigung
      * Laufzeitberechnung bei HZ/BW Takten
-     * Absturz beim Löschen von Daten
+     * Absturz beim Loeschen von Daten
 
 Rev 0.09
   - Unterstuetzung von DTA Version 9001
@@ -40,7 +45,7 @@ Rev 0.07:
 Rev 0.06:
   - Unterstuetzung von DUMP-Dateien
 
-Rev 0.05: 
+Rev 0.05:
   - Analyse der Kompressor-Starts
   - mehrere Diagramm-, Statistik- und Kompressor-Starts-Seiten koennen
     gleichzeitig geoeffnet werden

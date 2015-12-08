@@ -231,7 +231,7 @@
 *      * 0: 25 Felder + Zeitstempel
 *      * 1: 38 Felder + Zeitstempel
 *      * 2: 34 Felder + Zeitstempel
-*      * 3: noch nicht aufgetaucht
+*      * 3: 47 Felder + Zeitstempel
 *
 * Aufbau eines Datensatzes
 *  -   [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
@@ -252,7 +252,7 @@
 *        bit 2:  MOT  = Motorschutz
 *        bit 3:  ASD  = Abtau/Soledruck/Durchfluss
 *        bit 4:  EVU_ = EVU Sperre
-*  -   [28:29] Ausgaenge 
+*  -   [28:29] Ausgaenge
 *        bit 0:  HUP  = Heizungsumwaelzpumpe
 *        bit 1:  ZUP  = Zusatzumwaelzpumpe
 *        bit 2:  BUP  = Brauswarmwasserumwaelzpumpe oder Drei-Wege-Ventil auf Brauchwassererwaermung
@@ -266,14 +266,14 @@
 *        bit 10: AV   = Abtauventil (Kreislaufumkehr)
 *        bit 11: VBS  = Ventilator, Brunnen- oder Soleumwaelzpumpe
 *        bit 12: ZW1  = Zusaetzlicher Waermeerzeuger 1
-*  -   [30:31] unbekannt 
+*  -   [30:31] unbekannt
 *  -   [32:33] TSS  = Temperatur Solar Speicher
 *  -   [34:35] ?? TSK  = Temperatur Solar Kollektor
 *  -   [36:37] TFB2 = Temperatur Fussbodenheizung 2
 *  -   [38:39] TFB3 = Temperatur Fussbodenheizung 3
 *  -   [40:41] ?? TEE  = Temperatur Externe Energiequelle
-*  -   [42:43] unbekannt 
-*  -   [44:45] unbekannt 
+*  -   [42:43] unbekannt
+*  -   [44:45] unbekannt
 *  -   [46:47] TMK2soll = Solltemperatur Mischer Kreis 2
 *  -   [48:49] TMK3soll = Solltemperatur Mischer Kreis 3
 *  -   [50:51] AI1 = Analoger Eingang 1
@@ -289,16 +289,71 @@
 *  -   [70:71] unbekannt T(VD)
 *  -   [72:73] unbekannt T(VD)
 *  -   [74:75] Ueberhitzung
-*  -   [76:77] Ueberhiztung Sollwert 
-*  -   [78:79] unbekannt 
+*  -   [76:77] Ueberhiztung Sollwert
+*  -   [78:79] unbekannt
+*  -   [80:81] unbekannt
+*  -   [82:83] unbekannt
+*  -   [84:85] unbekannt
+*  -   [86:87] unbekannt
+*  -   [88:89] unbekannt
+*  -   [90:91] unbekannt
+*  -   [92:93] unbekannt
+*  -   [94:95] unbekannt
+*  -   [96:97] unbekannt
 *
 * Umrechnung der Werte:
 *  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
-*  die Messwerte x10 gespeichert (Zweierkomplement fr negative Werte).
+*  die Messwerte x10 gespeichert (Zweierkomplement fuer negative Werte).
 *
 * invertierte Bit-Werte:
 *  Feldnamen, die mit eine "_" enden beinhalten invertierte
 *  Werte.
+*
+* Felder, die mit dieser Klasse berechnet werden:
+*  - SpHz: Spreizung Heizkreis (TVL-TRL)
+*  - SpWQ: Spreizung Waermequelle (TWQein-TWQaus)
+*  - Qh: thermische Leistung (Durchfluss * Dichte * Waermekapazitaet * SpHz)
+*
+*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------
+*
+* Aufbau der DTA-Dateien Version 0x232B - 9003:
+*  - die ersten 10 Byte sind ein Datei-Kopf
+*      [0:3]: 0x232B
+*      [4:7]: Unterversion
+*      [8:9]: Anzahl der Datensaetze in der Datei
+*  - die Byte-Order ist little-endian
+*  - die Datensaetze sind sortiert
+*
+* Der Aufbau des Datensatzes ist auch im Datei-Kopf gespeichert. Die
+* Information ist wie folgt abgelegt:
+*   - 3 Byte - unbekannt
+*   - String: "Text_Grundplatine"
+*   - Feldbeschreibungen
+*       Feld-Typ: 1 Byte
+*       Feld-Name: String
+*       Feld-Info: 3 Byte - unbekannt
+*   - ist Feld-Typ%4 == 2 handelt es sich um die bit-weise Bescheibung
+*     von Ein-/Ausgangs Feldern
+*   - Ein-/Ausgangs-Felder sind wie folgt kodiert
+*       * Anzahl der hinterlegten Bit: 1 Byte
+*       * 1 Byte unbekannt
+*       * Folge von Bit-Beschreibungen
+*           - 1 Byte unbekannt
+*           - String mit Bit-Name
+*           - 1 Byte unbekannt
+*       * nach der Folge: 1 Byte unbekannt
+*   - ist der Feld-Typ == 0xC2 ist es die letzte Feldbescheibung
+* (Strings werden immer bis zum Byte 0x00 gelesen)
+*
+* Aufbau eines Datensatzes
+*  - [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
+*  - Felder wie oben beschreiben
+*
+* Umrechnung der Werte:
+*  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
+*  die Messwerte x10 gespeichert (Zweierkomplement fuer negative Werte).
 *
 * Felder, die mit dieser Klasse berechnet werden:
 *  - SpHz: Spreizung Heizkreis (TVL-TRL)
@@ -321,7 +376,6 @@
 #define DTA1_DATASET_LENGTH 168  // bytes
 #define DTA2_DATASET_LENGTH1 39  // fields
 #define DTA2_DATASET_LENGTH2 26  // fields
-#define DTA3_DATASET_LENGTH 38   // fields
 
 // Header-Werte fuer unterschiedliche Datei-Versionen
 #define DTA8208 0x2010

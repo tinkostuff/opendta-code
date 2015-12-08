@@ -1,5 +1,5 @@
 Bibliotheken:
-  - Qt Version 4.8.x
+  - Qt Version 5.5.x
   - Qwt Version 6.1.x
 
 Erstellen:

@@ -1,7 +1,7 @@
 #---------------------------------------------------------------------------
 # Copyright (C) 2015  opendta@gmx.de
 #
-# Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen 
+# Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen
 # der GNU General Public License, wie von der Free Software Foundation
 # veroeffentlicht, weitergeben und/oder modifizieren, entweder gemaess
 # Version 3 der Lizenz oder (nach Ihrer Option) jeder spaeteren Version.
@@ -12,8 +12,8 @@
 # BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
 #
 # Sie sollten ein Exemplar der GNU General Public License zusammen mit
-# diesem Programm erhalten haben. Falls nicht, 
-# siehe <http://www.gnu.org/licenses/gpl.html>. 
+# diesem Programm erhalten haben. Falls nicht,
+# siehe <http://www.gnu.org/licenses/gpl.html>.
 #---------------------------------------------------------------------------
 # $Id$
 #---------------------------------------------------------------------------
@@ -292,6 +292,52 @@
 * invertierte Bit-Werte:
 *  Feldnamen, die mit eine "_" enden beinhalten invertierte
 *  Werte.
+*
+* Felder, die mit dieser Klasse berechnet werden:
+*  - SpHz: Spreizung Heizkreis (TVL-TRL)
+*  - SpWQ: Spreizung Waermequelle (TWQein-TWQaus)
+*  - Qh: thermische Leistung (Durchfluss * Dichte * Waermekapazitaet * SpHz)
+*
+*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------
+*
+* Aufbau der DTA-Dateien Version 0x232B - 9003:
+*  - die ersten 10 Byte sind ein Datei-Kopf
+*      [0:3]: 0x232B
+*      [4:7]: Unterversion
+*      [8:9]: Anzahl der Datensaetze in der Datei
+*  - die Byte-Order ist little-endian
+*  - die Datensaetze sind sortiert
+*
+* Der Aufbau des Datensatzes ist auch im Datei-Kopf gespeichert. Die
+* Information ist wie folgt abgelegt:
+*   - 3 Byte - unbekannt
+*   - String: "Text_Grundplatine"
+*   - Feldbeschreibungen
+*       Feld-Typ: 1 Byte
+*       Feld-Name: String
+*       Feld-Info: 3 Byte - unbekannt
+*   - ist Feld-Typ%4 == 2 handelt es sich um die bit-weise Bescheibung
+*     von Ein-/Ausgangs Feldern
+*   - Ein-/Ausgangs-Felder sind wie folgt kodiert
+*       * Anzahl der hinterlegten Bit: 1 Byte
+*       * 1 Byte unbekannt
+*       * Folge von Bit-Beschreibungen
+*           - 1 Byte unbekannt
+*           - String mit Bit-Name
+*           - 1 Byte unbekannt
+*       * nach der Folge: 1 Byte unbekannt
+*   - ist der Feld-Typ == 0xC2 ist es die letzte Feldbescheibung
+* (Strings werden immer bis zum Byte 0x00 gelesen)
+*
+* Aufbau eines Datensatzes
+*  - [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
+*  - Felder wie oben beschreiben
+*
+* Umrechnung der Werte:
+*  Fuer die oben genannten Werte sind in den Datensaetzen in der Regel
+*  die Messwerte x10 gespeichert (Zweierkomplement fuer negative Werte).
 *
 * Felder, die mit dieser Klasse berechnet werden:
 *  - SpHz: Spreizung Heizkreis (TVL-TRL)

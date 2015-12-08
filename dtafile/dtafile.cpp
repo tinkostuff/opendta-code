@@ -350,37 +350,37 @@ const DtaLUTInfo DtaFile::LUT[5] = {
       10  // precision
    },
 
-	// LUT for TSS, TSK
-	{
-		{1550, 1550, 1550, 1550, 1550, 1550, 1550, 1537, 1468, 1409, 1357, 
-		    1311, 1268, 1229, 1193, 1160, 1130, 1100, 1074, 1048, 1024, 1000, 
-			 978, 956, 936, 916, 896, 879, 861, 843, 827, 811, 795, 780, 765, 
-			 750, 737, 723, 709, 695, 681, 668, 655, 646, 630, 617, 605, 593, 
-			 581, 570, 558, 547, 535, 524, 513, 502, 490, 479, 467, 456, 444, 
-			 433, 421, 410, 398, 387, 376, 365, 354, 343, 331, 319, 308, 296, 
-			 283, 270, 257, 244, 231, 218, 204, 191, 177, 162, 148, 133, 117, 
-			 101, 84, 67, 48, 29, 9, -12, -35, -60, -87, -117, -152, -189, 
-			 -235, -292, -369, -411, -411},
-		0,  // offset
+    // LUT for TSS, TSK
+    {
+        {1550, 1550, 1550, 1550, 1550, 1550, 1550, 1537, 1468, 1409, 1357,
+            1311, 1268, 1229, 1193, 1160, 1130, 1100, 1074, 1048, 1024, 1000,
+             978, 956, 936, 916, 896, 879, 861, 843, 827, 811, 795, 780, 765,
+             750, 737, 723, 709, 695, 681, 668, 655, 646, 630, 617, 605, 593,
+             581, 570, 558, 547, 535, 524, 513, 502, 490, 479, 467, 456, 444,
+             433, 421, 410, 398, 387, 376, 365, 354, 343, 331, 319, 308, 296,
+             283, 270, 257, 244, 231, 218, 204, 191, 177, 162, 148, 133, 117,
+             101, 84, 67, 48, 29, 9, -12, -35, -60, -87, -117, -152, -189,
+             -235, -292, -369, -411, -411},
+        0,  // offset
       40, // delta
-		10, // precision
-	},
+        10, // precision
+    },
 
-	// LUT for TFB2, TFB3, TEE
-	{
-		{1550, 1550, 1550, 1438, 1305, 1205, 1128, 1063, 1007, 959, 916, 878, 
-			 843, 811, 783, 756, 732, 708, 685, 664, 647, 625, 607, 590, 574, 
-			 558, 543, 529, 515, 501, 487, 474, 461, 448, 436, 424, 412, 401, 
-			 390, 379, 368, 358, 348, 338, 328, 318, 308, 299, 289, 279, 269, 
-			 260, 250, 241, 232, 223, 214, 205, 196, 187, 178, 170, 161, 152, 
-			 144, 135, 127, 119, 110, 101, 93, 84, 75, 66, 57, 48, 39, 30, 21, 
-			 12, 2, -7, -16, -25, -36, -47, -57, -66, -77, -89, -101, -111, 
-			 -123, -135, -149, -161, -174, -189, -204, -219, -235, -254, -271, 
-			 -279, -279},
-		0,  // offset
+    // LUT for TFB2, TFB3, TEE
+    {
+        {1550, 1550, 1550, 1438, 1305, 1205, 1128, 1063, 1007, 959, 916, 878,
+             843, 811, 783, 756, 732, 708, 685, 664, 647, 625, 607, 590, 574,
+             558, 543, 529, 515, 501, 487, 474, 461, 448, 436, 424, 412, 401,
+             390, 379, 368, 358, 348, 338, 328, 318, 308, 299, 289, 279, 269,
+             260, 250, 241, 232, 223, 214, 205, 196, 187, 178, 170, 161, 152,
+             144, 135, 127, 119, 110, 101, 93, 84, 75, 66, 57, 48, 39, 30, 21,
+             12, 2, -7, -16, -25, -36, -47, -57, -66, -77, -89, -101, -111,
+             -123, -135, -149, -161, -174, -189, -204, -219, -235, -254, -271,
+             -279, -279},
+        0,  // offset
       40, // delta
-		10, // precision
-	}
+        10, // precision
+    }
 };
 
 /*---------------------------------------------------------------------------
@@ -508,18 +508,18 @@ void DtaFile::readDTA9001(DataMap *data)
       for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
       quint32 ts; // Zeitstempel
 
-		// Felder einlesen
+        // Felder einlesen
       m_dtaStream >> ts;                                                                      // [0 :3 ] Datum und Uhrzeit in Sekunden von 1.1.1970 (Unixzeit)
-      m_dtaStream >> valueS; values[23] = valueS/10.0;                                        // [4 :5 ] TVL 
+      m_dtaStream >> valueS; values[23] = valueS/10.0;                                        // [4 :5 ] TVL
       m_dtaStream >> valueS; values[22] = valueS/10.0;                                        // [6 :7 ] TRL
-      m_dtaStream >> valueS; values[26] = valueS/10.0;                                        // [8 :9 ] TWQein 
+      m_dtaStream >> valueS; values[26] = valueS/10.0;                                        // [8 :9 ] TWQein
       m_dtaStream >> valueS; values[25] = valueS/10.0;                                        // [10:11] TWQaus
       m_dtaStream >> valueS; values[24] = valueS/10.0;                                        // [12:13] THG
-      m_dtaStream >> valueS; values[19] = valueS/10.0;                                        // [14:15] TBW 
+      m_dtaStream >> valueS; values[19] = valueS/10.0;                                        // [14:15] TBW
       m_dtaStream >> valueS; values[18] = valueS/10.0;                                        // [16:17] TFB1
       m_dtaStream >> valueS; values[20] = valueS/10.0;                                        // [18:19] TA
       m_dtaStream >> valueS; values[21] = valueS/10.0;                                        // [20:21] TRLext
-      m_dtaStream >> valueS; values[27] = valueS/10.0;                                        // [22:23] TRLsoll 
+      m_dtaStream >> valueS; values[27] = valueS/10.0;                                        // [22:23] TRLsoll
       m_dtaStream >> valueS; values[28] = valueS/10.0;                                        // [24:25] TKM1soll
       m_dtaStream >> value; for( int j=0; j<=4; j++) values[13+j]=calcBitData(value,j);       // [26:27] Eingaenge
       values[17] = values[17]==1.0 ? 0.0 : 1.0; // EVU invertieren
@@ -778,8 +778,6 @@ void DtaFile::readDTA9003FieldsHeader()
            m_dta9003Fields << "IO";
            // Ende mit 0xC2
            if(fieldType==0xC2) break;
-           // 0xFF lesen (Trenner)
-           m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
        } else {
            // "normales Feld"
            QString fn = readString();
@@ -788,7 +786,6 @@ void DtaFile::readDTA9003FieldsHeader()
        }
        m_dtaStream >> fieldType;
    }
-   m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
 
    //qDebug() << m_dta9003Fields;
    //qDebug() << m_dta9003IOs;
@@ -812,6 +809,7 @@ QStringList DtaFile::readDTA9003IOFieldsHeader()
        m_dtaStream.readRawData( buffer, 2); // unbekannte Daten
        count--;
     }
+    m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
     return res;
 }
 
