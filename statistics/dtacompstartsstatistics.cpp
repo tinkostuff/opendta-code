@@ -364,11 +364,17 @@ void DtaCompStartsStatistics::calcStatistics(DataMap::const_iterator iteratorSta
                      cmprun.setValue(DtaCompStart::CompStartFields(i), cmprunSave.value(DtaCompStart::CompStartFields(i)));
                   //cmprun = cmprunSave;
                   inlineRun = false;
-                  // Inline-Lauf nur Speichern, wenn EVU unterbrochen hat
+                  // Inline-Lauf nur Speichern, wenn Verdichter aus
                   moreRunsToSave = (state==stateOff);
-               }
-               else
+               } else {
+                  // HZ nach BW aber es wurde mit BW angefangen
+                  if(state==stateHz)
+                  {
+                      cmprun.setStart(ts);
+                      cmprun.setMode(DtaCompStart::mHz);
+                  }
                   moreRunsToSave = false;
+               }
             }
          }
 
