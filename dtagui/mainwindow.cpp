@@ -226,7 +226,7 @@ void MainWindow::on_actionUeberQwt_triggered()
 {
    QMessageBox::about( this,
                        tr("Über Qwt"),
-                       tr( 
+                       tr(
       "<h3>Qwt %1</h3>"
       "<h4>Deutsch:</h4>"
       "<p>Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes "
@@ -259,7 +259,8 @@ void MainWindow::on_actionDUMPOeffnen_triggered()
          this,
          tr("Eine oder mehrere Dateien auswählen"),
          lastOpenPathDTA,
-         tr("DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)"));
+         //tr("DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)")); // MacOSX mag *.dump.bz2 nicht :-(
+         tr("DUMP-Dateien (*.bz2);;Alle Dateien (*.*)"));
    if(!files.isEmpty()) readDataFiles(files, false);
 }
 
