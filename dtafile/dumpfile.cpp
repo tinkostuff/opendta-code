@@ -82,6 +82,15 @@ void DumpFile::readDatasets(DataMap *data)
 
    while(!line.isNull())
    {
+      // Kommentar ueberspringen
+      if(line.startsWith('#'))
+      {
+          bzcat.waitForReadyRead(); // auf Daten von bzcat warten
+          line = strm.readLine(); // naechste Zeile
+          lineCount++;
+          continue;
+      }
+
       // Zeile lesen und decodieren
       QStringList fields = line.split( ',', QString::SkipEmptyParts);
 
