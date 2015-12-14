@@ -605,47 +605,49 @@ void DtaFile::readDTA9003(DataMap *data)
        for( int j=0; j<m_fieldCount; j++) values[j] = 0.0; // initiale Werte
 
        // Werte zuordnen
-       dta9003SetField( "TVL",      &temp, &values, 23);
-       dta9003SetField( "TRL",      &temp, &values, 22);
-       dta9003SetField( "TRL_soll", &temp, &values, 27);
-       dta9003SetField( "TA",       &temp, &values, 20);
-       dta9003SetField( "THG",      &temp, &values, 24);
-       dta9003SetField( "TWE",      &temp, &values, 26);
-       dta9003SetField( "TWA",      &temp, &values, 25);
-       dta9003SetField( "TBW",      &temp, &values, 19);
-       dta9003SetField( "TFB1",     &temp, &values, 18);
-       dta9003SetField( "MK1-Soll", &temp, &values, 28);
-       dta9003SetField( "Ansaug VD",&temp, &values, 73);
+       dta9003SetField( "TVL",               &temp, &values, 23);
+       dta9003SetField( "TRL",               &temp, &values, 22);
+       dta9003SetField( "TRL_soll",          &temp, &values, 27);
+       dta9003SetField( "TRL_ext",           &temp, &values, 21);
+       dta9003SetField( "TA",                &temp, &values, 20);
+       dta9003SetField( "THG",               &temp, &values, 24);
+       dta9003SetField( "TWE",               &temp, &values, 26);
+       dta9003SetField( "TWA",               &temp, &values, 25);
+       dta9003SetField( "TBW",               &temp, &values, 19);
+       dta9003SetField( "TFB1",              &temp, &values, 18);
+       dta9003SetField( "MK1-Soll",          &temp, &values, 28);
+       dta9003SetField( "Ansaug VD",         &temp, &values, 73);
        dta9003SetField( "Ansaug Verdampfer", &temp, &values, 74);
        dta9003SetField( "Ueberhitzung",      &temp, &values, 71);
        dta9003SetField( "Ueberhitzung Soll", &temp, &values, 72);
-       dta9003SetField( "Durchfluss",        &temp, &values, 43);
+       dta9003SetField( "Durchfluss",        &temp, &values, 43); values[43] = values[43]/6.0; // Korrektur und Umrechnung in l/min
+       dta9003SetField( "Mitteltemperatur",  &temp, &values, 56);
        // Werte ohne Zuordnung
-       // ("Text_VL_Soll", "Text_BW_oben", "Multi1", "Multi2", Temp VDH", "Druck HD", "Druck ND", "Verfluessigungstemp.", "Verdampfungstemp.", "Schrittmotor", "PWM VBO", "PWM HUP", "Text_Freq_VD", "Spr. HUP/ZUP", "Spr. HUP/ZUP Soll", "Spr. VBO", "Spr. VBO Soll", "Mitteltemperatur")
+       // ("Text_VL_Soll", "Text_BW_oben", "Multi1", "Multi2", Temp VDH", "Druck HD", "Druck ND", "Verfluessigungstemp.", "Verdampfungstemp.", "Schrittmotor", "PWM VBO", "PWM HUP", "Text_Freq_VD", "Spr. HUP/ZUP", "Spr. HUP/ZUP Soll", "Spr. VBO", "Spr. VBO Soll")
 
        // IOs zuordnen
        QList<qint16> ioValues;
        foreach( int j, ioFields) ioValues << temp.at(j);
        // Ausgaenge
-       dta9003SetIOField( "HUPout", &ioValues, &values, 0);
-       dta9003SetIOField( "ZUPout", &ioValues, &values, 1);
-       dta9003SetIOField( "BUPout", &ioValues, &values, 2);
-       dta9003SetIOField( "ZW2SSTout", &ioValues, &values, 3);
-       dta9003SetIOField( "MA1out", &ioValues, &values, 4);
-       dta9003SetIOField( "MZ1out", &ioValues, &values, 5);
-       dta9003SetIOField( "ZIPout", &ioValues, &values, 6);
+       dta9003SetIOField( "HUPout",     &ioValues, &values, 0);
+       dta9003SetIOField( "ZUPout",     &ioValues, &values, 1);
+       dta9003SetIOField( "BUPout",     &ioValues, &values, 2);
+       dta9003SetIOField( "ZW2SSTout",  &ioValues, &values, 3);
+       dta9003SetIOField( "MA1out",     &ioValues, &values, 4);
+       dta9003SetIOField( "MZ1out",     &ioValues, &values, 5);
+       dta9003SetIOField( "ZIPout",     &ioValues, &values, 6);
        dta9003SetIOField( "Verdichter", &ioValues, &values, 7);
-       dta9003SetIOField( "AVout",  &ioValues, &values, 10);
-       dta9003SetIOField( "VBOout", &ioValues, &values, 11);
-       dta9003SetIOField( "ZW1out", &ioValues, &values, 12);
+       dta9003SetIOField( "AVout",      &ioValues, &values, 10);
+       dta9003SetIOField( "VBOout",     &ioValues, &values, 11);
+       dta9003SetIOField( "ZW1out",     &ioValues, &values, 12);
        // Ausgaenge ohne Zuordnung: "VDHZ", "OUT 7", "OUT 8", "OUT 9", "FP1out"
 
        // Eingaenge
-       dta9003SetIOField( "HDin", &ioValues, &values, 13, true);
+       dta9003SetIOField( "HDin",   &ioValues, &values, 13, true);
        dta9003SetIOField( "MOT VD", &ioValues, &values, 14, true); // Feldname: ND
-       dta9003SetIOField( "MOTin", &ioValues, &values, 15, true);
-       dta9003SetIOField( "ASDin", &ioValues, &values, 16, true);
-       dta9003SetIOField( "EVU 1", &ioValues, &values, 17, true);
+       dta9003SetIOField( "MOTin",  &ioValues, &values, 15, true);
+       dta9003SetIOField( "ASDin",  &ioValues, &values, 16, true);
+       dta9003SetIOField( "EVU 1",  &ioValues, &values, 17, true);
        // Eingaenge ohne Zuordnung: "EVU 2", "IN 7"
 
        // berechnete Felder

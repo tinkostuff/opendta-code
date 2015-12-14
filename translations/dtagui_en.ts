@@ -577,6 +577,10 @@
     </message>
     <message>
         <location filename="../dtafile/datafile.cpp" line="759"/>
+        <source>Qh [kW]</source>
+        <translation>Qh [kW]</translation>
+    </message>
+    <message>
         <source>Qh [W]</source>
         <translation>Qh [W]</translation>
     </message>
@@ -894,63 +898,75 @@
 <context>
     <name>DownloadDTA</name>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="57"/>
+        <location filename="../dtagui/downloaddta.cpp" line="59"/>
         <source>Eingabe erforderlich</source>
         <translation>Input needed</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="104"/>
+        <location filename="../dtagui/downloaddta.cpp" line="106"/>
         <source>Verzeichnis exisitiert nicht!</source>
         <translation>Directory does not exist!</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="105"/>
+        <location filename="../dtagui/downloaddta.cpp" line="107"/>
         <source>Das Verzeichnis &apos;%1&apos; existiert nicht!</source>
         <translation>Directory &apos;%1&apos; does not exist!</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="124"/>
         <source>Datei überschreiben?</source>
         <translation>Overwrite file?</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="125"/>
         <source>Datei &apos;%1&apos; existiert bereits!&lt;br&gt;Soll sie überschrieben werden?</source>
         <translation>File &apos;%1&apos; exists already!&lt;br&gt;Do you want to overwrite it?</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="137"/>
+        <location filename="../dtagui/downloaddta.cpp" line="139"/>
         <source>Fehler</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="138"/>
         <source>Fehler beim Öffnen der Datei &apos;%1&apos;!</source>
         <translation>Error while opening file &apos;%1&apos;!</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="153"/>
+        <location filename="../dtagui/downloaddta.cpp" line="126"/>
+        <source>Datei Überschreiben?</source>
+        <translation>Overwrite file?</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/downloaddta.cpp" line="127"/>
+        <source>Datei &apos;%1&apos; existiert bereits!&lt;br&gt;Soll sie Überschrieben werden?</source>
+        <translation>File &apos;%1&apos; exists already!&lt;br&gt;Do you want to overwrite it?</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/downloaddta.cpp" line="140"/>
+        <source>Fehler beim öffnen der Datei &apos;%1&apos;!</source>
+        <translation>Error while opening file &apos;%1&apos;!</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/downloaddta.cpp" line="155"/>
         <source>Download gestartet</source>
         <translation>Download started</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="189"/>
-        <location filename="../dtagui/downloaddta.cpp" line="202"/>
+        <location filename="../dtagui/downloaddta.cpp" line="191"/>
+        <location filename="../dtagui/downloaddta.cpp" line="204"/>
         <source>Download Fehler</source>
         <translation>Download error</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="208"/>
+        <location filename="../dtagui/downloaddta.cpp" line="210"/>
         <source>Datei speichern</source>
         <translation>Save file</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="215"/>
+        <location filename="../dtagui/downloaddta.cpp" line="217"/>
         <source>Einstellungen speichern</source>
         <translation>Save settings</translation>
     </message>
     <message>
-        <location filename="../dtagui/downloaddta.cpp" line="226"/>
+        <location filename="../dtagui/downloaddta.cpp" line="228"/>
         <source>Ende</source>
         <translation>End</translation>
     </message>
@@ -964,7 +980,7 @@
         <source>Adresse der DTA-Datei:</source>
         <translation>Address of DTA file:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/downloaddta.ui" line="33"/>
         <source>aktuelle Daten der Wärmepumpe: http://&lt;ip-addresse&gt;/proclog</source>
         <translation>current data from heatpump: http://&lt;ip-address&gt;/proclog</translation>
@@ -979,9 +995,9 @@
         <source>Download Verzeichnis:</source>
         <translation>Download directory:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/downloaddta.ui" line="53"/>
-        <location filename="../dtagui/downloaddta.cpp" line="248"/>
+        <location filename="../dtagui/downloaddta.cpp" line="250"/>
         <source>Verzeichnis auswählen</source>
         <translation>Select directory</translation>
     </message>
@@ -1117,346 +1133,350 @@
 <context>
     <name>DtaCompStartsFrame</name>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="85"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="103"/>
         <source>&amp;Drucken...</source>
         <translation>&amp;Print...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="89"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="107"/>
         <source>&amp;Aktualisieren</source>
         <translation>&amp;Refresh</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="101"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="119"/>
         <source>&lt;b&gt;Zeitspanne:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Period:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="105"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="123"/>
         <source>Begin:</source>
         <translation>Begin:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="109"/>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="116"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="127"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="134"/>
         <source>yyyy-MM-dd hh:mm:ss</source>
         <translation>yyyy-MM-dd hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="112"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="130"/>
         <source>Ende:</source>
         <translation>End:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="119"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="137"/>
         <source>gesamter Bereich</source>
         <translation>complete range</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="131"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="149"/>
         <source>Modus:</source>
         <translation>Mode:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="139"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="157"/>
         <source>Daten als CSV speichern ...</source>
         <translation>Save data as CSV...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="209"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="227"/>
         <source>Bitte warten! Daten werden ausgewertet.</source>
         <translation>Please be pacient! Preparing data.</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="233"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="256"/>
         <source>Fehler beim Auswerten der Daten!</source>
         <translation>Error during data preparation!</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="273"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="280"/>
         <source>&lt;h1&gt;Allgemeine Informationen&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;Common Information&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="276"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="283"/>
         <source>Datensätze</source>
         <translation>Datasets</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="279"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="286"/>
         <source>Daten Start</source>
         <translation>Data Start</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="282"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="289"/>
         <source>Daten Ende</source>
         <translation>Data End</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="285"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="292"/>
         <source>%1 Tage %2 Stunden %3 Minuten %4 Sekunden</source>
         <translation>%1 days %2 hours %3 minutes %4 seconds</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="291"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="298"/>
         <source>Zeitraum</source>
         <translation>Time Frame</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="294"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="301"/>
         <source>Anzahl Aufzeichnungslücken</source>
         <translation>Number of recording gaps</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="296"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="303"/>
         <source>%1 Tage %2 Stunden %3 Minuten</source>
         <translation>%1 days %2 hours %3 minutes</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="301"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="308"/>
         <source>Summe Aufzeichnungslücken</source>
         <translation>Sum recording gaps</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="304"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="311"/>
         <source>Komporessor Starts</source>
         <translation>Compressor Starts</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="312"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="319"/>
         <source>&lt;h1&gt;Statistik für Modus %1 (%2 Starts)&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;Statistic for Mode %1 (%2 starts)&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="316"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="323"/>
         <source>Signalname</source>
         <translation>Signal Name</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="317"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="324"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="318"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="325"/>
         <source>Maximum</source>
         <translation>Maximum</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="319"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="326"/>
         <source>Mittelwert</source>
         <translation>Average</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="320"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="327"/>
         <source>Median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="321"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="328"/>
         <source>Standardabweichung</source>
         <translation>Standard Deviation</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="356"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="363"/>
         <source>alle</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="361"/>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="615"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="368"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="622"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="362"/>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="616"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="369"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="623"/>
         <source>Modus</source>
         <translation>Mode</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="363"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="370"/>
         <source>Länge
 [h:min]</source>
         <translation>Length
 [h:min]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="364"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="371"/>
         <source>Pause
 [h:min]</source>
         <translation>Pause
 [h:min]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="365"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="372"/>
         <source>TVL
 [°C]</source>
         <translation>TI
 [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="366"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="373"/>
         <source>TRL
 [°C]</source>
         <translation>TR
 [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="367"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="374"/>
         <source>SpHZ
 [K]</source>
         <translation>SpSnk
 [K]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="368"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="375"/>
         <source>TWQein
 [°C]</source>
         <translation>Heats in
 [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="369"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="376"/>
         <source>TWQaus
 [°C]</source>
         <translation>Heats out
 [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="370"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="377"/>
         <source>SpWQ
 [K]</source>
         <translation>SpSrc
 [K]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="371"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="378"/>
         <source>TA
 [°C]</source>
         <translation>TA
 [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="372"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="379"/>
         <source>WM
 [kWh]</source>
         <translation>HQ
 [kWh]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="373"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="380"/>
         <source>E1
 [kWh]</source>
         <translation>E1
 [kWh]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="374"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="381"/>
         <source>E2
 [kWh]</source>
         <translation>E2
 [kWh]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="375"/>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="629"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="382"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="636"/>
         <source>AZ1</source>
         <translation>COP1</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="376"/>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="630"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="383"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="637"/>
         <source>AZ2</source>
         <translation>COP2</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="582"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="589"/>
         <source>keine Daten</source>
         <translation>no data</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="583"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="590"/>
         <source>Z.Z. sind keine Daten vorhanden!&lt;br&gt;Deshalb kann auch nichts gespeichert werden!</source>
         <translation>Currently, no data is leaded!&lt;br&gt;Thus, nothing could be saved!</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="589"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="596"/>
         <source>Daten speichern</source>
         <translation>Save data</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="591"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="598"/>
         <source>CSV-Dateien (*.csv);;Alle Dateien (*.*)</source>
         <translation>CSV-files (*.csv);;all files (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="603"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="610"/>
         <source>Fehler</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="604"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="611"/>
+        <source>FEHLER: beim öffnen der CSV-Datei &apos;%1&apos;!</source>
+        <translation>ERROR: Could not open CSV-file &apos;%1&apos;!</translation>
+    </message>
+    <message>
         <source>FEHLER: beim Öffnen der CSV-Datei &apos;%1&apos;!</source>
         <translation>ERROR: Could not open CSV-file &apos;%1&apos;!</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="617"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="624"/>
         <source>Länge [h:min]</source>
         <translation>Length [h:min]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="618"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="625"/>
         <source>Pause [h:min]</source>
         <translation>Pause [h:min]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="619"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="626"/>
         <source>TVL [°C]</source>
         <translation>TI [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="620"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="627"/>
         <source>TRL [°C]</source>
         <translation>TR [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="621"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="628"/>
         <source>SpHZ [K]</source>
         <translation>SpSnk [K]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="622"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="629"/>
         <source>TWQein [°C]</source>
         <translation>THI [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="623"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="630"/>
         <source>TWQaus [°C]</source>
         <translation>THO [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="624"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="631"/>
         <source>SpWQ [K]</source>
         <translation>SpSrc [K]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="625"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="632"/>
         <source>TA [°C]</source>
         <translation>TA [°C]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="626"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="633"/>
         <source>WM [kWh]</source>
         <translation>HQ [kWh]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="627"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="634"/>
         <source>E1 [kWh]</source>
         <translation>E1 [kWh]</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtacompstartsframe.cpp" line="628"/>
+        <location filename="../dtagui/dtacompstartsframe.cpp" line="635"/>
         <source>E2 [kWh]</source>
         <translation>E2 [kWh]</translation>
     </message>
@@ -1464,24 +1484,24 @@
 <context>
     <name>DtaFile</name>
     <message>
-        <location filename="../dtafile/dtafile.cpp" line="60"/>
+        <location filename="../dtafile/dtafile.cpp" line="71"/>
         <source>FEHLER: Datei &apos;%1&apos; nicht gefunden!</source>
         <translation>ERROR: File &apos;%1&apos; not found!</translation>
     </message>
     <message>
-        <location filename="../dtafile/dtafile.cpp" line="84"/>
+        <location filename="../dtafile/dtafile.cpp" line="94"/>
         <source>FEHLER %2: DTA-Version %1 wird z.Z. noch nicht unterstuetzt!
 Bei Interesse bitte die DTA-Datei (incl. CSV-Datei) an opendta@gmx.de schicken.</source>
         <translation>ERROR %2: DTA-Version %1 is currently not supported!
 If you would like to have some support, please send the DTA-file (incl. the CSV-file) to opendta@gmx.de.</translation>
     </message>
     <message>
-        <location filename="../dtafile/dtafile.cpp" line="104"/>
+        <location filename="../dtafile/dtafile.cpp" line="112"/>
         <source>FEHLER %1: Unerwartete Dateigroesse!</source>
         <translation>ERROR: %1: Unexpected file size!</translation>
     </message>
     <message>
-        <location filename="../dtafile/dtafile.cpp" line="151"/>
+        <location filename="../dtafile/dtafile.cpp" line="162"/>
         <source>FEHLER: unbekannt DTA Version (%1)!</source>
         <translation>ERROR: unknown DTA version (%1)!</translation>
     </message>
@@ -1489,98 +1509,98 @@ If you would like to have some support, please send the DTA-file (incl. the CSV-
 <context>
     <name>DtaPlotFrame</name>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="265"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="281"/>
         <source>Diagramm hinzufügen</source>
         <translation>Add diagram</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="269"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="285"/>
         <source>Alle Diagramme löschen</source>
         <translation>Remove all diagrams</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="273"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="289"/>
         <source>Sitzung öffnen...</source>
         <translation>Open session...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="277"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="293"/>
         <source>Sitzung speichern...</source>
         <translation>Save session...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="281"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="297"/>
         <source>Alle Diagramme drucken...</source>
         <translation>Print all diagrams...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="285"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="301"/>
         <source>Ansicht zurücksetzen</source>
         <translation>Reset view</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="289"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="305"/>
         <source>Datenpunkte anzeigen</source>
         <translation>Show datapoints</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="338"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="354"/>
         <source>Signale:</source>
         <translation>Signals:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="535"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="551"/>
         <source>Linienstärke</source>
         <translation>Line thickness</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="536"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="552"/>
         <source>Linienstärke:</source>
         <translation>Line thickness:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="768"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="784"/>
         <source>max. Haupt-Teilung</source>
         <translation>max. major grid</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="769"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="785"/>
         <source>maximale Anzahl der Haupt-Teilungen:</source>
         <translation>maximal amount of major grid lines:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="789"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="805"/>
         <source>max. Unter-Teilung</source>
         <translation>max. minor grid</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="790"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="806"/>
         <source>maximale Anzahl der Unter-Teilungen:</source>
         <translation>maximum amount of minor grid lines:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="899"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="915"/>
         <source>Sitzung speichern</source>
         <translation>Save session</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="901"/>
-        <location filename="../dtagui/dtaplotframe.cpp" line="944"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="917"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="960"/>
         <source>Sitzungsdateien (*.session);;Alle Dateien (*.*)</source>
         <translation>session files (*.session);;all files (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="942"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="958"/>
         <source>Sitzung öffnen</source>
         <translation>Open session</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="963"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="979"/>
         <source>Fehler beim Laden der Sitzung</source>
         <translation>Error while loading session</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="964"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="980"/>
         <source>Fehler beim Laden der Sitzung!
 Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation>Error while loading session! Key &apos;global/diagrams&apos; not found!</translation>
@@ -1589,206 +1609,206 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
 <context>
     <name>DtaStatsFrame</name>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="101"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="109"/>
         <source>&amp;Drucken...</source>
         <translation>&amp;Print...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="105"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="113"/>
         <source>&amp;Aktualisieren</source>
         <translation>&amp;Refresh</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="117"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="125"/>
         <source>&lt;b&gt;Zeitspanne:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Period:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="121"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="129"/>
         <source>Start:</source>
         <translation>Start:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="125"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="132"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="133"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="140"/>
         <source>yyyy-MM-dd hh:mm:ss</source>
         <translation>yyyy-MM-dd hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="128"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="136"/>
         <source>Ende:</source>
         <translation>End:</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="135"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="143"/>
         <source>gesamter Bereich</source>
         <translation>complete range</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="175"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="183"/>
         <source>Bitte warten! Daten werden ausgewertet.</source>
         <translation>Please be pacient! Preparing data.</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="194"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="204"/>
         <source>Fehler beim Auswerten der Daten!</source>
         <translation>Error during data preparation!</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="232"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="228"/>
         <source>&lt;h1&gt;Allgemeine Informationen&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;Common Information&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="235"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="231"/>
         <source>Datensätze</source>
         <translation>Datasets</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="238"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="234"/>
         <source>Daten Start</source>
         <translation>Data Start</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="241"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="237"/>
         <source>Daten Ende</source>
         <translation>Data End</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="244"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="240"/>
         <source>%1 Tage %2 Stunden %3 Minuten %4 Sekunden</source>
         <translation>%1 days %2 hours %3 minutes %4 seconds</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="250"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="246"/>
         <source>Zeitraum</source>
         <translation>Time Period</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="253"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="249"/>
         <source>Anzahl Aufzeichnungslücken</source>
         <translation>Number of recording gaps</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="255"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="251"/>
         <source>%1 Tage %2 Stunden %3 Minuten</source>
         <translation>%1 days %2 hours %3 minutes</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="260"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="256"/>
         <source>Summe Aufzeichnungslücken</source>
         <translation>Sum recording gaps</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="265"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="261"/>
         <source>&lt;h1&gt;analoge Signale&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;analog signals&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="268"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="295"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="338"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="264"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="291"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="334"/>
         <source>Signalname</source>
         <translation>Signal Name</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="269"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="265"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="270"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="266"/>
         <source>Maximum</source>
         <translation>Maximum</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="271"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="267"/>
         <source>Mittelwert</source>
         <translation>Average</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="272"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="268"/>
         <source>Median</source>
         <translation>Median</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="273"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="269"/>
         <source>Standardabweichung</source>
         <translation>Standard Deviation</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="292"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="288"/>
         <source>&lt;h1&gt;digitale Signale&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;digital signals&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="296"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="292"/>
         <source>Impulse</source>
         <translation>Pulses</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="297"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="293"/>
         <source>Aktiv</source>
         <translation>Active</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="298"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="294"/>
         <source>Mittelwert Ein</source>
         <translation>Average On</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="299"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="295"/>
         <source>Minimum Ein</source>
         <translation>Minimum On</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="300"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="296"/>
         <source>Maximum Ein</source>
         <translation>Maximum On</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="301"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="297"/>
         <source>Inaktiv</source>
         <translation>Inactive</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="302"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="298"/>
         <source>Mittelwert Aus</source>
         <translation>Average Off</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="303"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="299"/>
         <source>Minimum Aus</source>
         <translation>Minimum Off</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="304"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="300"/>
         <source>Maximum Aus</source>
         <translation>Maximum Off</translation>
     </message>
     <message>
+        <location filename="../dtagui/dtastatsframe.cpp" line="318"/>
         <location filename="../dtagui/dtastatsframe.cpp" line="322"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="326"/>
         <source>%1&amp;nbsp;%</source>
         <translation>%1&amp;nbsp;%</translation>
     </message>
     <message>
+        <location filename="../dtagui/dtastatsframe.cpp" line="319"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="320"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="321"/>
         <location filename="../dtagui/dtastatsframe.cpp" line="323"/>
         <location filename="../dtagui/dtastatsframe.cpp" line="324"/>
         <location filename="../dtagui/dtastatsframe.cpp" line="325"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="327"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="328"/>
-        <location filename="../dtagui/dtastatsframe.cpp" line="329"/>
         <source>%1:%2</source>
         <translation>%1:%2</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="335"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="331"/>
         <source>&lt;h1&gt;statische Signale&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;static signals&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtastatsframe.cpp" line="339"/>
+        <location filename="../dtagui/dtastatsframe.cpp" line="335"/>
         <source>Wert</source>
         <translation>Value</translation>
     </message>
@@ -1823,12 +1843,12 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>&amp;Hilfe</source>
         <translation>&amp;Help</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="106"/>
         <source>DTA Ö&amp;ffnen...</source>
         <translation>&amp;Open DTA...</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="109"/>
         <source>DTA-Datei(en) Öffnen</source>
         <translation>Open DTA file(s)</translation>
@@ -1838,12 +1858,12 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="121"/>
         <source>Daten &amp;zurücksetzen</source>
         <translation>&amp;Reset data</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="124"/>
         <source>Daten zurücksetzen</source>
         <translation>Reset data</translation>
@@ -1868,17 +1888,17 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="147"/>
         <source>Ü&amp;ber...</source>
         <translation>&amp;About...</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="156"/>
         <source>Über &amp;Qt...</source>
         <translation>About &amp;Qt...</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="161"/>
         <source>Über Q&amp;wt...</source>
         <translation>About Q&amp;wt...</translation>
@@ -1898,7 +1918,7 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Neues &amp;Diagrammseite</source>
         <translation>New &amp;diagram page</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="181"/>
         <source>Neues Diagrammseite einfügen</source>
         <translation>Add new diagram page</translation>
@@ -1913,7 +1933,7 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Neue &amp;Statistikseite</source>
         <translation>New &amp;statistics page</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="196"/>
         <source>Neue Statistikseite einfügen</source>
         <translation>Add new statistics page</translation>
@@ -1923,17 +1943,17 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Neue &amp;Kompressor-Starts-Seite</source>
         <translation>New &amp;compressor-starts page</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="208"/>
         <source>Neue Kompressor-Starts-Seite einfügen</source>
         <translation>Add new compressor-starts page</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="217"/>
         <source>DUMP Öffnen...</source>
         <translation>Open DUMP...</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="220"/>
         <source>DUMP-Datei(en) Öffnen</source>
         <translation>Open DUMP file(s)</translation>
@@ -1953,7 +1973,7 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <source>Sprache...</source>
         <translation>Language...</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../dtagui/mainwindow.ui" line="240"/>
         <source>Sprache auswählen (Neustart erforderlich)</source>
         <translation>Select language (restart needed)</translation>
@@ -1969,12 +1989,12 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation>Download DTA (proclog) from Luxtronik 2</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="69"/>
+        <location filename="../dtagui/mainwindow.cpp" line="71"/>
         <source>DtaGui - %1</source>
         <translation>DtaGui - %1</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="90"/>
+        <location filename="../dtagui/mainwindow.cpp" line="92"/>
         <source>Lese Datei: %1</source>
         <translation>Reading file: %1</translation>
     </message>
@@ -1983,8 +2003,8 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="obsolete">Error during reading DTA file</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="121"/>
-        <location filename="../dtagui/mainwindow.cpp" line="272"/>
+        <location filename="../dtagui/mainwindow.cpp" line="123"/>
+        <location filename="../dtagui/mainwindow.cpp" line="274"/>
         <source>Datensätze: 0</source>
         <translation>datasets: 0</translation>
     </message>
@@ -2001,12 +2021,12 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="obsolete">Error during reading DUMP file &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="125"/>
+        <location filename="../dtagui/mainwindow.cpp" line="127"/>
         <source>Datensätze: %1, Start: %2, Ende: %3, Datei-Version: %4</source>
         <translation>Datasets: %1, Start: %2, End: %3, File-Version: %4</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="189"/>
+        <location filename="../dtagui/mainwindow.cpp" line="191"/>
         <source>Über DtaGui</source>
         <translation>About DtaGui</translation>
     </message>
@@ -2015,7 +2035,6 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="obsolete">&lt;h3&gt;About DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Description&lt;/h4&gt;&lt;p&gt;With DtaGui it is possible to visualize and run some statistical analysis on DTA-files.&lt;/p&gt;&lt;p&gt;DTA files are generated by the heat pump control &lt;i&gt;Luxtronik 2&lt;/i&gt; of the vendor &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). These files contain operation states (temperatures, input and output signal) from the heat pump for the last 48 hours.&lt;/p&gt;&lt;p&gt;Identical in constructoin are: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;License&lt;/h4&gt;&lt;p&gt;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/p&gt;You should have received a copy of the GNU General Public License along with this program. If not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2013 opendta@gmx.de&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="101"/>
         <source>Fehler beim Öffnen der Daten-Datei</source>
         <translation>Error during reading data file</translation>
     </message>
@@ -2024,17 +2043,16 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="obsolete">&lt;h3&gt;About DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Description&lt;/h4&gt;&lt;p&gt;With DtaGui it is possible to visualize and run some statistical analysis on DTA-files.&lt;/p&gt;&lt;p&gt;DTA files are generated by the heat pump control &lt;i&gt;Luxtronik 2&lt;/i&gt; of the vendor &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). These files contain operation states (temperatures, input and output signal) from the heat pump for the last 48 hours.&lt;/p&gt;&lt;p&gt;Identical in constructoin are: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;License&lt;/h4&gt;&lt;p&gt;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/p&gt;You should have received a copy of the GNU General Public License along with this program. If not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2014 opendta@gmx.de&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="190"/>
         <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2014 opendta@gmx.de&lt;p&gt;</source>
         <translation>&lt;h3&gt;About DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Description&lt;/h4&gt;&lt;p&gt;With DtaGui it is possible to visualize and run some statistical analysis on DTA-files.&lt;/p&gt;&lt;p&gt;DTA files are generated by the heat pump control &lt;i&gt;Luxtronik 2&lt;/i&gt; of the vendor &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). These files contain operation states (temperatures, input and output signal) from the heat pump for the last 48 hours.&lt;/p&gt;&lt;p&gt;Identical in constructoin are: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;License&lt;/h4&gt;&lt;p&gt;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/p&gt;You should have received a copy of the GNU General Public License along with this program. If not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2015 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2014 ?}</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="221"/>
+        <location filename="../dtagui/mainwindow.cpp" line="223"/>
         <source>Über Qt</source>
         <translation>About Qt</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="226"/>
+        <location filename="../dtagui/mainwindow.cpp" line="228"/>
         <source>Über Qwt</source>
         <translation>About Qwt</translation>
     </message>
@@ -2043,113 +2061,127 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
         <translation type="obsolete">&lt;h3&gt;Qwt&lt;/h3&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="227"/>
+        <location filename="../dtagui/mainwindow.cpp" line="103"/>
+        <source>Fehler beim öffnen der Daten-Datei</source>
+        <translation>Error during reading data file</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/mainwindow.cpp" line="192"/>
+        <source>&lt;h3&gt;&amp;Uuml;ber DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Beschreibung&lt;/h4&gt;&lt;p&gt;Mit DtaGui k&amp;ouml;nnen DTA-Dateien visualisiert und statistisch analysiert werden.&lt;/p&gt;&lt;p&gt;DTA-Dateien werden von der W&amp;auml;rmepumpensteuerung &lt;i&gt;Luxtronik 2&lt;/i&gt; der Firma &lt;i&gt;AlphaInnotec&lt;/i&gt; (C) erzeugt. Sie enhalten den Betriebszustand (Temperaturen, Eingangs- und Ausgangssignale) der W&amp;auml;rmepumpe der letzten 48h.&lt;/p&gt;&lt;p&gt;Baugleiche Steuerung sind: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;Lizenz&lt;/h4&gt;&lt;p&gt;Dieses Programm ist freie Software. Sie k&amp;ouml;nnen es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation ver&amp;ouml;ffentlicht, weitergeben und/oder modifizieren, entweder gem&amp;auml;&amp;szlig; Version 3 der Lizenz oder (nach Ihrer Option) jeder sp&amp;auml;teren Version.&lt;/p&gt;&lt;p&gt;Die Ver&amp;ouml;ffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F&amp;Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;/p&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/gpl.html&quot;&gt;http://www.gnu.org/licenses/gpl.html&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2015 opendta@gmx.de&lt;p&gt;</source>
+        <translation>&lt;h3&gt;About DtaGui&lt;/h3&gt;&lt;p&gt;Author: opendta@gmx.de, &lt;a href=&quot;http://opendta.sf.net&quot;&gt;http://opendta.sf.net&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Version: &lt;b&gt;%1&lt;/p&gt;&lt;h4&gt;Description&lt;/h4&gt;&lt;p&gt;With DtaGui it is possible to visualize and run some statistical analysis on DTA-files.&lt;/p&gt;&lt;p&gt;DTA files are generated by the heat pump control &lt;i&gt;Luxtronik 2&lt;/i&gt; of the vendor &lt;i&gt;AlphaInnotec&lt;/i&gt; (C). These files contain operation states (temperatures, input and output signal) from the heat pump for the last 48 hours.&lt;/p&gt;&lt;p&gt;Identical in constructoin are: Siemens-Novelan WPR-NET, ?&lt;/p&gt;&lt;h4&gt;License&lt;/h4&gt;&lt;p&gt;This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/p&gt;You should have received a copy of the GNU General Public License along with this program. If not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;http://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Copyright (C) 2015 opendta@gmx.de&lt;p&gt; {3&gt;?} {3&gt;?} {1&lt;?} {4&gt;?} {4&gt;?} {2&lt;?} {48h?} {4&gt;?} {4&gt;?} {3 ?} {2015 ?}</translation>
+    </message>
+    <message>
+        <location filename="../dtagui/mainwindow.cpp" line="229"/>
         <source>&lt;h3&gt;Qwt %1&lt;/h3&gt;&lt;h4&gt;Deutsch:&lt;/h4&gt;&lt;p&gt;Dieses Programm basiert in Teilen auf der Arbeit des Qwt Projektes (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;Ich m&amp;ouml;chte mich an dieser Stelle recht herzlich f&amp;uuml;r die geleistet Arbeit bedanken!&lt;/p&gt;&lt;h4&gt;English:&lt;/h4&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Qwt %1&lt;/h3&gt;&lt;p&gt;Program is based in part on the work of the Qwt project (&lt;a href=&quot;http://qwt.sf.net&quot;&gt;http://qwt.sf.net&lt;/a&gt;).&lt;/p&gt;&lt;p&gt;I would like to thank the Qwt team for their work!&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="249"/>
-        <location filename="../dtagui/mainwindow.cpp" line="258"/>
+        <location filename="../dtagui/mainwindow.cpp" line="251"/>
+        <location filename="../dtagui/mainwindow.cpp" line="260"/>
         <source>Eine oder mehrere Dateien auswählen</source>
         <translation>Select one or more files</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="251"/>
+        <location filename="../dtagui/mainwindow.cpp" line="253"/>
         <source>DTA-Dateien (*.dta);;Alle Dateien (*.*)</source>
         <translation>DTA-file (*.dta);;all files (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="260"/>
+        <location filename="../dtagui/mainwindow.cpp" line="262"/>
         <source>DUMP-Dateien (*.dump.bz2 *.dumpe.bz2);;Alle Dateien (*.*)</source>
         <translation>DUMP-files (*.dump.bz2 *.dumpe.bz2);;all files (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="296"/>
+        <location filename="../dtagui/mainwindow.cpp" line="298"/>
         <source>Hilfe</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="297"/>
+        <location filename="../dtagui/mainwindow.cpp" line="299"/>
         <source>Hilfe konnte nicht geladen werden!</source>
         <translation>Unable to load help file!</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="304"/>
+        <location filename="../dtagui/mainwindow.cpp" line="306"/>
         <source>DtaGui Hilfe</source>
         <translation>DtaGui Help</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="337"/>
+        <location filename="../dtagui/mainwindow.cpp" line="339"/>
         <source>Diagramm %1</source>
         <translation>Diagram %1</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="348"/>
+        <location filename="../dtagui/mainwindow.cpp" line="350"/>
         <source>Statistik %1</source>
         <translation>Statistics %1</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="359"/>
+        <location filename="../dtagui/mainwindow.cpp" line="361"/>
         <source>Verdichter Starts %1</source>
         <translation>Compressor Starts %1</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="372"/>
+        <location filename="../dtagui/mainwindow.cpp" line="374"/>
         <source>keine Daten</source>
         <translation>no data</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="373"/>
+        <location filename="../dtagui/mainwindow.cpp" line="375"/>
         <source>Z.Z. sind keine Daten vorhanden!&lt;br&gt;Deshalb kann auch nichts gespeichert werden!</source>
         <translation>Currently, no data is leaded!&lt;br&gt;Thus, nothing could be saved!</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="379"/>
+        <location filename="../dtagui/mainwindow.cpp" line="381"/>
         <source>Daten speichern</source>
         <translation>Save data</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="381"/>
+        <location filename="../dtagui/mainwindow.cpp" line="383"/>
         <source>CSV-Dateien (*.csv);;Alle Dateien (*.*)</source>
         <translation>CSV-files (*.csv);;all files (*.*)</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="393"/>
+        <location filename="../dtagui/mainwindow.cpp" line="395"/>
         <source>Fehler</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="394"/>
+        <location filename="../dtagui/mainwindow.cpp" line="396"/>
+        <source>FEHLER: beim öffnen der CSV-Datei &apos;%1&apos;!</source>
+        <translation>ERROR: Could not open CSV-file &apos;%1&apos;!</translation>
+    </message>
+    <message>
         <source>FEHLER: beim Öffnen der CSV-Datei &apos;%1&apos;!</source>
         <translation>ERROR: Could not open CSV-file &apos;%1&apos;!</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="403"/>
+        <location filename="../dtagui/mainwindow.cpp" line="405"/>
         <source>Datum/Uhrzeit</source>
         <translation>Date/Time</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="403"/>
+        <location filename="../dtagui/mainwindow.cpp" line="405"/>
         <source>Zeitstempel</source>
         <translation>Timestamp</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="469"/>
+        <location filename="../dtagui/mainwindow.cpp" line="471"/>
         <source>Sprache auswählen</source>
         <translation>Select language</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="470"/>
+        <location filename="../dtagui/mainwindow.cpp" line="472"/>
         <source>Bitte eine Sprache auswählen.&lt;br&gt;Die Datei &apos;dtagui_&amp;lt;sprache&amp;gt;.qm&apos; muss im Programmverzeichnis verfügbar sein!&lt;br&gt;&lt;b&gt;Hinweis:&lt;/b&gt; Die Änderung wird erst nach einem Programmstart wirksam!</source>
         <translation>Please select a language.&lt;br&gt;The file &apos;dtagui_&amp;lt;language&amp;gt;.qm&apos; has to be present in the program folder!&lt;br&gt;&lt;b&gt;Attention:&lt;/b&gt; A restart is needed to activate the change!</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="482"/>
+        <location filename="../dtagui/mainwindow.cpp" line="484"/>
         <source>Anwendung neu starten</source>
         <translation>Restart program</translation>
     </message>
     <message>
-        <location filename="../dtagui/mainwindow.cpp" line="483"/>
+        <location filename="../dtagui/mainwindow.cpp" line="485"/>
         <source>Bitte die Anwendung neu starten, um die Änderung wirksam zu machen!</source>
         <translation>Please restart the program to activate the change!</translation>
     </message>
@@ -2157,63 +2189,63 @@ Schlüssel &apos;global/diagrams&apos; nicht gefunden!</source>
 <context>
     <name>PlotEventHandler</name>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="143"/>
-        <location filename="../dtagui/dtaplotframe.cpp" line="144"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="159"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="160"/>
         <source>&amp;Drucken...</source>
         <translation>&amp;Print...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="149"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="165"/>
         <source>Diagramm &amp;löschen</source>
         <translation>&amp;Remove diagramm</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="155"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="171"/>
         <source>&amp;Zoom</source>
         <translation>&amp;Zoom</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="157"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="173"/>
         <source>Volle X-Achse</source>
         <translation>Complete X-axis</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="160"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="176"/>
         <source>Volle Y-Achse</source>
         <translation>Complete Y-axis</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="163"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="179"/>
         <source>Volle X- und Y-Achse</source>
         <translation>Complete X- and Y-axis</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="168"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="184"/>
         <source>&amp;y-Achse</source>
         <translation>&amp;y-axis</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="169"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="185"/>
         <source>max. Haupt-Teilung</source>
         <translation>max. major grid</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="172"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="188"/>
         <source>max. Unter-Teilung</source>
         <translation>max. minor grid</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="204"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="220"/>
         <source>Löschen</source>
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="210"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="226"/>
         <source>Farbe...</source>
         <translation>Color...</translation>
     </message>
     <message>
-        <location filename="../dtagui/dtaplotframe.cpp" line="216"/>
+        <location filename="../dtagui/dtaplotframe.cpp" line="232"/>
         <source>Linienstärke...</source>
         <translation>Line thickness...</translation>
     </message>

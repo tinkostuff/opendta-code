@@ -756,7 +756,7 @@ const DataFieldInfoList DataFile::fieldInfos()
              0
              );  // SpWQ
    res << DataFieldInfo(
-             tr("Qh [W]"),
+             tr("Qh [kW]"),
              tr("Heizleistung"),
              tr("Berechnete Werte"),
              true,
