@@ -36,6 +36,9 @@
             <li><a href="#digitaleSignale">Digitale Signale</a></li>
         </ul>
         <li><a href="#kompStart">Verdichter-Starts</a></li>
+        <ul>
+            <li><a href="#kompStart2">Beschreibung der Berechnung</a></li>
+        </ul>
         <li><a href="#sonstiges">Sonstiges</a></li>
         <ul>
             <li><a href="#history">Versionsgeschichte</a></li>
@@ -209,7 +212,7 @@
     des Heiz- sowie des W&auml;rmequellenkreises gespeichert.</p>
     <p>Das Feld <i>Pause</i> stellt die Ruhezeit des Verdichters vor dem aktuellen
     Lauf dar. Diese wird nur berechnet, wenn keine Aufzeichnungsl&uuml;cken in dem
-    Zeitraum vorhanden sind, und der letzte Lauf nicht vom EVU unterbrocken wurde. </p>
+    Zeitraum vorhanden sind, und der letzte Lauf nicht vom EVU unterbrochen wurde. </p>
     <p>Die ermittelten Verdichter-Starts werden in folgende Modi unterteilt:
         <table cellpadding="2" cellspacing="0" border="1">
             <tr bgcolor="#FFFFFF"><td align=left>Heizung</td><td align=left>Erw&auml;rmung von Heizungswasser</td></tr>
@@ -219,12 +222,30 @@
         </table>
     </p>
     <p>Mit Hilfe der ComboBox kann die Tabelle nach Starts mit dem ausgew&auml;hlten Modus gefilters werden.</p>
+    <h3><a name="kompStart2">Beschreibung der Berechnung</a></h3>
+    <ul>
+        <li>Alle Verdichterstarts, an deren Ende das Signal <i>EVU</i> aktiv ist,
+            werden der Kategorie <i>von EVU unterbrochen</i> zugeordnet.</li>
+        <li>Verdichterstarts für die <i>Heizung</i> können von Brauchwasseranforderungen
+            unterbrochen werden. Wird <i>Heizung</i> nach der Brauchwasserbereitung
+            fortgesetzt, dann werden die Laufzeiten für <i>Heizung</i> vor und
+            nach der Brauchwasserbereitung addiert und die Werte zu einem
+            Verdichterstart zusammengefasst.</li>
+        <li><i>Brauchwasser</i> wird nicht unterbrochen. Sobald der Verdichter
+            nach einer Brauchwasserbereitung anh&auml;lt oder der Modus von
+            <i>Brauchwasser</i> zu <i>Heizung</i> wechselt, gilt der Verdichterstart
+            f&uuml;r <i>Brauchwasser</i> als abgeschlossen.</li>
+        <li>Startet ein <i>Heizungs</i> Takt innerhalb von acht Minuten nachdem
+            das <i>EVU</i> signal gefallen ist, wird der Verdichterstart als
+            <i>nach EVU-Sperre</i> gewertet. Die acht Minuten Zeitspanne sollen
+            die Netzeinschaltverz&ouml;gerung ber&uuml;cksichtigen.</li>
+    </ul>
 
     <h2><a name="sonstiges">Sonstiges</a></h2>
     <h3><a name="history">Versionsgeschichte</a></h3>
     <table cellpadding="2" cellspacing="0" border="1">
         <tr bgcolor="#E5E5E5"><th align=left>Version</th><th align=left>Beschreibung</th></tr>
-        <tr bgcolor="#FFFFFF"><td align=left>v0.13</td><td align=left><ul><li>Unterst&uuml;tzung von DTA Version 9003</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li><li>Umstellung auf Qt5.5</li></ul></td></tr>
+        <tr bgcolor="#FFFFFF"><td align=left>v0.13</td><td align=left><ul><li>Unterst&uuml;tzung von DTA Version 9003</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li><li>Umstellung auf Qt5.5</li><li>Fehlerbereinigung</li></ul></td></tr>
         <tr bgcolor="#E5E5E5"><td align=left>v0.12</td><td align=left><ul><li>Anwendungs-Icon hinzugef&uuml;gt</li><li>Fehlerbereinigung</li></ul></td></tr>
         <tr bgcolor="#FFFFFF"><td align=left>v0.11</td><td align=left><ul><li>DTA Download hinzugef&uuml;gt</li><li>Unterst&uuml;tzung von DTA Version 9001 verbessert</li></ul></td></tr>
         <tr bgcolor="#E5E5E5"><td align=left>v0.10</td><td align=left><ul><li>Internationalisierung</li><li>Unterst&uuml;tzung von DTA Version 8208 und "kurzen" 9001</li><li>Speichern der Verdichter-Starts als CSV</li></ul></td></tr>

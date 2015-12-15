@@ -7,6 +7,7 @@ Rev 0.13
   - Unterstuetzung von DTA Version 9003 hinzugefuegt
   - Unterstuetzung von DTA Version 9001 verbessert
   - Umstellung auf Qt5.5
+  - Fehlerbereinigung
 
 Rev 0.12
   - Anwendungs-Icon hinzugefuegt
