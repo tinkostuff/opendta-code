@@ -143,7 +143,14 @@ bool DtaFile::open()
       m_dtaVersionStr = QString("DTA %1.%2").arg(header[0]).arg(header[1]);
    else
       m_dtaVersionStr = QString("DTA %1").arg(header[0]);
-   if (m_ZUPasVD1) m_dtaVersionStr = QString("%1 %2").arg(m_dtaVersionStr).arg("(ZUPasVD1)");
+   if (m_ZUPasVD1) m_dtaVersionStr = QString("%1 (ZUPasVD1)").arg(m_dtaVersionStr);
+   if (m_dtaVersion==DTA9003)
+   {
+       if(m_dtaSubVersion & 0x1)
+           m_dtaVersionStr = QString("%1 Comfort").arg(m_dtaVersionStr);
+       if(m_dtaSubVersion & 0x2)
+           m_dtaVersionStr = QString("%1 Compact").arg(m_dtaVersionStr);
+   }
 
    return true;
 }
@@ -686,7 +693,7 @@ void DtaFile::dta9003SetIOField(const QString &key,
         {
             qint16 value = source->at(i);
             qreal res = qreal((value >> pos) & 1);
-            if(invert) res = res==0.0 ? res=1.0 : 0.0;
+            if(invert) res = res==0.0 ? 1.0 : 0.0;
             target->replace(index,res);
             return;
         }
@@ -764,29 +771,56 @@ void DtaFile::readDTA9003FieldsHeader()
    // Puffer zum Dummy-Lesen (ist schneller als skipRawData)
    char buffer[50];
 
-   // unbekannte Daten
-   m_dtaStream.readRawData( buffer, 3);
-   readString(); // "Text_Grundplatine"
-
    quint8 fieldType;
-   m_dtaStream >> fieldType;
+   qint16 fieldsToRead = -1;
+   m_dtaSubVersion = 0;
+
+   m_dtaStream.readRawData( buffer, 2); // unbekannte Daten
    while(true)
    {
-       if(fieldType%4 == 2)
+       m_dtaStream >> fieldType;
+       fieldsToRead -= 1;
+
+       if(fieldType%8 >= 2)
        {
            // IO Feld
-           QStringList ioFields = readDTA9003IOFieldsHeader();
+           QStringList ioFields = readDTA9003IOFieldsHeader(fieldType);
            m_dta9003IOs.append(ioFields);
            m_dta9003Fields << "IO";
-           // Ende mit 0xC2
-           if(fieldType==0xC2) break;
+
+           // Felddaten
+           quint8 fieldData = 0;
+           m_dtaStream >> fieldData;
+
+           // Ende mit 0xC2 AND fieldData==0
+           if(fieldType==0xC2 && fieldData==0) break;
+
+       } else if (fieldType%2 == 0)
+       {
+           // Textfeld
+           QString text = readString();
+           if(text=="Text_Sim_Confort_Platine")
+           {
+               fieldsToRead = 11;
+               m_dtaSubVersion += 1;
+           }
+           else if(text=="Text_Sim_Compact_Platine")
+           {
+               fieldsToRead = 9;
+               m_dtaSubVersion += 2;
+           }
+
        } else {
            // "normales Feld"
            QString fn = readString();
            m_dtaStream.readRawData( buffer, 3); // unbekannte Daten
            m_dta9003Fields << fn;
        }
-       m_dtaStream >> fieldType;
+
+       // Ende
+       if(fieldsToRead==0)
+           break;
+
    }
 
    //qDebug() << m_dta9003Fields;
@@ -796,7 +830,7 @@ void DtaFile::readDTA9003FieldsHeader()
 /*---------------------------------------------------------------------------
 * Inhalt eines IO-Feldes auslesen
 *---------------------------------------------------------------------------*/
-QStringList DtaFile::readDTA9003IOFieldsHeader()
+QStringList DtaFile::readDTA9003IOFieldsHeader(const quint8 fieldType)
 {
     QStringList res;
     char buffer[10];
@@ -804,6 +838,8 @@ QStringList DtaFile::readDTA9003IOFieldsHeader()
     quint8 count;
     m_dtaStream >> count;
     m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
+    if(fieldType==0x44)
+        m_dtaStream.readRawData(buffer, 3); // umbekannte Daten
     while(count>0)
     {
        m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
@@ -811,7 +847,6 @@ QStringList DtaFile::readDTA9003IOFieldsHeader()
        m_dtaStream.readRawData( buffer, 2); // unbekannte Daten
        count--;
     }
-    m_dtaStream.readRawData( buffer, 1); // unbekannte Daten
     return res;
 }
 

@@ -431,7 +431,7 @@ private:
     void calcFields(const quint32 &ts, DataFieldValues *values);
 
     void readDTA9003FieldsHeader();
-    QStringList readDTA9003IOFieldsHeader();
+    QStringList readDTA9003IOFieldsHeader(const quint8 fieldType);
     inline void dta9003SetField(const QString &key, QVarLengthArray<qint16> *source, DataFieldValues *target, const int &index);
     void dta9003SetIOField(const QString &key, QList<qint16> *source, DataFieldValues *target, const int &index, bool invert=false);
     QString readString();
